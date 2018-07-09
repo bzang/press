@@ -1,0 +1,93 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+
+<header>
+  <h1>Progressively Enhanced Forms | Vue</h1>
+</header>
+
+<main class="ui two column grid ">
+  <div class="column">
+    <form class="ui form column" action="/" method="GET">
+      <p>
+        A progressively enhanced form using Vue
+      </p>
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input required name="name" id="name" value="<%= body && body.name %>">
+        <% if (validationErrors && validationErrors.name) { %>
+        <div class="error">
+          <%= validationErrors.name %>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="field">
+        <label for="email">Your Email Address</label>
+        <input type="email" name="email" id="email" value="<%= body && body.email %>">
+        <% if (validationErrors && validationErrors.email) { %>
+        <div class="error">
+          <%= validationErrors.email %>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="field">
+        <label for="start_date">Start Date</label>
+        <input required type="date" name="start_date" id="start_date" value="<%= body && body.start_date %>">
+        <% if (validationErrors && validationErrors.start_date) { %>
+        <div class="error">
+          <%= validationErrors.start_date %>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="field">
+        <label for="end_date">End Date</label>
+        <input required type="date" name="end_date" id="end_date" value="<%= body && body.end_date %>">
+        <% if (validationErrors && validationErrors.end_date) { %>
+        <div class="error">
+          <%= validationErrors.end_date %>
+        </div>
+        <% } %>
+      </div>
+
+      <input type="submit" class="ui button" value="Submit">
+    </form>
+    <% if (body) { %>
+    <p>
+      Results:
+    </p>
+    <pre><%= util.inspect(body, {depth: null}); %></pre>
+
+    <% } %>
+  </div>
+  <div class="column">
+    <form class="ui form" action="#">
+      <p>
+        This is a second form that doens't get submitted to the server but shows two Vue apps working on the same page.
+      </p>
+      <input name="street" placeholder="street">
+      <input name="extended" placeholder="extended">
+      <input name="city" placeholder="city">
+      <input name="state" placeholder="state">
+      <input name="zip" placeholder="zip">
+      <input name="country" placeholder="country">
+
+      <div class="adr">
+        <div class="street-address">{{street}}</div>
+        <div class="extended-address">{{extended}}</div>
+        <span class="locality">{{city}}</span><template  v-if="city&&(state||zip)">,</template>
+        <span class="region">{{state}}</span>
+        <span class="postal-code">{{zip}}</span>
+        <div class="country-name">{{country}}</div>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  Made with <a href="https://glitch.com">Glitch</a>!
+</footer>
+
+</section>
+<% include ../partials/footer %>

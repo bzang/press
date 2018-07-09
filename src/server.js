@@ -57,7 +57,7 @@ app.get('*', (req, res) => {
     util: require('util')
   };
 
-  res.render(view, {
+  res.render(path.join('pages', view), {
     body,
     validationErrors: (body && validate(body)) || {}
   });

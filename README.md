@@ -5,6 +5,7 @@
 <!-- (optional) Put banner here -->
 
 <!-- PROJ: Badges Start -->
+
 [![license](https://img.shields.io/github/license/ianwremmel/press.svg)](https://github.com/ianwremmel/press/blob/master/LICENSE)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![npm (scoped)](https://img.shields.io/npm/v/@ianwremmel/press.svg)](https://www.npmjs.com/package/@ianwremmel/press)
@@ -17,28 +18,32 @@
 
 [![CircleCI](https://circleci.com/gh/ianwremmel/press.svg?style=svg)](https://circleci.com/gh/ianwremmel/press)
 [![Coverage Status](https://coveralls.io/repos/github/ianwremmel/press/badge.svg?branch=master)](https://coveralls.io/github/ianwremmel/press?branch=master)
+
 <!-- PROJ: Badges End -->
 
 > Progressive enhancement with VueJS
 
 ## Table of Contents
 
-- [Install](#install)
-- [Usage](#usage)
-- [Maintainers](#maintainers)
-- [Contribute](#contribute)
-- [License](#license)
+-   [Install](#install)
+-   [Usage](#usage)
+-   [Maintainers](#maintainers)
+-   [Contribute](#contribute)
+-   [License](#license)
 
 ## Install
 
 ```
-npm install @ianwremmel/press
+git clone https://github.com/@ianwremmel/press
 ```
 
 ## Usage
 
 ```
-# TODO
+cd press
+npm install
+PORT=4000 npm start
+open http://localhost:4000
 ```
 
 ## Maintainer
@@ -51,4 +56,5 @@ PRs Welcome
 
 ## License
 
-[UNLICENSED](LICENSE) &copy; [Ian Remmel](https://github.com/ianwremmel) 2018 until at least now
+[UNLICENSED](LICENSE) &copy; [Ian Remmel](https://github.com/ianwremmel) 2018
+until at least now

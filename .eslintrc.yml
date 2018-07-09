@@ -1,7 +1,91 @@
 env:
   es6: true
   node: true
+
 extends:
-  - "@ianwremmel/eslint-config-standard"
+  - "eslint:recommended"
+  - "plugin:compat/recommended"
+  - "plugin:eslint-comments/recommended"
+  # The prettier plugin should always be last so it can disable other rules
+  - "plugin:prettier/recommended"
+
+overrides:
+  - files:
+      - "src/public/**/*.js"
+    env:
+      browser: true
+      es6: false
+      node: false
+    globals:
+      Vue: false
+    parserOptions:
+      # Until we compile our frontend JavaScript, we'll configure eslint to
+      # target the lowest-common-denominator
+      ecmaVersion: 5
+    rules:
+      # disable es6 behaviors
+      no-template-curly-in-string: off
+      no-process-env: error
+      no-var: off
+      object-shorthand: off
+      prefer-arrow-callback: off
+      prefer-const: off
+      prefer-destructuring: off
+      prefer-object-spread: off
+      prefer-rest-params: off
+      prefer-spread: off
+      prefer-template: off
+
 parserOptions:
-  sourceType: "script"
+  ecmaVersion: 2017
+
+rules:
+  arrow-body-style:
+    - error
+    - as-needed
+  arrow-parens:
+    - error
+    - always
+  quotes:
+    - error
+    - single
+    - avoidEscape: true
+  strict:
+    - error
+    - safe
+  eslint-comments/no-unused-disable: error
+  no-invalid-this: error
+  valid-jsdoc:
+    - error
+    - prefer:
+        arg: "param"
+        argument: "param"
+        fires: "emits"
+        return: "returns"
+        virtual: "abstract"
+      preferType:
+        object: "Object"
+        function: "Function"
+        Boolean: "boolean"
+        Number: "number"
+        String: "string"
+      requireParamType: true
+      requireReturn: false
+      requireReturnType: true
+      requireParamDescription: false
+      requireReturnDescription: false
+
+  # lazies
+  no-console: off
+
+  # force es6 behaviors
+  no-template-curly-in-string: error
+  no-var: error
+  object-shorthand: error
+  prefer-arrow-callback: error
+  prefer-const: error
+  prefer-destructuring: error
+  prefer-object-spread: error
+  prefer-rest-params: error
+  prefer-spread: error
+  prefer-template: error

@@ -1,0 +1,16 @@
+/* styles */
+/* called by your view template */
+
+footer {
+  margin-top: 50px;
+  padding-top: 25px;
+  border-top: 1px solid lightgrey;
+}
+
+.hide-until-mount {
+  display: none;
+}
+
+.mounted .hide-until-mount {
+  display: initial;
+}

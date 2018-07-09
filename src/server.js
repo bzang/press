@@ -1,15 +1,16 @@
 'use strict';
 
+const path = require('path');
+
 const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
 const express = require('express');
 const morgan = require('morgan');
-const reload = require('reload');
 
 const app = express();
 
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('views', 'src/views');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -48,15 +49,16 @@ function validate(body) {
   return validationErrors;
 }
 
-reload(app);
-
 app.get('*', (req, res) => {
   const body = (Object.keys(req.query).length && req.query) || undefined;
   const view = req.path === '/' ? 'index' : req.path;
 
+  res.locals = {
+    util: require('util')
+  };
+
   res.render(view, {
     body,
-    util: require('util'),
     validationErrors: (body && validate(body)) || {}
   });
 });

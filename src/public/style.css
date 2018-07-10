@@ -14,3 +14,8 @@ footer {
 .mounted .hide-until-mount {
   display: initial;
 }
+
+/* Make sure Internet Explorer doesn't render template tags */
+template {
+  display: none;
+}

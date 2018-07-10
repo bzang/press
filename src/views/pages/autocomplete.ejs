@@ -1,0 +1,34 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+
+  <header>
+    <h1>Progressively Enhanced Forms | Vue</h1>
+  </header>
+
+  <main class="ui two column grid ">
+    <div class="column">
+      <form class="ui form column" action="/autocomplete" method="GET">
+        <div class="ui search">
+          <input
+            class="prompt"
+            type="search"
+            name="search"
+            placeholder="Where to (enter an address, neighborhood or city)?"
+            data-ud-component="ud-autocomplete"
+            data-ud-autocomplete-source="/autocomplete"
+          >
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script type="text/x-template" id="autocomplete">
+    <div>
+      <input type="search" @keyup="fetchResults" v-model="value" v-bind="$attrs">
+      <ul>
+        <li v-for="result in results" :key="result">{{result}}</li>
+      </ul>
+    </div>
+  </script>
+</section>
+<% include ../partials/footer %>

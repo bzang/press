@@ -1,10 +1,48 @@
-// TODO polyfill Array.from
-// TODO polyfill Set
-// TODO apply babel-preset-env
+Vue.component('ud-autocomplete', {
+  inheritAttrs: false,
+  data: function() {
+    return {
+      value: null,
+      results: null
+    };
+  },
+  methods: {
+    fetchResults: function() {
+      const results = new Array(10 - this.value.length);
+
+      this.results = results
+        .fill('')
+        .map(function(_, index) {
+          const arr = new Array(10 - index);
+          arr.fill('a');
+          console.log(arr);
+          return arr.join('');
+        })
+        .reverse();
+    }
+  },
+  template: document.getElementById('autocomplete').innerHTML
+});
+
+document.querySelectorAll('[data-ud-component]').forEach(function(el) {
+  var attributeNames = el.getAttributeNames();
+  // TODO polyfill Element#dataset
+  console.log(el.dataset);
+  var componentName = el.dataset.udComponent;
+
+  var component = document.createElement(componentName);
+  attributeNames.forEach(function(att) {
+    if (att.startsWith('data-ud')) {
+      return;
+    }
+    component.setAttribute(att, el.getAttribute(att));
+  });
+
+  // TODO polyfill replaceWith
+  el.replaceWith(component);
+});
 
 document.querySelectorAll('form').forEach(function(form) {
-  'use strict';
-
   form.setAttribute('v-on:submit.prevent', 'validateBeforeSubmit');
   form.setAttribute('novalidate', true);
   form.setAttribute('v-bind:class', '{ mounted: isMounted }');
@@ -113,8 +151,6 @@ document.querySelectorAll('form').forEach(function(form) {
 // This is inefficient; we should use lodash.set (properly optimized) in
 // production.
 function touch(obj, path, value) {
-  'use strict';
-
   var keys = path.split('.');
   keys.forEach(function(key) {
     obj[key] = obj[key] || {};
@@ -126,8 +162,6 @@ function touch(obj, path, value) {
 // post, so we'll copy the form data to a new form and submit it without the
 // JavaScript interceptor.
 function repost(action, method, data) {
-  'use strict';
-
   console.log(
     "Submitting formdata to '" + action + "' via '" + method + "'",
     data

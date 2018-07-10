@@ -6,6 +6,7 @@ extends:
   - "eslint:recommended"
   - "plugin:compat/recommended"
   - "plugin:eslint-comments/recommended"
+  - "plugin:vue/recommended"
   # The prettier plugin should always be last so it can disable other rules
   - "plugin:prettier/recommended"
 

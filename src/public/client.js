@@ -1,9 +1,12 @@
 /**
- * selects any non-button, named input, named, select box, or named text area.
+ * selects any non-button, named input, named select box, or named textarea.
  */
 var inputSelector =
   'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
 
+// TODO instead, search for [data-press-app] and use its value to determine if
+// we shoud init as a form or something else; use js to add
+// [data-press-app=form] to all form elements.
 var appSelector = 'form';
 
 // TODO polyfill WeakMap
@@ -11,6 +14,7 @@ var appSelector = 'form';
 var models = new WeakMap();
 
 document.querySelectorAll(inputSelector).forEach(annotateInputs);
+// TODO replace data-press-components
 document.querySelectorAll(appSelector).forEach(constructDataModels);
 document.querySelectorAll(appSelector).forEach(instantiateApps);
 
@@ -59,6 +63,21 @@ function constructDataModels(el) {
 
 function instantiateApps(el) {
   var data = models.get(el);
+
+  data.isMounted = false;
+
+  // FIXME: this function is specifically for creating form apps; we'll need to
+  // be a bit more intelligent for non-form elements
+
+  // replace teh form's default submit handler with our own
+  // TODO do we want to do this conditionally and allow for custom submit
+  // handlers ?
+  el.setAttribute('v-on:submit.prevent', 'validateBeforeSubmit');
+  // Disable the built-in browser form validation UI once Vue mounts
+  el.setAttribute(':novalidate', 'isMounted');
+  // Set .mounted on the form; this lets us use css to hide v-if blocks until
+  // the Vue lifecycle can take over.
+  el.setAttribute(':class', '{ mounted: isMounted }');
 
   new Vue({
     el: el,
@@ -110,14 +129,16 @@ function makeErrorNode(name) {
   return errorEl;
 }
 
-// This is inefficient; we should use lodash.set (properly optimized) in
-// production.
+/**
+ * Ensures values exist at all leaves of a Vue app's initial data model
+ * @param {Object} obj
+ * @param {string} path
+ * @param {any} value
+ */
 function touch(obj, path, value) {
-  var keys = path.split('.');
-  keys.forEach(function(key) {
-    obj[key] = obj[key] || {};
-  });
-  obj[keys[keys.length - 1]] = value;
+  if (!_.has(obj, path)) {
+    _.set(obj, path, value);
+  }
 }
 
 // We want to add client-side validation but still behave like a normal form

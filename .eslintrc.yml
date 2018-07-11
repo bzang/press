@@ -18,6 +18,7 @@ overrides:
       es6: false
       node: false
     globals:
+      _: false
       Vue: false
     parserOptions:
       # Until we compile our frontend JavaScript, we'll configure eslint to

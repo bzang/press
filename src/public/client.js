@@ -1,83 +1,67 @@
-// TODO polyfill Array.from
-// TODO polyfill Set
-// TODO apply babel-preset-env
+/**
+ * selects any non-button, named input, named, select box, or named text area.
+ */
+var inputSelector =
+  'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
 
-document.querySelectorAll('form').forEach(function(form) {
-  'use strict';
+var appSelector = 'form';
 
-  form.setAttribute('v-on:submit.prevent', 'validateBeforeSubmit');
-  form.setAttribute('novalidate', true);
-  form.setAttribute('v-bind:class', '{ mounted: isMounted }');
+// TODO polyfill WeakMap
+/** Holds our data models between phases. Ideally a weak map. */
+var models = new WeakMap();
 
-  var data = {
-    isMounted: false
-  };
+document.querySelectorAll(inputSelector).forEach(annotateInputs);
+document.querySelectorAll(appSelector).forEach(constructDataModels);
+document.querySelectorAll(appSelector).forEach(instantiateApps);
 
-  Array.from(form.querySelectorAll('input,select,textarea'))
-    // The following is intentionally inefficient for demonstration purposes;
-    // this should all be conbined into a single forEach should we go to
-    // production.
-    //
-    // Skip inputs that don't have "name" attributes; they wouldn't be posted in
-    // a non-javascript environment
-    .filter(function(input) {
-      if (input.getAttributeNames().includes('name')) {
-        return true;
-      }
-      console.info('input does not include a name attibute; skipping');
-    })
-    // skip buttons
-    .filter(function(input) {
-      if (
-        input.type.toLowerCase() !== 'submit' &&
-        input.type.toLowerCase() !== 'reset'
-      ) {
-        return true;
-      }
-      console.info('input is a button; skipping');
-    })
-    .forEach(function(input) {
-      var attributeNames = input.getAttributeNames();
-      var name = input.getAttribute('name');
+/**
+ * Decorates the specified input (or input-like) html element with Vue
+ * attributes
+ * @param {HTMLElement} input
+ */
+function annotateInputs(input) {
+  var attributeNames = input.getAttributeNames();
+  var name = input.getAttribute('name');
 
-      // Find all the `v-model`s identified by this form. In general, there's no
-      // need for the form to specify `v-model`, so we'll fallback to the common
-      // case and set the `v-model` name to the input's `name`
-      var vModelName;
-      if (attributeNames.includes('v-model')) {
-        vModelName = input.getAttribute('v-model');
-      } else {
-        vModelName = name;
-        input.setAttribute('v-model', vModelName);
-      }
+  var vModelName;
+  if (attributeNames.includes('v-model')) {
+    vModelName = input.getAttribute('v-model');
+  } else {
+    vModelName = name;
+    input.setAttribute('v-model', vModelName);
+  }
 
-      // If there isn't already an explicit validator in place, make sure we
-      // infer whatever we can from html5 attributes
-      if (!attributeNames.includes('v-validate')) {
-        input.setAttribute('v-validate', '');
-      }
+  // Ensure v-validate processes every element
+  if (!attributeNames.includes('v-validate')) {
+    input.setAttribute('v-validate', '');
+  }
 
-      // Create a spot to put the element's error field
-      // TODO avoid creating a second error node if we got one from the server
-      var errorEl = document.createElement('div');
-      errorEl.classList.add('error');
-      errorEl.setAttribute('v-if', "errors.has('" + name + "')");
-      errorEl.innerHTML = "{{ errors.first('" + name + "') }}";
-      // Add a class to the node that'll hide it until Vue takes over the form
-      errorEl.classList.add('hide-until-mount');
-      input.after(errorEl);
+  // TODO error nodes should be supplied from the server, but we're going to
+  // skip that until we do the integration with simpleform
+  input.after(makeErrorNode(name));
+}
 
-      // make sure the data model that we pass to the Vue vaructor knows about
-      // this element's model.
-      var defaultValue = null;
-      if (attributeNames.includes('value')) {
-        defaultValue = input.getAttribute('value');
-      }
-      touch(data, vModelName, defaultValue);
-    });
+function constructDataModels(el) {
+  var data = {};
+  Array.from(el.querySelectorAll('[v-model]')).forEach(function(input) {
+    var attributeNames = input.getAttributeNames();
+
+    var vModelName = input.getAttribute('v-model');
+
+    var defaultValue = null;
+    if (attributeNames.includes('value')) {
+      defaultValue = input.getAttribute('value');
+    }
+    touch(data, vModelName, defaultValue);
+  });
+  models.set(el, data);
+}
+
+function instantiateApps(el) {
+  var data = models.get(el);
 
   new Vue({
-    el: form,
+    el: el,
     data: data,
     mounted: function() {
       // run on nextTick to avoid potentially showing the error divs before we
@@ -108,13 +92,27 @@ document.querySelectorAll('form').forEach(function(form) {
       }
     }
   });
-});
+}
+
+/**
+ * Temporary; this should be done from the server
+ * @param {string} name
+ * @returns {HTMLDivElement}
+ */
+function makeErrorNode(name) {
+  // Create a spot to put the element's error field
+  var errorEl = document.createElement('div');
+  errorEl.classList.add('error');
+  errorEl.setAttribute('v-if', "errors.has('" + name + "')");
+  errorEl.innerHTML = "{{ errors.first('" + name + "') }}";
+  // Add a class to the node that'll hide it until Vue takes over the form
+  errorEl.classList.add('hide-until-mount');
+  return errorEl;
+}
 
 // This is inefficient; we should use lodash.set (properly optimized) in
 // production.
 function touch(obj, path, value) {
-  'use strict';
-
   var keys = path.split('.');
   keys.forEach(function(key) {
     obj[key] = obj[key] || {};
@@ -126,12 +124,6 @@ function touch(obj, path, value) {
 // post, so we'll copy the form data to a new form and submit it without the
 // JavaScript interceptor.
 function repost(action, method, data) {
-  'use strict';
-
-  console.log(
-    "Submitting formdata to '" + action + "' via '" + method + "'",
-    data
-  );
   var form = document.createElement('form');
   form.method = method;
   form.style.display = 'none';

@@ -1,0 +1,9 @@
+<div class="field">
+  <label for="<%= name %>"><%= label %></label>
+  <input <%= required ? 'required' : '' %> name="<%= name %>" id="<%= name %>" type="<%= type %>" value="<%= body && body[name] %>">
+  <% if (validationErrors && validationErrors[name]) { %>
+  <div class="error">
+    <%= validationErrors[name] %>
+  </div>
+  <% } %>
+</div>

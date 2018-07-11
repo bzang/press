@@ -11,45 +11,11 @@
         <p>
           A progressively enhanced form using Vue
         </p>
-        <div class="field">
-          <label for="name">Your Name</label>
-          <input required name="name" id="name" value="<%= body && body.name %>">
-          <% if (validationErrors && validationErrors.name) { %>
-          <div class="error">
-            <%= validationErrors.name %>
-          </div>
-          <% } %>
-        </div>
 
-        <div class="field">
-          <label for="email">Your Email Address</label>
-          <input type="email" name="email" id="email" value="<%= body && body.email %>">
-          <% if (validationErrors && validationErrors.email) { %>
-          <div class="error">
-            <%= validationErrors.email %>
-          </div>
-          <% } %>
-        </div>
-
-        <div class="field">
-          <label for="start_date">Start Date</label>
-          <input required type="date" name="start_date" id="start_date" value="<%= body && body.start_date %>">
-          <% if (validationErrors && validationErrors.start_date) { %>
-          <div class="error">
-            <%= validationErrors.start_date %>
-          </div>
-          <% } %>
-        </div>
-
-        <div class="field">
-          <label for="end_date">End Date</label>
-          <input required type="date" name="end_date" id="end_date" value="<%= body && body.end_date %>">
-          <% if (validationErrors && validationErrors.end_date) { %>
-          <div class="error">
-            <%= validationErrors.end_date %>
-          </div>
-          <% } %>
-        </div>
+        <%- include('../partials/field', {label: 'Your Name', name: 'name', type: 'text', required: true, validationErrors: validationErrors})  %>
+        <%- include('../partials/field', {label: 'Your Email Address', name: 'email', type: 'email', required: false, validationErrors: validationErrors})  %>
+        <%- include('../partials/field', {label: 'Start Date', name: 'start_date', type: 'date', required: true, validationErrors: validationErrors})  %>
+        <%- include('../partials/field', {label: 'End Date', name: 'end_date', type: 'date', required: true, validationErrors: validationErrors})  %>
 
         <input type="submit" class="ui button" value="Submit">
       </form>
@@ -66,12 +32,12 @@
         <p>
           This is a second form that doens't get submitted to the server but shows two Vue apps working on the same page.
         </p>
-        <input name="street" placeholder="street">
-        <input name="extended" placeholder="extended">
-        <input name="city" placeholder="city">
-        <input name="state" placeholder="state">
-        <input name="zip" placeholder="zip">
-        <input name="country" placeholder="country">
+        <%- include('../partials/field', {label: 'street', name: 'street', type:'text', required: false, validationErrors: {}})  %>
+        <%- include('../partials/field', {label: 'extended', name: 'extended', type:'text', required: false, validationErrors: {}})  %>
+        <%- include('../partials/field', {label: 'city', name: 'city', type:'text', required: false, validationErrors: {}})  %>
+        <%- include('../partials/field', {label: 'state', name: 'state', type:'text', required: false, validationErrors: {}})  %>
+        <%- include('../partials/field', {label: 'zip', name: 'zip', type:'text', required: false, validationErrors: {}})  %>
+        <%- include('../partials/field', {label: 'country', name: 'country', type:'text', required: false, validationErrors: {}})  %>
 
         <div class="adr">
           <div class="street-address">{{street}}</div>

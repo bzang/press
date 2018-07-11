@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 
 const bodyParser = require('body-parser');
@@ -48,6 +46,27 @@ function validate(body) {
   }
   return validationErrors;
 }
+
+app.post('/datepicker', (req, res) => {
+  console.log(req.body);
+  const validationErrors = {};
+  if (!req.body.start_date) {
+    validationErrors.start_date = 'start_date is required';
+  }
+
+  if (!req.body.end_date) {
+    validationErrors.end_date = 'end_date is required';
+  }
+
+  if (req.body.start_date >= req.body.end_date) {
+    validationErrors.end_date = 'end_date must be greater than start_date';
+  }
+
+  res.render('pages/datepicker', {
+    body: req.body,
+    validationErrors
+  });
+});
 
 app.get('*', (req, res) => {
   const body = (Object.keys(req.query).length && req.query) || undefined;

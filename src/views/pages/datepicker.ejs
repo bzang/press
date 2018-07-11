@@ -1,0 +1,46 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+
+  <script src="https://unpkg.com/vue-hotel-datepicker@2.2.4/dist/vue-hotel-datepicker.min.js"></script>
+  <script>
+    Vue.component('hoteldatepicker', HotelDatePicker.default);
+  </script>
+  <header>
+    <h1>Progressively Enhanced Forms | Vue</h1>
+  </header>
+
+  <main class="ui two column grid ">
+    <div class="column">
+      <form class="ui form column" action="/datepicker" method="POST">
+        <input type="hidden" value="<%= body && body.start_date %>" v-model="staydates.start_date">
+        <input type="hidden" value="<%= body && body.end_date %>" v-model="staydates.end_date">
+        <press-daterangepicker v-model="staydates"></press-daterangepicker>
+        <button type="submit">Submit</button>
+        <pre>
+staydates: {{staydates}}
+        </pre>
+      </form>
+    </div>
+
+  </main>
+
+  <script type="text/x-template" id="ud-component-daterangepicker-template">
+    <div>
+      <hoteldatepicker
+        :startingDateValue="new Date(value && value.start_date)"
+        :endingDateValue="new Date(value && value.end_date)"
+        @checkInChanged="onCheckinChanged"
+        @checkOutChanged="onCheckoutChanged"
+        v-bind="$attrs"
+      ></hoteldatepicker>
+      <input type="hidden" :value="value.start" :name="submitAs.start">
+      <input type="hidden" :value="value.end" :name="submitAs.end">
+    </div>
+  </script>
+
+  <script src="/datepicker.js"></script>
+
+</section>
+<% include ../partials/footer %>
+
+<!-- GOAL: post start_date and end_date to /datepicker -->

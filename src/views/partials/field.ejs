@@ -1,9 +1,27 @@
-<div class="field">
-  <label for="<%= name %>"><%= label %></label>
-  <input <%= required ? 'required' : '' %> name="<%= name %>" id="<%= name %>" type="<%= type %>" value="<%= body && body[name] %>">
-  <% if (validationErrors && validationErrors[name]) { %>
-  <div class="error">
-    <%= validationErrors[name] %>
-  </div>
-  <% } %>
-</div>
+<% switch (type) {
+  case 'daterange': %>
+    <div class="field">
+      <label v-if="false"><%= label %>
+        <div>
+          <%- include('field', {label: false, name: name + '.start', required: required, type: 'date', validateErrors: {}, value: body && body[name + '.start'] && (new Date(body[name + '.start'])).toISOString().replace(/T.+$/, '') }) %>
+          <%- include('field', {label: false, name: name + '.end', required: required, type: 'date', validateErrors: {}, value: body && body[name + '.end'] && (new Date(body[name + '.end'])).toISOString().replace(/T.+$/, '') }) %>
+        </div>
+      </label>
+      <template v-if="true" class="hide-until-mount">
+        <% if (label) { %><label for="<%= name %>"><%= label %></label><% } %>
+        <press-daterangepicker id="<%= name %>" v-model="<%= name %>" :submit-as="{start:'<%= name %>.start', end:'<%= name %>.end'}"></press-daterangepicker>
+      </template>
+    </div>
+
+  <% break; %>
+  <% default: %>
+    <div class="field">
+      <% if (label) { %><label for="<%= name %>"><%= label %></label><% } %>
+      <input <%= required ? 'required' : '' %> name="<%= name %>" id="<%= name %>" type="<%= type %>" value="<%= value %>">
+      <% if (validationErrors && validationErrors[name]) { %>
+      <div class="error">
+        <%= validationErrors[name] %>
+      </div>
+      <% } %>
+    </div>
+<% } %>

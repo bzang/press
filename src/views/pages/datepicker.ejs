@@ -12,9 +12,7 @@
   <main class="ui two column grid ">
     <div class="column">
       <form class="ui form column" action="/datepicker" method="POST">
-        <input type="hidden" value="<%= body && body.start_date %>" v-model="staydates.start_date">
-        <input type="hidden" value="<%= body && body.end_date %>" v-model="staydates.end_date">
-        <press-daterangepicker v-model="staydates"></press-daterangepicker>
+        <%- include('../partials/field', {label: 'Stay Dates', name: 'staydates', type:'daterange', required: true, validationErrors: {}})  %>
         <button type="submit">Submit</button>
         <pre>
 staydates: {{staydates}}
@@ -27,14 +25,14 @@ staydates: {{staydates}}
   <script type="text/x-template" id="ud-component-daterangepicker-template">
     <div>
       <hoteldatepicker
-        :startingDateValue="new Date(value && value.start_date)"
-        :endingDateValue="new Date(value && value.end_date)"
+        :startingDateValue="(value && value.start) ? new Date(value.start) : undefined"
+        :endingDateValue="(value && value.end) ? new Date(value.end) : undefined"
         @checkInChanged="onCheckinChanged"
         @checkOutChanged="onCheckoutChanged"
         v-bind="$attrs"
       ></hoteldatepicker>
-      <input type="hidden" :value="value.start" :name="submitAs.start">
-      <input type="hidden" :value="value.end" :name="submitAs.end">
+      <input type="hidden" :value="startDate" :name="submitAs.start">
+      <input type="hidden" :value="endDate" :name="submitAs.end">
     </div>
   </script>
 

@@ -17,7 +17,6 @@ document.querySelectorAll(inputSelector).forEach(annotateInputs);
 // TODO replace data-press-components
 document.querySelectorAll(appSelector).forEach(constructDataModels);
 document.querySelectorAll(appSelector).forEach(instantiateApps);
-
 /**
  * Decorates the specified input (or input-like) html element with Vue
  * attributes
@@ -119,6 +118,7 @@ function instantiateApps(el) {
  * @returns {HTMLDivElement}
  */
 function makeErrorNode(name) {
+  // TODO if existing error nodes cannot be found, create a tooltip node
   // Create a spot to put the element's error field
   var errorEl = document.createElement('div');
   errorEl.classList.add('error');

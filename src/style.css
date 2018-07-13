@@ -1,0 +1,7 @@
+.press-hide-until-mount {
+  display: none;
+}
+
+.mounted .press-hide-until-mount {
+  display: initial;
+}

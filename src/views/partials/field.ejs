@@ -17,7 +17,7 @@
   <% default: %>
     <div class="field">
       <% if (label) { %><label for="<%= name %>"><%= label %></label><% } %>
-      <input <%= required ? 'required' : '' %> name="<%= name %>" id="<%= name %>" type="<%= type %>" value="<%= value %>">
+      <input <%= required ? 'required' : '' %> name="<%= name %>" id="<%= name %>" type="<%= type %>" <%= typeof value !== 'undefined' && 'value="' + value + '"'%>>
       <% if (validationErrors && validationErrors[name]) { %>
       <div class="error">
         <%= validationErrors[name] %>

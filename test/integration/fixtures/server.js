@@ -13,7 +13,13 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(express.static('src/public'));
+app.get('/client.js', (req, res) => {
+  res.sendfile(path.resolve(__dirname, '../../../press.js'));
+});
+app.get('/press.js', (req, res) => {
+  res.sendfile(path.resolve(__dirname, '../../../press.js'));
+});
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 function validate(body) {
   const validationErrors = {};

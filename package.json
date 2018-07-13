@@ -22,7 +22,7 @@
     "lint:changelog": "commitlint --from origin/master --to HEAD",
     "precommit": "lint-staged",
     "semantic-release": "semantic-release",
-    "start": "nodemon --ignore src/public --watch src --ext js src/server.js",
+    "start": "nodemon --ignore test/integration/fixtures/public --watch test --ext js test/integration/fixtures/server.js",
     "test": "echo 'No tests specified' && exit 1"
   },
   "engines": {

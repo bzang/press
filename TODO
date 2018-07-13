@@ -1,0 +1,63 @@
+docs
+commitlint/husky/lint-staged
+circle ci config
+tsc
+full eslint
+build step
+- umd version
+- module version
+- readme
+- files:
+  - dist/press.js (and map file)
+  - `jsdelivr`: press.min.js (and map file) < note the lack of dist; this is so jsdelivr serves the map file correctly
+    - vue and veevalidate should be externals
+    - lodash can be compiled in
+  - `module`: dist/press.module.js (and map file)
+  - `main`: dist/press.cjs.js (and map file)
+input test
+
+
+
+
+## Roadmap
+
+-   data-press-app
+-   apps within apps
+-   data-press-app=false
+-   tables
+-   custom form validation tests and examples
+
+tie server errors to client errors more effectively
+
+
+datepicker
+- confirm correct names are sent to server
+- confirm v-model support
+- use v-validate
+daterangepicker
+
+data-ud-component
+deliver components to browser
+
+
+
+add press annotations to SimpleForm adapter
+add vue eslint
+add press javascript
+cross browser testing with js off
+cross browser testing with js on
+
+press components:
+- date range picker
+- date picker
+- autocomplete
+- credit card
+- modal
+- table with sorting
+
+mock form tests:
+- form
+- form with dates
+- form in bigger app
+- form with conditional fields
+- checkout page?

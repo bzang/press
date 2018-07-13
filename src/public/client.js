@@ -34,6 +34,7 @@ function annotateInputs(input) {
     input.setAttribute('v-model', vModelName);
   }
 
+  // TODO do we also need to set the `key` attibute? https://baianat.github.io/vee-validate/api/errorbag.html
   // Ensure v-validate processes every element
   if (!attributeNames.includes('v-validate')) {
     input.setAttribute('v-validate', '');

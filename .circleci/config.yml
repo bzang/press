@@ -1,0 +1,66 @@
+restore_cache: &restore_cache
+  keys:
+    - node-modules-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ checksum "package.json" }}
+    - node-modules-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package.json" }}
+
+save_cache: &save_cache
+  key: node-modules-{{ arch }}-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ checksum "package.json" }}
+  paths:
+    - node_modules
+
+docker: &docker
+  - image: "node:10"
+
+steps: &steps
+  - checkout
+  - restore_cache: *restore_cache
+  - run: npm install
+  - run: npm test
+  - save_cache: *save_cache
+  - store_test_results:
+      path: reports
+
+version: 2
+
+jobs:
+  lint:
+    docker: *docker
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: npm install
+      - run: npm run lint
+      - save_cache: *save_cache
+
+  test:
+    docker: *docker
+    steps: *steps
+
+  release:
+    docker: *docker
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run: npm install
+      - deploy:
+          name: Semantic Release
+          command: |
+            echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ./.npmrc
+            npm whoami
+            npm run semantic-release
+      - save_cache: *save_cache
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - lint
+      - test
+      - release:
+          context: semantic-release
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+            - lint

@@ -225,7 +225,7 @@ appropriate:
 1.  Add `data-press-app="form"` to any `<form>` that meets the following
     criteria:
 
-        -   The `<form>` does not already have a `data-press-app` assignment
+    -   The `<form>` does not already have a `data-press-app` assignment
 
 1.  Add `v-model` and `v-validate` to any input-like element that meets the
     following criteria

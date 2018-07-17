@@ -12,31 +12,11 @@ extends:
 
 overrides:
   - files:
-      - "src/public/**/*.js"
+      - "src/**/*.js"
     env:
       browser: true
-      es6: false
-      node: false
-    globals:
-      _: false
-      Vue: false
-    parserOptions:
-      # Until we compile our frontend JavaScript, we'll configure eslint to
-      # target the lowest-common-denominator
-      ecmaVersion: 5
     rules:
-      # disable es6 behaviors
-      no-template-curly-in-string: off
-      no-process-env: error
-      no-var: off
-      object-shorthand: off
-      prefer-arrow-callback: off
-      prefer-const: off
-      prefer-destructuring: off
-      prefer-object-spread: off
-      prefer-rest-params: off
-      prefer-spread: off
-      prefer-template: off
+      no-console: error
 
 parserOptions:
   ecmaVersion: 2017

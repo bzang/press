@@ -2,7 +2,7 @@ if (document.getElementById('ud-component-daterangepicker-template')) {
   Vue.component('press-daterangepicker', {
     props: {
       value: {
-        default: function() {
+        default() {
           return {
             start: null,
             end: null
@@ -11,7 +11,7 @@ if (document.getElementById('ud-component-daterangepicker-template')) {
         type: Object
       },
       submitAs: {
-        default: function() {
+        default() {
           return {
             start: 'start_date',
             end: 'end_date'
@@ -20,7 +20,7 @@ if (document.getElementById('ud-component-daterangepicker-template')) {
         type: Object
       }
     },
-    data: function() {
+    data() {
       return {
         start: null,
         end: null
@@ -43,20 +43,20 @@ if (document.getElementById('ud-component-daterangepicker-template')) {
       }
     },
     methods: {
-      emit: function() {
+      emit() {
         this.$emit('input', {
           start: this.startDate,
           end: this.endDate
         });
       },
-      onFocus: function() {
+      onFocus() {
         this.refs.datepicker.showDatepicker();
       },
-      onCheckinChanged: function(newDate) {
+      onCheckinChanged(newDate) {
         this.start = newDate;
         this.emit();
       },
-      onCheckoutChanged: function(newDate) {
+      onCheckoutChanged(newDate) {
         this.end = newDate;
         this.emit();
       }

@@ -1,17 +1,17 @@
 /**
  * selects any non-button, named input, named select box, or named textarea.
  */
-var inputSelector =
+const inputSelector =
   'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
 
 // TODO instead, search for [data-press-app] and use its value to determine if
 // we shoud init as a form or something else; use js to add
 // [data-press-app=form] to all form elements.
-var appSelector = 'form';
+const appSelector = 'form';
 
 // TODO polyfill WeakMap
 /** Holds our data models between phases. Ideally a weak map. */
-var models = new WeakMap();
+const models = new WeakMap();
 
 document.querySelectorAll(inputSelector).forEach(annotateInputs);
 // TODO replace data-press-components
@@ -23,10 +23,10 @@ document.querySelectorAll(appSelector).forEach(instantiateApps);
  * @param {HTMLElement} input
  */
 function annotateInputs(input) {
-  var attributeNames = input.getAttributeNames();
-  var name = input.getAttribute('name');
+  const attributeNames = input.getAttributeNames();
+  const name = input.getAttribute('name');
 
-  var vModelName;
+  let vModelName;
   if (attributeNames.includes('v-model')) {
     vModelName = input.getAttribute('v-model');
   } else {
@@ -46,13 +46,13 @@ function annotateInputs(input) {
 }
 
 function constructDataModels(el) {
-  var data = {};
-  Array.from(el.querySelectorAll('[v-model]')).forEach(function(input) {
-    var attributeNames = input.getAttributeNames();
+  const data = {};
+  Array.from(el.querySelectorAll('[v-model]')).forEach((input) => {
+    const attributeNames = input.getAttributeNames();
 
-    var vModelName = input.getAttribute('v-model');
+    const vModelName = input.getAttribute('v-model');
 
-    var defaultValue = null;
+    let defaultValue = null;
     if (attributeNames.includes('value')) {
       defaultValue = input.getAttribute('value');
     }
@@ -62,7 +62,7 @@ function constructDataModels(el) {
 }
 
 function instantiateApps(el) {
-  var data = models.get(el);
+  const data = models.get(el);
 
   data.isMounted = false;
 
@@ -80,27 +80,25 @@ function instantiateApps(el) {
   el.setAttribute(':class', '{ mounted: isMounted }');
 
   new Vue({
-    el: el,
-    data: data,
-    mounted: function() {
+    el,
+    data,
+    mounted() {
       // run on nextTick to avoid potentially showing the error divs before we
       // finish initializing
-      this.$nextTick(
-        function() {
-          this.isMounted = true;
-        }.bind(this)
-      );
+      this.$nextTick(() => {
+        this.isMounted = true;
+      });
     },
     methods: {
       validateBeforeSubmit: function validateBeforeSubmit(event) {
-        this.$validator.validateAll().then(function(result) {
+        this.$validator.validateAll().then((result) => {
           if (result) {
             // We're not pulling from this.data because we want to use the
             // original form field `name`s rather than the (potentially
             // nested) model paths.
-            var submission = Array.from(
+            const submission = Array.from(
               event.target.querySelectorAll('input,select,textarea')
-            ).reduce(function(acc, input) {
+            ).reduce((acc, input) => {
               acc[input.name] = input.value;
               return acc;
             }, {});
@@ -121,10 +119,10 @@ function instantiateApps(el) {
 function makeErrorNode(name) {
   // TODO if existing error nodes cannot be found, create a tooltip node
   // Create a spot to put the element's error field
-  var errorEl = document.createElement('div');
+  const errorEl = document.createElement('div');
   errorEl.classList.add('error');
-  errorEl.setAttribute('v-if', "errors.has('" + name + "')");
-  errorEl.innerHTML = "{{ errors.first('" + name + "') }}";
+  errorEl.setAttribute('v-if', `errors.has('${name}')`);
+  errorEl.innerHTML = `{{ errors.first('${name}') }}`;
   // Add a class to the node that'll hide it until Vue takes over the form
   errorEl.classList.add('hide-until-mount');
   return errorEl;
@@ -137,8 +135,8 @@ function makeErrorNode(name) {
  * @param {any} value
  */
 function touch(obj, path, value) {
-  if (!_.has(obj, path)) {
-    _.set(obj, path, value);
+  if (!has(obj, path)) {
+    set(obj, path, value);
   }
 }
 
@@ -146,15 +144,13 @@ function touch(obj, path, value) {
 // post, so we'll copy the form data to a new form and submit it without the
 // JavaScript interceptor.
 function repost(action, method, data) {
-  var form = document.createElement('form');
+  const form = document.createElement('form');
   form.method = method;
   form.style.display = 'none';
   document.body.appendChild(form);
   form.action = action;
-  Object.entries(data).forEach(function(entry) {
-    var key = entry[0];
-    var value = entry[1];
-    var input = document.createElement('input');
+  Object.entries(data).forEach(([key, value]) => {
+    const input = document.createElement('input');
     input.type = 'hidden';
     input.name = key;
     input.value = value;

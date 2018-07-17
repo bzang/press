@@ -1,3 +1,9 @@
+import Vue from 'vue';
+import VeeValidate from 'vee-validate';
+import {has, set} from 'lodash';
+
+Vue.use(VeeValidate);
+
 /**
  * selects any non-button, named input, named select box, or named textarea.
  */
@@ -9,7 +15,6 @@ const inputSelector =
 // [data-press-app=form] to all form elements.
 const appSelector = 'form';
 
-// TODO polyfill WeakMap
 /** Holds our data models between phases. Ideally a weak map. */
 const models = new WeakMap();
 

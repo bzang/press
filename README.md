@@ -36,7 +36,6 @@ The easiest way to get started with PRESS is to drop the script tag (and
 dependencies) onto your page.
 
 ```html
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
@@ -53,18 +52,40 @@ npm install @urbandoor/press
 > also work, but is untested:
 
 ```html
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" > crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="//node_modules/@urbandoor/press/press.min.js"></script>
 ```
 
+### Entrypoints
+
+`package.json` defines a number of different entry points:
+
+-   `main`: CommonJS entrypoint. The code specified by `main` has been fully
+    compiled to meet the compatibility required by
+    [`.browserslistrc`](./.browserslistrc). This is almost certainly the
+    entrypoint preferred by your bundler, unless it's configured to look for
+    `module`.
+-   `module`: Like `main` this is fully compiled according to `.browserslistrc`,
+    but uses EcmaScript modules instead of CommonJS requires so that your
+    bundler can treeshake more effectively. Webpack and the like _may_ prefer
+    this over `main` automatically.
+-   `jsdelivr`: Identifies the bundle we create for the CDN.
+-   `style`: A [defacto standard](https://github.com/postcss/postcss-import) for
+    exporting css from `node_modules`. A reasonably standard postcss
+    configuration should automatically target this entrypoint if you use
+    `@import "@urbandoor/press" in your css.
+-   `source`: raw source code. You almost certainly don't want to use this, but
+    it if you're really concerned about filesize and want to, for example,
+    supply your own set of values to `browserslist`, you might want to configure
+    your bundle to target this entrypoint.
+
 ## Usage
 
 1.  Initialize the PRESS JavaScript
 
-    If using the CDN version, PRESS will automtically annotate your page once
+    If using the CDN version, PRESS will automatically annotate your page once
     the script finishes loading. If you're using the version from npm, make sure
     to
 
@@ -90,6 +111,14 @@ npm install @urbandoor/press
     .press-mounted .press-hide-until-mount {
         display: initial;
     }
+    ```
+
+    > If you're using the
+    > [postcss-import](https://github.com/postcss/postcss-import) plugin, you
+    > should be able to simply
+
+    ```css
+    @import '@urbandoor/press';
     ```
 
 ### Forms

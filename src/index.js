@@ -1,6 +1,8 @@
+import {has, set} from 'lodash';
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
-import {has, set} from 'lodash';
+
+import {stringToPath} from './string-to-path';
 
 Vue.use(VeeValidate);
 
@@ -15,7 +17,7 @@ const inputSelector =
 // [data-press-app=form] to all form elements.
 const appSelector = 'form';
 
-/** Holds our data models between phases. Ideally a weak map. */
+/** Holds our data models between phases. */
 const models = new WeakMap();
 
 document.querySelectorAll(inputSelector).forEach(annotateInputs);
@@ -36,8 +38,9 @@ function annotateInputs(input) {
     vModelName = input.getAttribute('v-model');
   } else {
     vModelName = name;
-    input.setAttribute('v-model', vModelName);
   }
+
+  input.setAttribute('v-model', stringToPath(vModelName));
 
   // TODO do we also need to set the `key` attibute? https://baianat.github.io/vee-validate/api/errorbag.html
   // Ensure v-validate processes every element
@@ -58,7 +61,10 @@ function constructDataModels(el) {
     const vModelName = input.getAttribute('v-model');
 
     let defaultValue = null;
-    if (attributeNames.includes('value')) {
+    if (input.nodeName.toLowerCase() === 'select') {
+      // TODO handle multiselect
+      defaultValue = input.querySelector('[selected]').value;
+    } else if (attributeNames.includes('value')) {
       defaultValue = input.getAttribute('value');
     }
     touch(data, vModelName, defaultValue);
@@ -129,7 +135,7 @@ function makeErrorNode(name) {
   errorEl.setAttribute('v-if', `errors.has('${name}')`);
   errorEl.innerHTML = `{{ errors.first('${name}') }}`;
   // Add a class to the node that'll hide it until Vue takes over the form
-  errorEl.classList.add('hide-until-mount');
+  errorEl.classList.add('press-hide-until-mount');
   return errorEl;
 }
 

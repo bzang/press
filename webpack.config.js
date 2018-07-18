@@ -32,7 +32,9 @@ module.exports = {
     filename: PROD ? 'press.min.js' : 'press.js',
     path: CDN ? path.resolve(__dirname) : path.resolve(__dirname, 'dist')
   },
-  plugins: [new LodashModuleReplacementPlugin()]
+  // paths:true is needed for get/has/set deep path support which is pretty much
+  // the whole reason we're loading lodash in the first place
+  plugins: [new LodashModuleReplacementPlugin({paths: true})]
 };
 
 if (CDN) {

@@ -55,13 +55,17 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: 'firefox'
+      browserName: 'firefox',
+      'moz:firefoxOptions': {
+        args: ['-headless']
+      }
     },
     {
       maxInstances: 5,
       browserName: 'firefox',
       nojs: true,
       'moz:firefoxOptions': {
+        args: ['-headless'],
         profile: firefoxProfileWithJavaScriptDisabled
       }
     }

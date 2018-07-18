@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 const compiler = webpack(config);
 app.use(middleware(compiler));
 
+app.use(express.static(path.resolve(__dirname, '../../src')));
+
 // Add helpers that'll be available to all templates
 app.use((req, res, next) => {
   res.locals = res.locals || {};

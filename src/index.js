@@ -82,7 +82,7 @@ function instantiateApps(el) {
   el.setAttribute(':novalidate', 'isMounted');
   // Set .mounted on the form; this lets us use css to hide v-if blocks until
   // the Vue lifecycle can take over.
-  el.setAttribute(':class', '{ mounted: isMounted }');
+  el.setAttribute(':class', '{ "press-mounted": isMounted }');
 
   new Vue({
     el,

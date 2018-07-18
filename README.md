@@ -159,7 +159,7 @@ For example, the following HTML
 becomes
 
 ```html
-<form class="mounted" novalidate @submit.prevent="validateBeforeSubmit">
+<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
     <input name="email" required type="email" v-validate v-model="email">
 </form>
 ```
@@ -177,7 +177,7 @@ html, they will not be overridden.
 becomes
 
 ```html
-<form class="mounted" novalidate @submit.prevent="validateBeforeSubmit">
+<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
     <input name="start" required type="date" v-model="start" v-validate>
     <input name="end" required type="date" v-model="end" v-validate="'after:start'">
 </form>

@@ -2,6 +2,6 @@
   display: none;
 }
 
-.mounted .press-hide-until-mount {
+.press-mounted .press-hide-until-mount {
   display: initial;
 }

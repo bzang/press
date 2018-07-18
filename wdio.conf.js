@@ -2,7 +2,6 @@ const debug = require('debug')('press:test');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const stoppable = require('stoppable');
-const {app} = require('./features/server');
 
 const CI = !!process.env.CI;
 
@@ -101,7 +100,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'http://localhost:4000',
+  baseUrl: `http://localhost:${process.env.PORT}`,
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -192,19 +191,22 @@ exports.config = {
    */
   onPrepare() {
     mkdirp.sync(path.resolve(__dirname, 'reports', 'screenshots'));
-    if (!process.env.NO_SERVE) {
-      return new Promise((resolve) => {
-        const PORT = Number(process.env.PORT) || 4000;
-        debug(`starting test server on port ${PORT}`);
-        server = stoppable(
-          app.listen(PORT, () => {
-            debug(`started test server on port ${PORT}`);
-            resolve();
-          }),
-          100
-        );
-      });
+    if (process.env.NO_SERVE) {
+      return;
     }
+
+    return new Promise((resolve) => {
+      const {app} = require('./features/server');
+      const PORT = Number(process.env.PORT) || 4000;
+      debug(`starting test server on port ${PORT}`);
+      server = stoppable(
+        app.listen(PORT, () => {
+          debug(`started test server on port ${PORT}`);
+          resolve();
+        }),
+        100
+      );
+    });
   },
   /**
    * Gets executed just before initialising the webdriver session and test framework. It allows you

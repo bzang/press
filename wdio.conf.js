@@ -192,18 +192,19 @@ exports.config = {
    */
   onPrepare() {
     mkdirp.sync(path.resolve(__dirname, 'reports', 'screenshots'));
-
-    return new Promise((resolve) => {
-      const PORT = Number(process.env.PORT) || 4000;
-      debug(`starting test server on port ${PORT}`);
-      server = stoppable(
-        app.listen(PORT, () => {
-          debug(`started test server on port ${PORT}`);
-          resolve();
-        }),
-        100
-      );
-    });
+    if (!process.env.NO_SERVE) {
+      return new Promise((resolve) => {
+        const PORT = Number(process.env.PORT) || 4000;
+        debug(`starting test server on port ${PORT}`);
+        server = stoppable(
+          app.listen(PORT, () => {
+            debug(`started test server on port ${PORT}`);
+            resolve();
+          }),
+          100
+        );
+      });
+    }
   },
   /**
    * Gets executed just before initialising the webdriver session and test framework. It allows you
@@ -310,6 +311,9 @@ exports.config = {
    * @returns {Promise<void>}
    */
   onComplete() {
+    if (!server) {
+      return;
+    }
     return new Promise((resolve) => {
       debug('stopping test server');
       const start = Date.now();

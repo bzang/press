@@ -21,6 +21,13 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      // By default, the version of Vue published to npm does not include the
+      // template compiler; this alias overrides that.
+      vue: 'vue/dist/vue.esm.js'
+    }
+  },
   output: {
     filename: PROD ? 'press.min.js' : 'press.js',
     path: CDN ? path.resolve(__dirname) : path.resolve(__dirname, 'dist')

@@ -83,6 +83,13 @@ npm install @urbandoor/press
     supply your own set of values to `browserslist`, you might want to configure
     your bundle to target this entrypoint.
 
+> If you're bundling assets yourself and you use one of the npm versions, make
+> sure you make the full version of Vue available, not just the runtime. Since
+> PRESS is intended to upgrade server-render html with Vue directives, you'll
+> need to version of Vue that includes the template compiler. See the
+> [dist README](https://github.com/vuejs/vue/blob/dev/dist/README.md) in the Vue
+> package for details on configuring your bundler.
+
 ## Usage
 
 1.  Initialize the PRESS JavaScript

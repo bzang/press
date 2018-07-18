@@ -6,6 +6,10 @@ const bodyParser = require('body-parser');
 const errorHandler = require('errorhandler');
 const express = require('express');
 const morgan = require('morgan');
+const webpack = require('webpack');
+const middleware = require('webpack-dev-middleware');
+
+const config = require('../../webpack.config');
 
 const app = express();
 
@@ -14,6 +18,9 @@ app.set('view engine', 'ejs');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
+
+const compiler = webpack(config);
+app.use(middleware(compiler));
 
 // Add helpers that'll be available to all templates
 app.use((req, res, next) => {

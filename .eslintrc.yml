@@ -18,8 +18,22 @@ overrides:
     rules:
       no-console: error
 
+  - files:
+      - "features/**/*.js"
+      - "wdio.conf.js"
+    env:
+      "webdriverio/wdio": true
+    globals:
+      assert: false
+      expect: false
+    rules:
+      compat/compat: off
+
 parserOptions:
   ecmaVersion: 2017
+
+plugins:
+  - webdriverio
 
 rules:
   arrow-body-style:
@@ -58,7 +72,7 @@ rules:
       requireReturnDescription: false
 
   # lazies
-  no-console: off
+  no-console: "off"
 
   # force es6 behaviors
   no-template-curly-in-string: error

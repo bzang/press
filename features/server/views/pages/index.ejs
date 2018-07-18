@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Minimal Form Example</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <form class="ui form column" method="POST">
+      <h3>Code Under Test</h3>
+      <input name="input">
+      <button type="submit">Submit</button>
+    </form>
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

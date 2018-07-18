@@ -36,11 +36,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('*', (req, res) => {
+function renderView(req, res) {
   const view = req.path === '/' ? 'index' : req.path;
+  const viewPath = path.join('pages', view);
 
-  res.render(path.join('pages', view));
-});
+  res.render(viewPath);
+}
+// app.use puts the path in req.params whereas app.VERB puts it in req.path,
+// hence the discrete get and post calling the same function here.
+app.get('*', renderView);
+app.post('*', renderView);
 
 app.use(errorHandler());
 

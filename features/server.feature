@@ -7,7 +7,7 @@ Feature: Test Server
     Then I expect that the title is "PRESS Test Site"
 
   Scenario: Basic Input
-    Given I open the site "/server"
+    Given I open the site "/"
     Then I add "proof" to the inputfield "input"
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "input" with a value of "proof"

@@ -21,7 +21,7 @@ Then(
   () => {
     const title = global.capabilities.nojs
       ? 'JavaScript is not supported'
-      : 'JavaScript is Supported';
+      : 'JavaScript is supported';
     checkTitle(false, title);
   }
 );

@@ -20,10 +20,12 @@
 <!-- toc -->
 
 -   [Install](#install)
+    -   [Entrypoints](#entrypoints)
 -   [Usage](#usage)
     -   [Forms](#forms)
     -   [Interactive Pages](#interactive-pages)
 -   [How It Works](#how-it-works)
+-   [Testing](#testing)
 -   [Maintainer](#maintainer)
 -   [Contribute](#contribute)
 -   [License](#license)
@@ -273,6 +275,22 @@ appropriate:
 
 > Point three presently represents neither intended nor implemented behavior.
 > Apps within apps are still being designed.
+
+## Testing
+
+Test are implemented using [Gherkin syntax](https://docs.cucumber.io/gherkin/)
+and [Cucumber JS](https://github.com/cucumber/cucumber-js) via
+[WebdriverIO](http://webdriver.io/). We're using WebdriverIO mostly for its
+ability to launch multiple browsers and Gherkin for its ability to narrowly
+scope failures (Reasonable but unfortunate implementation decisions in other
+JavaScript selenium runners make it straightforward to know what test failed,
+but not what step of the test failed).
+
+Gherkin `feature` files are stored in `./features`. Step definitions are stored
+in `./features/steps`. The files `given.js`, `then.js`, and `when.js` as well as
+most everything in `./features/support` are taken pretty much directly from the
+[WDIO Cucumber Boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
+(with adjustments made to support CommonJS instead of ESM).
 
 ## Maintainer
 

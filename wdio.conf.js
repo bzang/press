@@ -186,7 +186,7 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @returns {Promise<void>}
    */
-  onPrepare(config, capabilities) {
+  onPrepare() {
     mkdirp.sync(path.resolve(__dirname, 'reports', 'screenshots'));
 
     return new Promise((resolve) => {
@@ -216,7 +216,7 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<string>} specs List of spec file paths that are to be run
    */
-  before(capabilities, specs) {
+  before(capabilities) {
     // Ideally, these would be actual require statements in the files that use
     // them, but this is how
     // https://github.com/webdriverio/cucumber-boilerplate/ does it and fixing
@@ -305,7 +305,7 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @returns {Promise<void>}
    */
-  onComplete(exitCode, config, capabilities) {
+  onComplete() {
     return new Promise((resolve) => {
       debug('stopping test server');
       const start = Date.now();

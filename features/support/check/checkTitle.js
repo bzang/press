@@ -5,7 +5,6 @@
  * @param  {Type}     expectedTitle The expected title
  */
 module.exports = (falseCase, expectedTitle) => {
-  console.log(Object.keys(global));
   /**
    * The title of the current browser window
    * @type {String}

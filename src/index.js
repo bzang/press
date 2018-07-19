@@ -3,10 +3,12 @@ import './style.css';
 import {has, set} from 'lodash';
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';
+import DatePicker from './components/press-datepicker.vue';
 
 import {annotate as annotateInputs} from './form';
 
 Vue.use(VeeValidate);
+Vue.component('press-datepicker', DatePicker);
 
 /**
  * selects any non-button, named input, named select box, or named textarea.

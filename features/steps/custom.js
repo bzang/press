@@ -1,8 +1,17 @@
 const {Given, Then, When} = require('cucumber');
 const {assert} = require('chai');
 const moment = require('moment');
+const openWebsite = require('../support/action/openWebsite');
 
 const checkTitle = require('../support/check/checkTitle');
+
+Given(
+  /^I open the (url|site) "([^"]*)?" with inputfield "(.+)" set to "(.+)"$/,
+  (type, page, name, value) => {
+    page += `?${name}=${value}`;
+    openWebsite(type, page);
+  }
+);
 
 Given('This scenario requires JavaScript', () => {
   if (global.capabilities.nojs) {
@@ -48,14 +57,15 @@ When(
     const clicksToTargetYear = 12 * (target.year() - now.year() + 1);
     const clicks = clicksToJanuary + clicksToTargetMonth + clicksToTargetYear;
 
-    const el = browser.element('.datepicker__month-button--next');
     for (let i = 0; i < clicks; i++) {
-      el.click();
+      // we need to reselect the element after each click; otherwise, it seems
+      // to become a different node sometimes
+      $('.daterangepicker .next').click();
     }
 
     browser
-      .element('.datepicker__month')
-      .element("//[contains(text(),'1')]")
+      .element('.daterangepicker .calendar-table')
+      .element(`.//td[contains(text(),'${dayNumber}')]`)
       .click();
   }
 );

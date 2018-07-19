@@ -23,9 +23,32 @@ export function annotate(el) {
     el.setAttribute('v-validate', '');
   }
 
+  if (el.getAttribute('type') === 'date') {
+    annotateDateInput(el);
+  }
+
   // TODO error nodes should be supplied from the server, but we're going to
   // skip that until we do the integration with simpleform
   el.after(makeErrorNode(name));
+}
+
+/**
+ * Replaces the date input with the vue-hoteldatepicker single date component
+ * @param {HTMLInputElement} input
+ */
+function annotateDateInput(input) {
+  // Configure the element to disappear as soon as Vue takes over
+  input.setAttribute('v-if', false);
+
+  const pdp = document.createElement('press-datepicker');
+  pdp.setAttribute('name', input.getAttribute('name'));
+  pdp.setAttribute('v-model', input.getAttribute('v-model'));
+  const value = input.getAttribute('value');
+  if (value) {
+    pdp.setAttribute('value', value);
+  }
+
+  input.after(pdp);
 }
 
 /**

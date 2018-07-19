@@ -136,7 +136,7 @@ exports.config = {
   // commands. Instead, they hook themselves up into the test process.
   services: [
     CI && 'sauce',
-    CI || 'selenium-standalone',
+    !CI && 'selenium-standalone',
     'screenshots-cleanup'
   ].filter(Boolean),
   //

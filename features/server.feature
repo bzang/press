@@ -8,7 +8,7 @@ Feature: Test Server
 
   Scenario: Basic Input
     Given I open the site "/"
-    Then I add "proof" to the inputfield "input"
+    When I set "proof" to the inputfield "input"
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "input" with a value of "proof"
 

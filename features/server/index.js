@@ -42,6 +42,12 @@ app.use((req, res, next) => {
     null,
     2
   );
+  res.locals.value = (name) => {
+    if (_.has(req, `query.${name}`)) {
+      return `value="${_.get(req, `query.${name}`)}"`;
+    }
+    return '';
+  };
   next();
 });
 

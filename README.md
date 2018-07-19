@@ -38,11 +38,21 @@ The easiest way to get started with PRESS is to drop the script tag (and
 dependencies) onto your page.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@urbandoor/press"></script>
 ```
+
+> Yes, mixing jQuery and Vue seems a bit odd. Our site necessarily uses jQuery
+> for other things, so from our point of view, it's not a huge addition and it
+> saves us a lot of time by leveraging
+> [prior art](http://www.daterangepicker.com/). Eventually (probably 2.0 or
+> later), we'll release a version of PRESS that makes our custom components
+> optional and removes the jQuery dependency.
 
 Of course, PRESS is also available as an npm module:
 
@@ -54,7 +64,10 @@ npm install @urbandoor/press
 > also work, but is untested:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" > crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="//node_modules/@urbandoor/press/press.min.js"></script>

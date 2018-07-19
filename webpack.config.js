@@ -1,5 +1,7 @@
 const path = require('path');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const PROD = process.env.NODE_ENV === 'production';
 const CDN = process.env.BUILD_TARGET === 'cdn';
@@ -18,6 +20,20 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.css$/,
+        use: [
+          PROD
+            ? MiniCssExtractPlugin.loader
+            : {loader: 'vue-style-loader', options: {sourceMap: true}},
+          {loader: 'css-loader', options: {importLoaders: 1, sourceMap: true}},
+          {loader: 'postcss-loader', options: {sourceMap: true}}
+        ]
       }
     ]
   },
@@ -34,12 +50,22 @@ module.exports = {
   },
   // paths:true is needed for get/has/set deep path support which is pretty much
   // the whole reason we're loading lodash in the first place
-  plugins: [new LodashModuleReplacementPlugin({paths: true})]
+  plugins: [
+    new LodashModuleReplacementPlugin({paths: true}),
+    PROD &&
+      new MiniCssExtractPlugin({
+        filename: 'style.css',
+        chunkFilename: '[id].css'
+      }),
+    new VueLoaderPlugin()
+  ].filter(Boolean)
 };
 
 if (CDN) {
   module.exports.externals = module.exports.externals || {};
   Object.assign(module.exports.externals, {
+    jquery: '$',
+    daterangepicker: 'daterangepicker',
     vue: 'Vue',
     'vee-validate': 'VeeValidate'
   });

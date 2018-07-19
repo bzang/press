@@ -1,3 +1,5 @@
+import './style.css';
+
 import {has, set} from 'lodash';
 import Vue from 'vue';
 import VeeValidate from 'vee-validate';

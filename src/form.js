@@ -1,11 +1,97 @@
 import {stringToPath} from './string-to-path';
+import {touch} from './lib/touch';
+
+/**
+ * selects any non-button, named input, named select box, or named textarea.
+ */
+const inputSelector =
+  'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
+
+/**
+ * Annotates the root element of a press-app
+ * @param {HTMLElement} root
+ */
+export function annotate(root) {
+  // replace the form's default submit handler with our own
+  root.setAttribute('v-on:submit.prevent', 'validateBeforeSubmit');
+  // Disable the built-in browser form validation UI once Vue mounts
+  root.setAttribute(':novalidate', 'isMounted');
+
+  root.querySelectorAll(inputSelector).forEach(annotateElement);
+}
+
+/**
+ * Populates a Vue apps initial `data` object by locating every v-model on the
+ * page
+ * @param {HTMLElement} root
+ * @param {Object} data
+ */
+export function generateModel(root, data) {
+  root.querySelectorAll('[v-model]').forEach((el) => {
+    const attributeNames = el.getAttributeNames();
+
+    const vModelName = el.getAttribute('v-model');
+
+    let defaultValue = null;
+    if (el.nodeName.toLowerCase() === 'select') {
+      // TODO handle multiselect
+      defaultValue = el.querySelector('[selected]').value;
+    } else if (attributeNames.includes('value')) {
+      defaultValue = el.getAttribute('value');
+    }
+    touch(data, vModelName, defaultValue);
+  });
+}
+
+export function extend() {
+  return {
+    methods: {
+      validateBeforeSubmit(event) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            // We're not pulling from this.data because we want to use the
+            // original form field `name`s rather than the (potentially
+            // nested) model paths.
+            const submission = Array.from(
+              event.target.querySelectorAll('input,select,textarea')
+            ).reduce((acc, input) => {
+              acc[input.name] = input.value;
+              return acc;
+            }, {});
+
+            repost(event.target.action, event.target.method, submission);
+          }
+        });
+      }
+    }
+  };
+}
+
+// We want to add client-side validation but still behave like a normal form
+// post, so we'll copy the form data to a new form and submit it without the
+// JavaScript interceptor.
+function repost(action, method, data) {
+  const form = document.createElement('form');
+  form.method = method;
+  form.style.display = 'none';
+  document.body.appendChild(form);
+  form.action = action;
+  Object.entries(data).forEach(([key, value]) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = value;
+    form.appendChild(input);
+  });
+  form.submit();
+}
 
 /**
  * Decorates the specified input (or input-like) html element with Vue
  * attributes
  * @param {HTMLElement} el
  */
-export function annotate(el) {
+function annotateElement(el) {
   const attributeNames = el.getAttributeNames();
   const name = el.getAttribute('name');
 

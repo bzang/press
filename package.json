@@ -103,7 +103,8 @@
     "webpack-dev-server": "^3.1.4"
   },
   "lint-staged": {
-    "*.js": "npm run eslint -- "
+    "*.js": "npm run eslint -- ",
+    "*.vue": "npm run eslint -- "
   },
   "release": {
     "verifyConditions": "condition-circle"

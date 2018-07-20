@@ -20,10 +20,12 @@
 <!-- toc -->
 
 -   [Install](#install)
+    -   [Entrypoints](#entrypoints)
 -   [Usage](#usage)
     -   [Forms](#forms)
     -   [Interactive Pages](#interactive-pages)
 -   [How It Works](#how-it-works)
+-   [Testing](#testing)
 -   [Maintainer](#maintainer)
 -   [Contribute](#contribute)
 -   [License](#license)
@@ -36,12 +38,21 @@ The easiest way to get started with PRESS is to drop the script tag (and
 dependencies) onto your page.
 
 ```html
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@urbandoor/press"></script>
 ```
+
+> Yes, mixing jQuery and Vue seems a bit odd. Our site necessarily uses jQuery
+> for other things, so from our point of view, it's not a huge addition and it
+> saves us a lot of time by leveraging
+> [prior art](http://www.daterangepicker.com/). Eventually (probably 2.0 or
+> later), we'll release a version of PRESS that makes our custom components
+> optional and removes the jQuery dependency.
 
 Of course, PRESS is also available as an npm module:
 
@@ -53,18 +64,50 @@ npm install @urbandoor/press
 > also work, but is untested:
 
 ```html
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js" integrity="sha256-/GKyJ0BQJD8c8UYgf7ziBrs/QgcikS7Fv/SaArgBcEI=" > crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="//node_modules/@urbandoor/press/press.min.js"></script>
 ```
 
+### Entrypoints
+
+`package.json` defines a number of different entry points:
+
+-   `main`: CommonJS entrypoint. The code specified by `main` has been fully
+    compiled to meet the compatibility required by
+    [`.browserslistrc`](./.browserslistrc). This is almost certainly the
+    entrypoint preferred by your bundler, unless it's configured to look for
+    `module`.
+-   `module`: Like `main` this is fully compiled according to `.browserslistrc`,
+    but uses EcmaScript modules instead of CommonJS requires so that your
+    bundler can treeshake more effectively. Webpack and the like _may_ prefer
+    this over `main` automatically.
+-   `jsdelivr`: Identifies the bundle we create for the CDN.
+-   `style`: A [defacto standard](https://github.com/postcss/postcss-import) for
+    exporting css from `node_modules`. A reasonably standard postcss
+    configuration should automatically target this entrypoint if you use
+    `@import "@urbandoor/press" in your css.
+-   `source`: raw source code. You almost certainly don't want to use this, but
+    it if you're really concerned about filesize and want to, for example,
+    supply your own set of values to `browserslist`, you might want to configure
+    your bundle to target this entrypoint.
+
+> If you're bundling assets yourself and you use one of the npm versions, make
+> sure you make the full version of Vue available, not just the runtime. Since
+> PRESS is intended to upgrade server-render html with Vue directives, you'll
+> need to version of Vue that includes the template compiler. See the
+> [dist README](https://github.com/vuejs/vue/blob/dev/dist/README.md) in the Vue
+> package for details on configuring your bundler.
+
 ## Usage
 
 1.  Initialize the PRESS JavaScript
 
-    If using the CDN version, PRESS will automtically annotate your page once
+    If using the CDN version, PRESS will automatically annotate your page once
     the script finishes loading. If you're using the version from npm, make sure
     to
 
@@ -90,6 +133,14 @@ npm install @urbandoor/press
     .press-mounted .press-hide-until-mount {
         display: initial;
     }
+    ```
+
+    > If you're using the
+    > [postcss-import](https://github.com/postcss/postcss-import) plugin, you
+    > should be able to simply
+
+    ```css
+    @import '@urbandoor/press';
     ```
 
 ### Forms
@@ -121,7 +172,7 @@ For example, the following HTML
 becomes
 
 ```html
-<form class="mounted" novalidate @submit.prevent="validateBeforeSubmit">
+<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
     <input name="email" required type="email" v-validate v-model="email">
 </form>
 ```
@@ -139,7 +190,7 @@ html, they will not be overridden.
 becomes
 
 ```html
-<form class="mounted" novalidate @submit.prevent="validateBeforeSubmit">
+<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
     <input name="start" required type="date" v-model="start" v-validate>
     <input name="end" required type="date" v-model="end" v-validate="'after:start'">
 </form>
@@ -244,6 +295,22 @@ appropriate:
 
 > Point three presently represents neither intended nor implemented behavior.
 > Apps within apps are still being designed.
+
+## Testing
+
+Test are implemented using [Gherkin syntax](https://docs.cucumber.io/gherkin/)
+and [Cucumber JS](https://github.com/cucumber/cucumber-js) via
+[WebdriverIO](http://webdriver.io/). We're using WebdriverIO mostly for its
+ability to launch multiple browsers and Gherkin for its ability to narrowly
+scope failures (Reasonable but unfortunate implementation decisions in other
+JavaScript selenium runners make it straightforward to know what test failed,
+but not what step of the test failed).
+
+Gherkin `feature` files are stored in `./features`. Step definitions are stored
+in `./features/steps`. The files `given.js`, `then.js`, and `when.js` as well as
+most everything in `./features/support` are taken pretty much directly from the
+[WDIO Cucumber Boilerplate](https://github.com/webdriverio/cucumber-boilerplate)
+(with adjustments made to support CommonJS instead of ESM).
 
 ## Maintainer
 

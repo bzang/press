@@ -27,6 +27,7 @@
     "precommit": "lint-staged",
     "semantic-release": "semantic-release",
     "test": "echo 'No tests specified' && exit 1"
+    "start": "nodemon --watch features --watch webpack.config.js --ext js features/server/index.js",
   },
   "engines": {
     "node": ">=8"

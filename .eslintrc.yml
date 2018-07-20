@@ -51,6 +51,7 @@ rules:
     - safe
   eslint-comments/no-unused-disable: error
   no-invalid-this: error
+  no-warning-comments: warn
   valid-jsdoc:
     - error
     - prefer:
@@ -72,7 +73,8 @@ rules:
       requireReturnDescription: false
 
   # lazies
-  no-console: "off"
+  no-console:
+    - off
 
   # force es6 behaviors
   no-template-curly-in-string: error

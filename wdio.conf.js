@@ -56,18 +56,18 @@ exports.config = {
       //
       browserName: 'firefox',
       'moz:firefoxOptions': {
-        args: ['-headless']
-      }
-    },
-    {
-      maxInstances: 5,
-      browserName: 'firefox',
-      nojs: true,
-      'moz:firefoxOptions': {
-        args: ['-headless'],
-        profile: firefoxProfileWithJavaScriptDisabled
+        // args: ['-headless']
       }
     }
+    // {
+    //   maxInstances: 5,
+    //   browserName: 'firefox',
+    //   nojs: true,
+    //   'moz:firefoxOptions': {
+    //     args: ['-headless'],
+    //     profile: firefoxProfileWithJavaScriptDisabled
+    //   }
+    // }
   ],
   //
   // ===================
@@ -151,7 +151,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: http://webdriver.io/guide/reporters/dot.html
-  reporters: [CI && 'dot', !CI && 'spec', CI && 'junit'].filter(Boolean),
+  reporters: [CI && 'dot', !CI && 'spec', 'junit'].filter(Boolean),
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {

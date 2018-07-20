@@ -54,7 +54,7 @@ When(
 
     const clicksToJanuary = 12 - now.month();
     const clicksToTargetMonth = target.month();
-    const clicksToTargetYear = 12 * (target.year() - now.year() + 1);
+    const clicksToTargetYear = 12 * (target.year() - now.year() - 1);
     const clicks = clicksToJanuary + clicksToTargetMonth + clicksToTargetYear;
 
     for (let i = 0; i < clicks; i++) {

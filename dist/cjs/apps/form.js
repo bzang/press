@@ -1,17 +1,41 @@
-import {stringToPath} from '../lib/string-to-path';
-import {touch} from '../lib/touch';
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+
+var _entries = require('babel-runtime/core-js/object/entries');
+
+var _entries2 = _interopRequireDefault(_entries);
+
+var _from = require('babel-runtime/core-js/array/from');
+
+var _from2 = _interopRequireDefault(_from);
+
+exports.annotate = annotate;
+exports.generateModel = generateModel;
+exports.extend = extend;
+
+var _stringToPath = require('../lib/string-to-path');
+
+var _touch = require('../lib/touch');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * selects any non-button, named input, named select box, or named textarea.
  */
-const inputSelector =
-  'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
+var inputSelector = 'input[name]:not([type="reset"]):not([type="submit"]),select[name],textarea[name]';
 
 /**
  * Annotates the root element of a press-app
  * @param {HTMLElement} root
  */
-export function annotate(root) {
+function annotate(root) {
   // replace the form's default submit handler with our own
   root.setAttribute('v-on:submit.prevent', 'validateBeforeSubmit');
   // Disable the built-in browser form validation UI once Vue mounts
@@ -26,35 +50,33 @@ export function annotate(root) {
  * @param {HTMLElement} root
  * @param {Object} data
  */
-export function generateModel(root, data) {
-  root.querySelectorAll('[v-model]').forEach((el) => {
-    const attributeNames = el.getAttributeNames();
+function generateModel(root, data) {
+  root.querySelectorAll('[v-model]').forEach(function (el) {
+    var attributeNames = el.getAttributeNames();
 
-    const vModelName = el.getAttribute('v-model');
+    var vModelName = el.getAttribute('v-model');
 
-    let defaultValue = null;
+    var defaultValue = null;
     if (el.nodeName.toLowerCase() === 'select') {
       // TODO handle multiselect
       defaultValue = el.querySelector('[selected]').value;
     } else if (attributeNames.includes('value')) {
       defaultValue = el.getAttribute('value');
     }
-    touch(data, vModelName, defaultValue);
+    (0, _touch.touch)(data, vModelName, defaultValue);
   });
 }
 
-export function extend() {
+function extend() {
   return {
     methods: {
-      validateBeforeSubmit(event) {
-        this.$validator.validateAll().then((result) => {
+      validateBeforeSubmit: function validateBeforeSubmit(event) {
+        this.$validator.validateAll().then(function (result) {
           if (result) {
             // We're not pulling from this.data because we want to use the
             // original form field `name`s rather than the (potentially
             // nested) model paths.
-            const submission = Array.from(
-              event.target.querySelectorAll('input,select,textarea')
-            ).reduce((acc, input) => {
+            var submission = (0, _from2.default)(event.target.querySelectorAll('input,select,textarea')).reduce(function (acc, input) {
               acc[input.name] = input.value;
               return acc;
             }, {});
@@ -79,13 +101,17 @@ export function extend() {
  * @param {Object} data
  */
 function repost(action, method, data) {
-  const form = document.createElement('form');
+  var form = document.createElement('form');
   form.method = method;
   form.style.display = 'none';
   document.body.appendChild(form);
   form.action = action;
-  Object.entries(data).forEach(([key, value]) => {
-    const input = document.createElement('input');
+  (0, _entries2.default)(data).forEach(function (_ref) {
+    var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
+        key = _ref2[0],
+        value = _ref2[1];
+
+    var input = document.createElement('input');
     input.type = 'hidden';
     input.name = key;
     input.value = value;
@@ -100,17 +126,17 @@ function repost(action, method, data) {
  * @param {HTMLElement} el
  */
 function annotateElement(el) {
-  const attributeNames = el.getAttributeNames();
-  const name = el.getAttribute('name');
+  var attributeNames = el.getAttributeNames();
+  var name = el.getAttribute('name');
 
-  let vModelName;
+  var vModelName = void 0;
   if (attributeNames.includes('v-model')) {
     vModelName = el.getAttribute('v-model');
   } else {
     vModelName = name;
   }
 
-  el.setAttribute('v-model', stringToPath(vModelName));
+  el.setAttribute('v-model', (0, _stringToPath.stringToPath)(vModelName));
 
   // Ensure v-validate processes every element
   if (!attributeNames.includes('v-validate')) {
@@ -134,17 +160,17 @@ function annotateDateInput(input) {
   // Configure the element to disappear as soon as Vue takes over
   input.setAttribute('v-if', false);
 
-  const pdp = document.createElement('press-datepicker');
+  var pdp = document.createElement('press-datepicker');
   // pdp.setAttribute('name', input.getAttribute('name'));
   pdp.setAttribute('v-model', input.getAttribute('v-model'));
-  const value = input.getAttribute('value');
+  var value = input.getAttribute('value');
   if (value) {
     pdp.setAttribute('value', value);
   }
 
   input.after(pdp);
 
-  const php = document.createElement('input');
+  var php = document.createElement('input');
   php.setAttribute('type', 'hidden');
   php.setAttribute('readonly', 'readonly');
   php.setAttribute('name', input.getAttribute('name'));
@@ -161,10 +187,10 @@ function annotateDateInput(input) {
 function makeErrorNode(name) {
   // TODO if existing error nodes cannot be found, create a tooltip node
   // Create a spot to put the element's error field
-  const errorEl = document.createElement('div');
+  var errorEl = document.createElement('div');
   errorEl.classList.add('error');
-  errorEl.setAttribute('v-if', `errors.has('${name}')`);
-  errorEl.innerHTML = `{{ errors.first('${name}') }}`;
+  errorEl.setAttribute('v-if', 'errors.has(\'' + name + '\')');
+  errorEl.innerHTML = '{{ errors.first(\'' + name + '\') }}';
   // Add a class to the node that'll hide it until Vue takes over the form
   errorEl.classList.add('press-hide-until-mount');
   return errorEl;

@@ -1,10 +1,11 @@
 <template>
-  <input data-press="true">
+  <input data-press-datepicker-input>
 </template>
 
 <script>
 import $ from 'jquery';
 import 'daterangepicker';
+import moment from 'moment';
 
 export default {
   mounted() {
@@ -14,6 +15,10 @@ export default {
         startDate: this.startDateFromValue
       },
       (start, end, label) => {
+
+        // const offset = start.utcOffset() - moment().utcOffset()
+        // start.subtract(offset, 'minutes')
+
         this.$emit('input', start.format('YYYY-MM-DD'));
       }
     );
@@ -26,7 +31,7 @@ export default {
   computed: {
     startDateFromValue() {
       if (this.value) {
-        return new Date(this.value);
+        return moment(this.value).toDate();
       }
     }
   },

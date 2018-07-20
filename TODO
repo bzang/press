@@ -1,0 +1,81 @@
+## 1.0.0
+- bundle
+- replace components
+
+
+
+## Merge Requirements
+- datepicker tests pass
+- tests run via circle
+
+## Next
+- set sem rel token
+- tsc
+- full eslint
+- press apps are a class?
+- npm exports function/browser runs automatically
+
+
+## Thoughts
+
+
+submit models instead of names
+stop using switches
+warn on apps within apps
+create non-form app
+
+
+docs should explain how to use jsdelivr styles
+npm version of style.css should not resolve @import
+
+input test
+full eslint
+tsc
+make custom components optional
+
+log aggressively in non-prod mode
+make it easy to disable phases in dev mode
+create a map of v-model -> form names for use at submission
+remove todos
+## Roadmap
+
+-   data-press-app
+-   apps within apps
+-   data-press-app=false
+-   tables
+-   custom form validation tests and examples
+
+tie server errors to client errors more effectively
+
+
+datepicker
+- confirm correct names are sent to server
+- confirm v-model support
+- use v-validate
+daterangepicker
+
+data-ud-component
+deliver components to browser
+
+add press annotations to SimpleForm adapter
+add vue eslint
+add press javascript
+cross browser testing with js off
+cross browser testing with js on
+
+press components:
+- date range picker
+- date picker
+- autocomplete
+- credit card
+- modal
+- table with sorting
+
+mock form tests:
+- form
+- form with dates
+- form in bigger app
+- form with conditional fields
+- checkout page?
+
+package lock with npm 6/`npm ci`

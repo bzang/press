@@ -55,10 +55,20 @@ function inferAppType(el) {
 }
 
 /**
- * Adds additional vue markup to html contained below the app
+ * Adds additional Vue markup to html contained below the app
  * @param {HTMLElement} el
  */
 function annotate(el) {
+  if (el.matches(`[data-press-app] ${el.nodeName.toLowerCase()}`)) {
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.warn(
+        'PRESS does not currently support nesting apps within apps. You can find the nested apps on this page by running `document.querySelectorAll("[data-press-app] [data-press-app]")'
+      );
+    }
+    return;
+  }
+
   // Set .press-mounted on the app; this lets us use css to hide v-if blocks
   // until the Vue lifecycle can take over.
   el.setAttribute(':class', '{ "press-mounted": isMounted }');

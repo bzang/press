@@ -1,5 +1,5 @@
-import {stringToPath} from './string-to-path';
-import {touch} from './lib/touch';
+import {stringToPath} from '../lib/string-to-path';
+import {touch} from '../lib/touch';
 
 /**
  * selects any non-button, named input, named select box, or named textarea.

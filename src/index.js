@@ -5,7 +5,7 @@ import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 import DatePicker from './components/press-datepicker.vue';
 
-import * as formApp from './form';
+import * as formApp from './apps/form';
 
 Vue.use(VeeValidate);
 Vue.component('press-datepicker', DatePicker);

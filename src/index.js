@@ -21,6 +21,26 @@ const vueLifecycleMethods = [
   'destroyed'
 ];
 
+const appDefs = new Map();
+function registerApp(name, appMethods) {
+  appDefs.set(name, appMethods);
+}
+
+registerApp('form', formApp);
+
+function invokeAppDef(appName, methodName, ...args) {
+  const appDef = appDefs.get(appName);
+  if (!appDef) {
+    return;
+  }
+
+  const method = appDef[methodName];
+  if (!method) {
+    return;
+  }
+  return method(...args);
+}
+
 /** @type {WeakMap<HTMLElement, Object}> */
 const models = new WeakMap();
 
@@ -73,11 +93,7 @@ function annotate(el) {
   // until the Vue lifecycle can take over.
   el.setAttribute(':class', '{ "press-mounted": isMounted }');
 
-  switch (el.dataset.pressApp) {
-    case 'form':
-      formApp.annotate(el);
-      break;
-  }
+  invokeAppDef(el.dataset.pressApp, 'annotate', el);
 }
 
 /**
@@ -88,11 +104,7 @@ function generateModel(el) {
   const data = {
     isMounted: false
   };
-  switch (el.dataset.pressApp) {
-    case 'form':
-      formApp.generateModel(el, data);
-      break;
-  }
+  invokeAppDef(el.dataset.pressApp, 'generateModel', el, data);
   models.set(el, data);
 }
 
@@ -114,38 +126,34 @@ function instantiate(el) {
     }
   };
 
-  switch (el.dataset.pressApp) {
-    case 'form':
-      mergeWith(options, formApp.extend(), (objValue, srcValue, key) => {
-        // If either of the values to merge are undefined, fall back to lodash's
-        // default merge behavior
-        if (
-          typeof objValue === 'undefined' ||
-          typeof srcValue === 'undefined'
-        ) {
-          return undefined;
-        }
+  const appOptions = invokeAppDef(el.dataset.pressApp, 'extend', el);
 
-        // In event of a collision of lifecycle methods, combine them, running
-        // the core lifecycle method before the app - specific one
-        if (vueLifecycleMethods.includes(key)) {
-          return function(...args) {
-            // This function gets called in the context of a Vue app
-            /* eslint-disable no-invalid-this */
+  mergeWith(options, appOptions, (objValue, srcValue, key) => {
+    // If either of the values to merge are undefined, fall back to lodash's
+    // default merge behavior
+    if (typeof objValue === 'undefined' || typeof srcValue === 'undefined') {
+      return undefined;
+    }
 
-            // call the default lifecycle method
-            objValue.apply(this, args);
-            // then call the app's lifecycle method
-            srcValue.apply(this, args);
+    // In event of a collision of lifecycle methods, combine them, running
+    // the core lifecycle method before the app - specific one
+    if (vueLifecycleMethods.includes(key)) {
+      return function(...args) {
+        // This function gets called in the context of a Vue app
+        /* eslint-disable no-invalid-this */
 
-            /* eslint-enable no-invalid-this */
-          };
-        }
+        // call the default lifecycle method
+        objValue.apply(this, args);
+        // then call the app's lifecycle method
+        srcValue.apply(this, args);
 
-        // For all other entries, prefer the app's version if it exists over the
-        // core version
-      });
-  }
+        /* eslint-enable no-invalid-this */
+      };
+    }
+
+    // For all other entries, prefer the app's version if it exists over the
+    // core version
+  });
 
   new Vue(options);
 }

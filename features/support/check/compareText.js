@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Compare the contents of two elements with each other
  * @param  {string}   element1  Element selector for the first element
- * @param  {string}   falseCase Whether to check if the contents of both
+ * @param  {string}   [falseCase] Whether to check if the contents of both
  *                              elements match or not
  * @param  {string}   element2  Element selector for the second element
  */

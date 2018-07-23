@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if a new window or tab is opened
  * @param  {string}   obsolete  The type of opened object (window or tab)
- * @param  {string}   falseCase Whether to check if a new window/tab was opened
+ * @param  {string}   [falseCase] Whether to check if a new window/tab was opened
  *                              or not
  */
 module.exports = (obsolete, falseCase) => {

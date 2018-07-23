@@ -51,6 +51,11 @@ app.use((req, res, next) => {
   next();
 });
 
+/**
+ * Renders a view according the the request path.
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
 function renderView(req, res) {
   const view = req.path === '/' ? 'index' : req.path;
   const viewPath = path.join('pages', view);
@@ -65,8 +70,8 @@ app.post('*', renderView);
 app.use(errorHandler());
 
 if (require.main === module) {
-  const listener = app.listen(process.env.PORT, () => {
-    console.log(`Your app is listening on port ${listener.address().port}`);
+  app.listen(process.env.PORT, () => {
+    console.log(`Your app is listening on port ${process.env.PORT}`);
   });
 } else {
   module.exports = {app};

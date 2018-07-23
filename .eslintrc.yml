@@ -23,9 +23,6 @@ overrides:
       - "wdio.conf.js"
     env:
       "webdriverio/wdio": true
-    globals:
-      assert: false
-      expect: false
     rules:
       compat/compat: off
 

@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check the offset of the given element
  * @param  {string}   elem              Element selector
- * @param  {string}   falseCase         Whether to check if the offset matches
+ * @param  {string}   [falseCase]         Whether to check if the offset matches
  *                                      or not
  * @param  {string}   expectedPosition  The position to check against
  * @param  {string}   axis              The axis to check on (x or y)
@@ -9,13 +11,12 @@
 module.exports = (elem, falseCase, expectedPosition, axis) => {
   /**
    * Get the location of the element on the given axis
-   * @type {[type]}
    */
   const location = browser.getLocation(elem, axis);
 
   /**
    * Parsed expected position
-   * @type {Int}
+   * @type {number}
    */
   const intExpectedPosition = parseInt(expectedPosition, 10);
 

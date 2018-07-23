@@ -14,6 +14,7 @@ Given(
 );
 
 Given('This scenario requires JavaScript', () => {
+  // @ts-ignore
   if (global.capabilities.nojs) {
     return 'skipped';
   }
@@ -36,6 +37,7 @@ Then(
 Then(
   'I expect that the title indicates if this browser supports JavaScript',
   () => {
+    // @ts-ignore
     const title = global.capabilities.nojs
       ? 'JavaScript is not supported'
       : 'JavaScript is supported';

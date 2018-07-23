@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element exists in the current DOM
  * @param  {string}   selector  Element selector
- * @param  {string}   falseCase Whether to check if the element exists or not
+ * @param  {string}   [falseCase] Whether to check if the element exists or not
  */
 module.exports = (selector, falseCase) => {
   /**

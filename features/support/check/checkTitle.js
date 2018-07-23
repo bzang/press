@@ -1,8 +1,10 @@
+const {expect} = require('chai');
+
 /**
  * Check the title of the current browser window
- * @param  {Type}     falseCase     Whether to check if the title matches the
+ * @param  {boolean}    [falseCase]     Whether to check if the title matches the
  *                                  expected value or not
- * @param  {Type}     expectedTitle The expected title
+ * @param  {string}     expectedTitle The expected title
  */
 module.exports = (falseCase, expectedTitle) => {
   /**

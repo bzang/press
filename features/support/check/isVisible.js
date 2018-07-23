@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element is (not) visible
  * @param  {string}   element   Element selector
- * @param  {string}   falseCase Check for a visible or a hidden element
+ * @param  {string}   [falseCase] Check for a visible or a hidden element
  */
 module.exports = (element, falseCase) => {
   /**

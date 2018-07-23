@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["webdriverio"]
+  },
+  "include": [
+    "./wdio.conf.js",
+    "./webpack.config.js",
+    "./features/**/*"
+  ]
+}

@@ -1,8 +1,10 @@
+const {expect} = require('chai');
+
 /**
  * Check if a modal was opened
  * @param  {string}   modalType  The type of modal that is expected (alertbox,
  *                               confirmbox or prompt)
- * @param  {string}   falseState Whether to check if the modal was opened or not
+ * @param  {string}   [falseState] Whether to check if the modal was opened or not
  */
 module.exports = (modalType, falseState) => {
   /**

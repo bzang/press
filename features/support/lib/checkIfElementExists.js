@@ -1,14 +1,16 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element exists in the DOM one or more times
  * @param  {string}  element  Element selector
- * @param  {boolean} falsCase Check if the element (does not) exists
- * @param  {number}  exactly  Check if the element exists exactly this number
+ * @param  {boolean} [falsCase] Check if the element (does not) exists
+ * @param  {number}  [exactly]  Check if the element exists exactly this number
  *                            of times
  */
 module.exports = (element, falsCase, exactly) => {
   /**
    * The number of elements found in the DOM
-   * @type {Int}
+   * @type {number}
    */
   const nrOfElements = browser.elements(element).value;
 

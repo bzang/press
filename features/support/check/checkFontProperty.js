@@ -1,10 +1,12 @@
+const {expect} = require('chai');
+
 /**
  * Check the given property of the given element
  * @param  {string}   isCSS         Whether to check for a CSS property or an
  *                                  attribute
  * @param  {string}   attrName      The name of the attribute to check
  * @param  {string}   elem          Element selector
- * @param  {string}   falseCase     Whether to check if the value of the
+ * @param  {string}   [falseCase]   Whether to check if the value of the
  *                                  attribute matches or not
  * @param  {string}   expectedValue The value to match against
  */
@@ -23,7 +25,7 @@ module.exports = (isCSS, attrName, elem, falseCase, expectedValue) => {
 
   /**
    * The actual attribute value
-   * @type {Mixed}
+   * @type {any}
    */
   let attributeValue = browser[command](elem, attrName);
 

@@ -1,3 +1,4 @@
+const {assert} = require('chai');
 /**
  * Set the text of the current prompt
  * @param  {string}   modalText The text to set to the prompt

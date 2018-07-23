@@ -5,7 +5,7 @@
 module.exports = (ms) => {
   /**
    * Number of milliseconds
-   * @type {Int}
+   * @type {number}
    */
   const intMs = parseInt(ms, 10);
 

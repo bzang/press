@@ -1,6 +1,8 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given string is in the URL path
- * @param  {string}   falseCase       Whether to check if the given string is in
+ * @param  {string}   [falseCase]       Whether to check if the given string is in
  *                                    the URL path or not
  * @param  {string}   expectedUrlPart The string to check for
  */

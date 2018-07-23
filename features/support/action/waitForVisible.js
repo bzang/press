@@ -1,7 +1,7 @@
 /**
  * Wait for the given element to become visible
  * @param  {string}   elem      Element selector
- * @param  {string}   falseCase Whether or not to expect a visible or hidden
+ * @param  {string}   [falseCase] Whether or not to expect a visible or hidden
  *                              state
  *
  * @todo  merge with waitfor
@@ -9,7 +9,7 @@
 module.exports = (elem, falseCase) => {
   /**
    * Maximum number of milliseconds to wait for
-   * @type {Int}
+   * @type {number}
    */
   const ms = 10000;
 

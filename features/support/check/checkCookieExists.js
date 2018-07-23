@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if a cookie with the given name exists
- * @param  {[type]}   name      The name of the cookie
- * @param  {[type]}   falseCase Whether or not to check if the cookie exists or
+ * @param  {string}   name      The name of the cookie
+ * @param  {boolean}   [falseCase] Whether or not to check if the cookie exists or
  *                              not
  */
 module.exports = (name, falseCase) => {

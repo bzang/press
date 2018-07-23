@@ -1,3 +1,5 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given URL was opened in a new window
  * @param  {String}   expectedUrl The URL to check for

@@ -9,7 +9,7 @@
 module.exports = (index, obsolete, selectElem) => {
   /**
    * The index of the option to select
-   * @type {Int}
+   * @type {number}
    */
   const optionIndex = parseInt(index, 10);
 

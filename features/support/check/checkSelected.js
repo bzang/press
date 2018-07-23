@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check the selected state of the given element
  * @param  {string}   element   Element selector
- * @param  {string}   falseCase Whether to check if the element is elected or
+ * @param  {string}   [falseCase] Whether to check if the element is elected or
  *                              not
  */
 module.exports = (element, falseCase) => {

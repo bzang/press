@@ -1,8 +1,10 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given elements contains text
  * @param  {string}   elementType   Element type (element or button)
  * @param  {string}   element       Element selector
- * @param  {string}   falseCase     Whether to check if the content contains
+ * @param  {boolean}  [falseCase]   Whether to check if the content contains
  *                                  text or not
  */
 module.exports = (elementType, element, falseCase) => {

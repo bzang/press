@@ -2,7 +2,7 @@
  * Check if the given elements text is the same as the given text
  * @param  {string}   elementType   Element type (element or button)
  * @param  {string}   element       Element selector
- * @param  {string}   falseCase     Whether to check if the content equals the
+ * @param  {string}   [falseCase]     Whether to check if the content equals the
  *                                  given text or not
  * @param  {string}   expectedText  The text to validate against
  */

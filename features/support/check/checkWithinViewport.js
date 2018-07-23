@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element is visible inside the current viewport
  * @param  {string}   element   Element selector
- * @param  {string}   falseCase Whether to check if the element is visible
+ * @param  {string}   [falseCase] Whether to check if the element is visible
  *                              within the current viewport or not
  */
 module.exports = (element, falseCase) => {

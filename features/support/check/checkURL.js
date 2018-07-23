@@ -1,6 +1,8 @@
+const {expect} = require('chai');
+
 /**
  * Check the URL of the given browser window
- * @param  {string}   falseCase   Whether to check if the URL matches the
+ * @param  {string}   [falseCase]   Whether to check if the URL matches the
  *                                expected value or not
  * @param  {string}   expectedUrl The expected URL to check against
  */

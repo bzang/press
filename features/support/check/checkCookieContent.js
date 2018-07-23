@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check the content of a cookie against a given value
  * @param  {string}   name          The name of the cookie
- * @param  {string}   falseCase     Whether or not to check if the value matches
+ * @param  {string}   [falseCase]     Whether or not to check if the value matches
  *                                  or not
  * @param  {string}   expectedValue The value to check against
  */

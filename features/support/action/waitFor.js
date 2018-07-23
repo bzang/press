@@ -2,15 +2,15 @@
  * Wait for the given element to be checked, enabled, selected, visible, contain
  * a text, contain a value or to exist
  * @param  {string}   elem                     Element selector
- * @param  {string}   ms                       Wait duration (optional)
- * @param  {string}   falseState               Check for opposite state
+ * @param  {string}   [ms=3000]                Wait duration (optional)
+ * @param  {string}   [falseState]             Check for opposite state
  * @param  {string}   state                    State to check for (default
  *                                             existence)
  */
 module.exports = (elem, ms, falseState, state) => {
   /**
    * Maximum number of milliseconds to wait, default 3000
-   * @type {Int}
+   * @type {number}
    */
   const intMs = parseInt(ms, 10) || 3000;
 

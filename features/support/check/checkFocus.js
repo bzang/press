@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element has the focus
  * @param  {string}   selector  Element selector
- * @param  {string}   falseCase Whether to check if the given element has focus
+ * @param  {string}   [falseCase] Whether to check if the given element has focus
  *                              or not
  */
 module.exports = (selector, falseCase) => {

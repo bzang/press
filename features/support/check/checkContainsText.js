@@ -1,8 +1,9 @@
+const {expect} = require('chai');
 /**
  * Check if the given elements contains text
  * @param  {string}   elementType   Element type (element or button)
  * @param  {string}   element       Element selector
- * @param  {string}   falseCase     Whether to check if the content contains
+ * @param  {string}   [falseCase]     Whether to check if the content contains
  *                                  the given text or not
  * @param  {string}   expectedText  The text to check against
  */

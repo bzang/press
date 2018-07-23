@@ -1,3 +1,5 @@
+const {expect} = require('chai');
+
 /**
  * Check the dimensions of the given element
  * @param  {string}   elem         Element selector
@@ -15,13 +17,13 @@ module.exports = (elem, falseCase, expectedSize, dimension) => {
 
   /**
    * Parsed size to check for
-   * @type {Int}
+   * @type {number}
    */
   const intExpectedSize = parseInt(expectedSize, 10);
 
   /**
    * The size property to check against
-   * @type {Int}
+   * @type {number}
    */
   let origionalSize = elementSize.height;
 

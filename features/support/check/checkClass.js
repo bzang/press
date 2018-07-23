@@ -1,7 +1,9 @@
+const {expect} = require('chai');
+
 /**
  * Check if the given element has the given class
  * @param  {string}   elem              Element selector
- * @param  {string}   falseCase         Whether to check for the class to exist
+ * @param  {string}   [falseCase]         Whether to check for the class to exist
  *                                      or not ('has', 'does not have')
  * @param  {string}   expectedClassName The class name to check
  */

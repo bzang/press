@@ -224,14 +224,7 @@ exports.config = {
    * @param {Array.<string>} specs List of spec file paths that are to be run
    */
   before(capabilities) {
-    // Ideally, these would be actual require statements in the files that use
-    // them, but this is how
-    // https://github.com/webdriverio/cucumber-boilerplate/ does it and fixing
-    // it will be timeconsuming
-    const chai = require('chai');
-
-    global.expect = chai.expect;
-    global.assert = chai.assert;
+    // @ts-ignore
     global.capabilities = capabilities;
   },
   /**

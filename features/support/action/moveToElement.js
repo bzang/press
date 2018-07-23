@@ -7,13 +7,13 @@
 module.exports = (element, x, y) => {
   /**
    * X coordinate
-   * @type {Int}
+   * @type {number}
    */
   const intX = parseInt(x, 10) || undefined;
 
   /**
    * Y coordinate
-   * @type {Int}
+   * @type {number}
    */
   const intY = parseInt(y, 10) || undefined;
 

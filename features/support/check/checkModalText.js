@@ -1,8 +1,10 @@
+const {assert, expect} = require('chai');
+
 /**
  * Check the text of a modal
  * @param  {string}   modalType     The type of modal that is expected
  *                                  (alertbox, confirmbox or prompt)
- * @param  {string}   falseState    Whether to check if the text matches or not
+ * @param  {string}   [falseState]    Whether to check if the text matches or not
  * @param  {string}   expectedText  The text to check against
  */
 module.exports = (modalType, falseState, expectedText) => {

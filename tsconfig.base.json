@@ -9,9 +9,7 @@
     "resolveJsonModule": true,
     "strict": false,
     "target": "es2016",
-    "types": [
-
-    ]
+    "types": ["node"]
   },
   "include": [
     "./src/**/*",

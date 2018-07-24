@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "types": ["webdriverio"]
+    "types": ["node", "webdriverio"]
   },
   "include": [
     "./wdio.conf.js",

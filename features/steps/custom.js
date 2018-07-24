@@ -47,11 +47,11 @@ Then(
 
 When(
   /I select day "(\d+)" of the month "(.+?)" of the year "(\d\d\d\d)"/,
-  async (dayNumber, monthString, year) => {
+  async (dayString, monthString, yearString) => {
     const target = moment()
-      .year(year)
+      .year(yearString)
       .month(monthString)
-      .day(dayNumber);
+      .date(dayString);
     const now = moment();
 
     const clicksToJanuary = 12 - now.month();
@@ -65,9 +65,22 @@ When(
       $('.daterangepicker .next').click();
     }
 
-    browser
-      .element('.daterangepicker .calendar-table')
-      .element(`.//td[contains(text(),'${dayNumber}')]`)
-      .click();
+    const {value: elements} = browser
+      .element('.calendar-table')
+      .elements(`.//td[text() ='${dayString}']`);
+
+    if (elements.length > 1) {
+      const el = elements.find(({ELEMENT}) => {
+        const classes = browser.elementIdAttribute(ELEMENT, 'class');
+        if (!classes.value) {
+          return;
+        }
+        return !classes.value.includes('off');
+      });
+
+      browser.elementIdClick(el.ELEMENT);
+    } else {
+      browser.elementIdClick(elements[0].ELEMENT);
+    }
   }
 );

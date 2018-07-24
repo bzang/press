@@ -22,7 +22,6 @@
 -   [Install](#install)
     -   [Entrypoints](#entrypoints)
 -   [Usage](#usage)
-    -   [Forms](#forms)
     -   [Interactive Pages](#interactive-pages)
 -   [How It Works](#how-it-works)
 -   [Testing](#testing)
@@ -38,21 +37,18 @@ The easiest way to get started with PRESS is to drop the script tag (and
 dependencies) onto your page.
 
 ```html
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@urbandoor/press@latest/press.css">
 <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@urbandoor/press"></script>
+<script src="https://cdn.jsdelivr.net/npm/@urbandoor/press@latest/press.min.js"></script>
 ```
 
 > Yes, mixing jQuery and Vue seems a bit odd. Our site necessarily uses jQuery
 > for other things, so from our point of view, it's not a huge addition and it
 > saves us a lot of time by leveraging
-> [prior art](http://www.daterangepicker.com/). Eventually (probably 2.0 or
-> later), we'll release a version of PRESS that makes our custom components
-> optional and removes the jQuery dependency.
+> [prior art](http://www.daterangepicker.com/). Eventually (in a semver-major),
+> we'll release a version of PRESS that makes our custom components optional and
+> removes the jQuery dependency.
 
 Of course, PRESS is also available as an npm module:
 
@@ -64,12 +60,9 @@ npm install @urbandoor/press
 > also work, but is untested:
 
 ```html
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="//node_modules/@urbandoor/press/press.css">
 <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vee-validate@latest/dist/vee-validate.js"></script>
 <script src="//node_modules/@urbandoor/press/press.min.js"></script>
 ```
 
@@ -112,28 +105,16 @@ npm install @urbandoor/press
     to
 
     ```js
-    const {press} = require('@urbandoor/press');
-    press();
+    require('@urbandoor/press');
     ```
 
     or
 
     ```js
-    import {press} from '@urbandoor/press';
-    press();
+    import '@urbandoor/press';
     ```
 
 1.  Add the CSS
-
-    ```css
-    .press-hide-until-mount {
-        display: none;
-    }
-
-    .press-mounted .press-hide-until-mount {
-        display: initial;
-    }
-    ```
 
     > If you're using the
     > [postcss-import](https://github.com/postcss/postcss-import) plugin, you
@@ -143,116 +124,31 @@ npm install @urbandoor/press
     @import '@urbandoor/press';
     ```
 
-### Forms
+1.  Vue refuses to work if its bound to the `body` tag, so add
+    `[data-press-app]` to the boundary of interactive content on your page.
 
-The motivating use-case for PRESS was client-side validation of HTML `<form>`s.
-PRESS relies on `v-validate` for input validation.
-
-Once the PRESS JavaScript loads on your site, it will automatically upgrade
-`<form>` elements to Vue apps.
-
--   The `<form>`'s default validation behavior will be overridden to rely on
-    VeeValidate.
--   Every input element with a `name` attribute will be annotated with a
-    `v-model` attibute of the same name and an `v-validate` attribute (an empty
-    `v-validate` attribute is enough to tell VeeValidate to infer rules based on
-    HTML5 attributes like `type` and `required`.
-
-> PRESS _will not_ render validation errors without server-side assistance. See
-> [Form Validation](#form-validation) for details.
-
-For example, the following HTML
-
-```html
-<form>
-    <input name="email" required type="email">
-</form>
-```
-
-becomes
-
-```html
-<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
-    <input name="email" required type="email" v-validate v-model="email">
-</form>
-```
-
-If you've already specified the `v-model` or `v-validate` attributes in your
-html, they will not be overridden.
-
-```html
-<form>
-    <input name="start" required type="date" v-model="start">
-    <input name="end" required type="date" v-model="end" v-validate="'after:start'">
-</form>
-```
-
-becomes
-
-```html
-<form class="press-mounted" novalidate @submit.prevent="validateBeforeSubmit">
-    <input name="start" required type="date" v-model="start" v-validate>
-    <input name="end" required type="date" v-model="end" v-validate="'after:start'">
-</form>
-```
-
-#### Form Validation
-
-Errors need somewhere to render, but since PRESS doesn't know what UI framework
-you're using (if any), PRESS doesn't know how to render errors appropriately.
-You need to alter your input templates to always include the appropriate error
-output template for your style system, hidden by a `v-if`. For Semantic-UI,
-convert
-
-```html
-<form>
-    <div class="field">
-        <label for="email_address">Your Email</label>
-        <input id="email_address" name="email_address" type="email">
-    </div>
-</form>
-```
-
-to
-
-```html
-<form>
-    <div class="field">
-        <label for="email_address">Your Email</label>
-        <input id="email_address" name="email_address" type="email">
-        <div class="error press-hide-until-mount" v-if="errors.has('email_address')">
-            {{errors.first('email_address')}}
-        </div>
-    </div>
-</form>
-```
-
-> Note the `.press-hide-until-mount` class. This prevents nodes should be hidden
-> by `v-if=false` from being visible until Vue has token over and `v-if` has an
-> effect. If you're going to present server-side validation errors, you'll want
-> to omit this class when appropriate.
->
-> `errors` is straight out of VeeValidate`, so checkout the
-> [VeeValidate API Docs](https://baianat.github.io/vee-validate/api/errorbag.html)
-> for other ways you might access error messages
-
-#### Custom Validation
-
-VeeValidate has a
-[very rich set](https://baianat.github.io/vee-validate/guide/rules.html) of form
-validations plus a flexible
-[extension facility](https://baianat.github.io/vee-validate/guide/custom-rules.html).
-Custom form validation with PRESS works just like VeeValidate; just make sure to
-register your validations before PRESS decorates your page.
+    ```html
+    <html>
+        <body>
+            <main data-press-app></main>
+        </body>
+    </html>
+    ```
 
 ### Interactive Pages
 
-> Nothing in this section is true, yet.
+PRESS effectively does two things:
 
-What if you want to update HTML outside of a form as the form gets filled out?
-The `data-press-app` attribute let's you declare the DOM-node the root element
-of a PRESS app. In other words, every element discovered with the selector
-`[data-press-app]` will be passed to `new Vue({el: el})`.
+1.  Alter `input[type=date]` elements to be replaced by a custom Vue date picker
+    component if those elements find themselves inside a Vue instance.
+2.  Instantiate a Vue app for every `[data-press-app]` element on the page.
+
+This means that within a server-rendered page, you can use Vue bindings for any
+element that is a child of a `[data-press-app]`.
+
+> In most cases, it should be adequate to add `data-press-app` to the first
+> child of the `body` tag, but if you've got multiple pieces of functionality on
+> a page, it may make sense to create several apps to prevent data sharing
 
 ```html
 <div data-press-app>
@@ -265,36 +161,44 @@ of a PRESS app. In other words, every element discovered with the selector
 </div>
 ```
 
+We use a few tricks to avoid rendering the templates until Vue takes over:
+
+1.  Combine `v-if="false"` with a sibling `template` tag
+
+```html
+<p v-if="false">This text will be visible until Vue takes over</p>
+<template><p>This text will be visible after Vue takes over</p></template>
+```
+
+1.  Use the `.press-hide-until-mounted` class Let's say you have a complicated
+    `v-if`. You don't want its contents to render until after Vue is running and
+    the conditional can be evaluated.
+
+    ```html
+    <div v-if="magic()" class="press-hide-until-mount">
+    </div>
+    ```
+
 ## How It Works
 
-> This section is approximately true; `data-press-app` nested within
-> `data-press-app` is not currently supported
+PRESS executes a series of phases, decorating or replacing HTML as appropriate:
 
-PRESS makes a series of passes over a page, decorating or replacing HTML as
-appropriate:
-
-1.  Add `data-press-app="form"` to any `<form>` that meets the following
-    criteria:
-
-    -   The `<form>` does not already have a `data-press-app` assignment
-
-1.  Add `v-model` and `v-validate` to any input-like element that meets the
-    following criteria
-
-    -   The element has a `name` attribute
-    -   The element is a child of an element that matches `[data-press-app]`.
-
+1.  Register PRESS components
+1.  Infer intended components using the `infer()` method of each registered
+    component. e.g. Find all `input[type="date"]` elements and add
+    `[data-press-component="datepicker"]`
+1.  For every element `el` that matches `[data-press-component]`, call the
+    `enhance()` method of the specified component on `el`.
 1.  For every element `el` that matches `[data-press-app]` but is not itself a
     child of an element that matches `[data-press-app]`, do the following
 
     1.  create an empty object `data`
-    1.  for every child of `el` with a `v-model`, add an entry to `data` at the
-        keypath specified by the child's `v-model`; if the child's `value`
-        attibute is defined, use that, otherwise, use `null`.
+    1.  for every child `child` of `el` matching `[name]:not([v-model])`, add a
+        `v-model` attribute with the same value as the `name` attribute.
+    1.  for every child of `child` of `el` with a `v-model`, add an entry to
+        `data` at the keypath specified by the child's `v-model`; if the child's
+        `value` attibute is defined, use that, otherwise, use `null`.
     1.  call the constructor specified by the value of `data-press-app`.
-
-> Point three presently represents neither intended nor implemented behavior.
-> Apps within apps are still being designed.
 
 ## Testing
 

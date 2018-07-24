@@ -39,7 +39,6 @@ function annotateDateInput(input) {
   input.setAttribute('v-if', 'false');
 
   const pdp = document.createElement('datepicker');
-  pdp.setAttribute('v-once', '');
   // pdp.setAttribute('name', input.getAttribute('name'));
   pdp.setAttribute('v-model', input.getAttribute('v-model'));
   const value = input.getAttribute('value');

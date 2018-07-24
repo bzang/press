@@ -1,5 +1,7 @@
 <template>
-  <input data-press-datepicker-input>
+  <input
+    :value="localeStringFromValue"
+    data-press-datepicker-input>
 </template>
 
 <script>
@@ -31,20 +33,6 @@ export default {
           .startOf('day')
           .format('L');
       }
-    }
-  },
-  watch: {
-    /**
-     * Ensures the input daterangepicker is updated if the `value` is changed
-     * externally.
-     * @param {Date} oldValue
-     * @param {Date} newValue
-     */
-    startDateFromValue(oldValue, newValue) {
-      console.log(oldValue, newValue);
-      this.$$el.data('daterangepicker').setStartDate(newValue);
-
-      this.$$el.data('daterangepicker').setEndDate(newValue);
     }
   },
   mounted() {

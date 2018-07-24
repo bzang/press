@@ -22,5 +22,7 @@ module.exports = (method, value, element) => {
     checkValue = '';
   }
 
+  $(element).click();
   browser[command](element, checkValue);
+  $('body').click();
 };

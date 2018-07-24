@@ -11,6 +11,19 @@
       <input name="date_picker_form[input]" type="date" <%- value('date_picker_form[input]') %>>
       <button type="submit">Submit</button>
     </form>
+    <template>
+      <table>
+        <caption>external accessors for writing assertions</caption>
+        <tr>
+          <th>Current Model Value</th>
+          <td><div id="selected-value">{{date_picker_form.input}}</div></td>
+        </tr>
+        <tr>
+          <th><label for="external-input">Secondary Input</label></th>
+          <td><input id="external-input" v-model="date_picker_form.input"></td>
+        </tr>
+      </table>
+    </template>
     <div class="ui column">
       <%- include ../partials/request.ejs %>
     </div>

@@ -13,15 +13,20 @@ Given(
   }
 );
 
-Given('This scenario requires JavaScript', () => {
+Given(/^This scenario (prohibits|required) JavaScript$/, (mode) => {
   // @ts-ignore
-  if (global.capabilities.nojs) {
+  if (mode === 'requires' && global.capabilities.nojs) {
+    return 'skipped';
+  }
+
+  // @ts-ignore
+  if (mode === 'prohibits' && !global.capabilities.nojs) {
     return 'skipped';
   }
 });
 
 Then(
-  /I expect the server received a form parameter named "(.+)" with a value of "(.+)"/,
+  /^I expect the server received a form parameter named "(.+)" with a value of "(.+)"$/,
   (name, value) => {
     const req = JSON.parse(
       browser
@@ -46,7 +51,7 @@ Then(
 );
 
 When(
-  /I select day "(\d+)" of the month "(.+?)" of the year "(\d\d\d\d)"/,
+  /^I select day "(\d+)" of the month "(.+?)" of the year "(\d\d\d\d)"$/,
   async (dayString, monthString, yearString) => {
     const target = moment()
       .year(yearString)
@@ -65,22 +70,31 @@ When(
       $('.daterangepicker .next').click();
     }
 
-    const {value: elements} = browser
-      .element('.calendar-table')
-      .elements(`.//td[text() ='${dayString}']`);
-
-    if (elements.length > 1) {
-      const el = elements.find(({ELEMENT}) => {
-        const classes = browser.elementIdAttribute(ELEMENT, 'class');
-        if (!classes.value) {
-          return;
-        }
-        return !classes.value.includes('off');
-      });
-
-      browser.elementIdClick(el.ELEMENT);
-    } else {
-      browser.elementIdClick(elements[0].ELEMENT);
-    }
+    clickDay(dayString);
   }
 );
+
+When(/^I select day "(\d+)" of the next month$/, async (dayString) => {
+  $('.daterangepicker .next').click();
+  clickDay(dayString);
+});
+
+function clickDay(dayString) {
+  const {value: elements} = browser
+    .element('.calendar-table')
+    .elements(`.//td[text() ='${dayString}']`);
+
+  if (elements.length > 1) {
+    const el = elements.find(({ELEMENT}) => {
+      const classes = browser.elementIdAttribute(ELEMENT, 'class');
+      if (!classes.value) {
+        return;
+      }
+      return !classes.value.includes('off');
+    });
+
+    browser.elementIdClick(el.ELEMENT);
+  } else {
+    browser.elementIdClick(elements[0].ELEMENT);
+  }
+}

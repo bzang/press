@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Datepicker</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <form class="ui form column" method="POST">
+      <h3>Code Under Test</h3>
+      <input name="date_picker_form[input]" type="date" <%- value('date_picker_form[input]') %>>
+      <button type="submit">Submit</button>
+    </form>
+    <template>
+      <table>
+        <caption>external accessors for writing assertions</caption>
+        <tr>
+          <th>Current Model Value</th>
+          <td><div id="selected-value">{{date_picker_form.input}}</div></td>
+        </tr>
+        <tr>
+          <th><label for="external-input">Secondary Input</label></th>
+          <td><input id="external-input" v-model="date_picker_form.input"></td>
+        </tr>
+      </table>
+    </template>
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

@@ -3,7 +3,7 @@ import {touch} from './touch';
 
 /**
  * Generates a data model and instantiates a Vue app at el
- * @param {Element|HTMLElement} el
+ * @param {HTMLElement} el
  */
 export function vueify(el) {
   const data = {
@@ -11,9 +11,12 @@ export function vueify(el) {
   };
 
   generateModel(el, data);
-  Array.from(el.querySelectorAll('[v-model]')).forEach((el) =>
-    generateModel(el, data)
-  );
+  Array.from(el.querySelectorAll('[v-model]')).forEach((el) => {
+    if (!(el instanceof HTMLElement)) {
+      return;
+    }
+    generateModel(el, data);
+  });
   el.setAttribute(':class', '{"press-mounted": isMounted}');
 
   new Vue({
@@ -31,7 +34,7 @@ export function vueify(el) {
 
 /**
  * Adds the specified element's v-model to the data mode, if it has one.
- * @param {Element|HTMLElement} el
+ * @param {HTMLElement} el
  * @param {Object} data
  */
 function generateModel(el, data) {

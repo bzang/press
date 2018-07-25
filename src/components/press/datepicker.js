@@ -1,4 +1,5 @@
 import Vue from 'vue';
+// @ts-ignore - tsc isn't picking up vue files correctly
 import datepicker from '../vue/datepicker.vue';
 import {stringToPath} from '../../lib/string-to-path';
 
@@ -62,6 +63,9 @@ function annotateDateInput(input) {
  */
 export function infer(root) {
   Array.from(root.querySelectorAll('input[type="date"]')).forEach((el) => {
+    if (!(el instanceof HTMLElement)) {
+      return;
+    }
     const names = el.getAttributeNames();
     if (
       names.includes('data-press-component') ||

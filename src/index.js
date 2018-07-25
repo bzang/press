@@ -23,6 +23,9 @@ performance.mark('press:enhance:components:end');
 
 logger.info('Vueifying non-apped PRESS component');
 Array.from(document.querySelectorAll('[data-press-app]')).forEach((root) => {
+  if (!(root instanceof HTMLElement)) {
+    return;
+  }
   vueify(root);
 });
 logger.info('Vueified non-apped PRESS component');

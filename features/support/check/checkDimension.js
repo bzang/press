@@ -3,12 +3,12 @@ const {expect} = require('chai');
 /**
  * Check the dimensions of the given element
  * @param  {string}   elem         Element selector
- * @param  {string}   falseCase    Whether to check if the dimensions match or
+ * @param  {string}   negate    Whether to check if the dimensions match or
  *                                 not
  * @param  {string}   expectedSize Expected size
  * @param  {string}   dimension    Dimension to check (broad or tall)
  */
-module.exports = (elem, falseCase, expectedSize, dimension) => {
+module.exports = (elem, negate, expectedSize, dimension) => {
   /**
    * The size of the given element
    * @type {Object}
@@ -38,7 +38,7 @@ module.exports = (elem, falseCase, expectedSize, dimension) => {
     label = 'width';
   }
 
-  if (falseCase) {
+  if (negate) {
     expect(origionalSize).to.not.equal(
       intExpectedSize,
       `Element "${elem}" should not have a ${label} of ` +

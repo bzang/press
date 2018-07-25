@@ -8,14 +8,14 @@ const checkIfElementExists = require('../lib/checkIfElementExists');
  */
 module.exports = (isExisting, elem) => {
   /**
-   * Falsecase assertion
+   * negate assertion
    * @type {Boolean}
    */
-  let falseCase = true;
+  let negate = true;
 
   if (isExisting === 'an') {
-    falseCase = false;
+    negate = false;
   }
 
-  checkIfElementExists(elem, falseCase);
+  checkIfElementExists(elem, negate);
 };

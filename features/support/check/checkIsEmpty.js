@@ -1,13 +1,13 @@
 const checkContainsAnyText = require('./checkContainsAnyText');
 
-module.exports = (elementType, element, falseCase) => {
-  let newFalseCase = true;
+module.exports = (elementType, element, negate) => {
+  let newnegate = true;
 
-  if (typeof falseCase === 'function') {
-    newFalseCase = false;
-  } else if (falseCase === ' not') {
-    newFalseCase = false;
+  if (typeof negate === 'function') {
+    newnegate = false;
+  } else if (negate === ' not') {
+    newnegate = false;
   }
 
-  checkContainsAnyText(elementType, element, newFalseCase);
+  checkContainsAnyText(elementType, element, newnegate);
 };

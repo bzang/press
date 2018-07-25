@@ -2,18 +2,18 @@ const {expect} = require('chai');
 
 /**
  * Check the title of the current browser window
- * @param  {boolean}    [falseCase]     Whether to check if the title matches the
+ * @param  {boolean}    [negate]     Whether to check if the title matches the
  *                                  expected value or not
  * @param  {string}     expectedTitle The expected title
  */
-module.exports = (falseCase, expectedTitle) => {
+module.exports = (negate, expectedTitle) => {
   /**
    * The title of the current browser window
    * @type {String}
    */
   const title = browser.getTitle();
 
-  if (falseCase) {
+  if (negate) {
     expect(title).to.not.equal(
       expectedTitle,
       `Expected title not to be "${expectedTitle}"`

@@ -3,11 +3,11 @@ const {expect} = require('chai');
 /**
  * Compare the contents of two elements with each other
  * @param  {string}   element1  Element selector for the first element
- * @param  {string}   [falseCase] Whether to check if the contents of both
+ * @param  {string}   [negate] Whether to check if the contents of both
  *                              elements match or not
  * @param  {string}   element2  Element selector for the second element
  */
-module.exports = (element1, falseCase, element2) => {
+module.exports = (element1, negate, element2) => {
   /**
    * The text of the first element
    * @type {String}
@@ -20,7 +20,7 @@ module.exports = (element1, falseCase, element2) => {
    */
   const text2 = browser.getText(element2);
 
-  if (falseCase) {
+  if (negate) {
     expect(text1).to.not.equal(text2, `Expected text not to be "${text1}"`);
   } else {
     expect(text1).to.equal(

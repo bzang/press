@@ -3,11 +3,11 @@ const {expect} = require('chai');
 /**
  * Check the content of a cookie against a given value
  * @param  {string}   name          The name of the cookie
- * @param  {string}   [falseCase]     Whether or not to check if the value matches
+ * @param  {string}   [negate]     Whether or not to check if the value matches
  *                                  or not
  * @param  {string}   expectedValue The value to check against
  */
-module.exports = (name, falseCase, expectedValue) => {
+module.exports = (name, negate, expectedValue) => {
   /**
    * The cookie retrieved from the browser object
    * @type {Object}
@@ -16,7 +16,7 @@ module.exports = (name, falseCase, expectedValue) => {
 
   expect(cookie.name).to.equal(name, `no cookie found with the name "${name}"`);
 
-  if (falseCase) {
+  if (negate) {
     expect(cookie.value).to.not.equal(
       expectedValue,
       `expected cookie "${name}" not to have value "${expectedValue}"`

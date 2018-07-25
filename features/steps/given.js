@@ -12,7 +12,6 @@ const checkProperty = require('../support/check/checkProperty');
 const checkSelected = require('../support/check/checkSelected');
 const checkTitle = require('../support/check/checkTitle');
 const checkUrl = require('../support/check/checkURL');
-const closeAllButFirstTab = require('../support/action/closeAllButFirstTab');
 const compareText = require('../support/check/compareText');
 const isEnabled = require('../support/check/isEnabled');
 const isVisible = require('../support/check/isVisible');
@@ -82,7 +81,5 @@ Given(
 );
 
 Given(/^I have a screen that is ([\d]+) by ([\d]+) pixels$/, resizeScreenSize);
-
-Given(/^I have closed all but the first (window|tab)$/, closeAllButFirstTab);
 
 Given(/^a (alertbox|confirmbox|prompt) is( not)* opened$/, checkModal);

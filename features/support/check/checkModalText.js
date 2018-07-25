@@ -9,10 +9,6 @@ const {assert, expect} = require('chai');
  */
 module.exports = (modalType, falseState, expectedText) => {
   try {
-    /**
-     * The text of the current modal
-     * @type {String}
-     */
     const text = browser.alertText();
 
     if (falseState) {

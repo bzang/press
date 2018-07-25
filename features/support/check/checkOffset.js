@@ -3,12 +3,12 @@ const {expect} = require('chai');
 /**
  * Check the offset of the given element
  * @param  {string}   elem              Element selector
- * @param  {string}   [falseCase]         Whether to check if the offset matches
+ * @param  {string}   [negate]          Whether to check if the offset matches
  *                                      or not
  * @param  {string}   expectedPosition  The position to check against
- * @param  {string}   axis              The axis to check on (x or y)
+ * @param  {'x'|'y'}  axis              The axis to check on (x or y)
  */
-module.exports = (elem, falseCase, expectedPosition, axis) => {
+module.exports = (elem, negate, expectedPosition, axis) => {
   /**
    * Get the location of the element on the given axis
    */
@@ -20,7 +20,7 @@ module.exports = (elem, falseCase, expectedPosition, axis) => {
    */
   const intExpectedPosition = parseInt(expectedPosition, 10);
 
-  if (falseCase) {
+  if (negate) {
     expect(location).to.not.equal(
       intExpectedPosition,
       `Element "${elem}" should not be positioned at ` +

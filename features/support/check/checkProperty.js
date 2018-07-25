@@ -6,11 +6,11 @@ const {expect} = require('chai');
  *                                  attribute
  * @param  {string}   attrName      The name of the attribute to check
  * @param  {string}   elem          Element selector
- * @param  {string}   [falseCase]     Whether to check if the value of the
+ * @param  {string}   [negate]     Whether to check if the value of the
  *                                  attribute matches or not
  * @param  {string}   expectedValue The value to match against
  */
-module.exports = (isCSS, attrName, elem, falseCase, expectedValue) => {
+module.exports = (isCSS, attrName, elem, negate, expectedValue) => {
   /**
    * The command to use for fetching the expected value
    * @type {String}
@@ -37,7 +37,7 @@ module.exports = (isCSS, attrName, elem, falseCase, expectedValue) => {
     attributeValue = attributeValue.value;
   }
 
-  if (falseCase) {
+  if (negate) {
     expect(attributeValue).to.not.equal(
       expectedValue,
       `${attrType} of element "${elem}" should not contain ` +

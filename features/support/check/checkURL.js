@@ -2,18 +2,18 @@ const {expect} = require('chai');
 
 /**
  * Check the URL of the given browser window
- * @param  {string}   [falseCase]   Whether to check if the URL matches the
+ * @param  {string}   [negate]   Whether to check if the URL matches the
  *                                expected value or not
  * @param  {string}   expectedUrl The expected URL to check against
  */
-module.exports = (falseCase, expectedUrl) => {
+module.exports = (negate, expectedUrl) => {
   /**
    * The current browser window's URL
    * @type {String}
    */
   const currentUrl = browser.url().value;
 
-  if (falseCase) {
+  if (negate) {
     expect(currentUrl).to.not.equal(
       expectedUrl,
       `expected url not to be "${currentUrl}"`

@@ -4,10 +4,10 @@ const {expect} = require('chai');
  * Check if the given elements contains text
  * @param  {string}   elementType   Element type (element or button)
  * @param  {string}   element       Element selector
- * @param  {boolean}  [falseCase]   Whether to check if the content contains
+ * @param  {boolean}  [negate]   Whether to check if the content contains
  *                                  text or not
  */
-module.exports = (elementType, element, falseCase) => {
+module.exports = (elementType, element, negate) => {
   /**
    * The command to perform on the browser object
    * @type {String}
@@ -25,7 +25,7 @@ module.exports = (elementType, element, falseCase) => {
    * False case
    * @type {Boolean}
    */
-  let boolFalseCase;
+  let boolnegate;
 
   /**
    * The text of the element
@@ -33,13 +33,13 @@ module.exports = (elementType, element, falseCase) => {
    */
   const text = browser[command](element);
 
-  if (typeof falseCase === 'undefined') {
-    boolFalseCase = false;
+  if (typeof negate === 'undefined') {
+    boolnegate = false;
   } else {
-    boolFalseCase = !!falseCase;
+    boolnegate = !!negate;
   }
 
-  if (boolFalseCase) {
+  if (boolnegate) {
     expect(text).to.equal('');
   } else {
     expect(text).to.not.equal('');

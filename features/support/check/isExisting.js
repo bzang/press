@@ -3,16 +3,16 @@ const {expect} = require('chai');
 /**
  * Check if the given element exists in the current DOM
  * @param  {string}   selector  Element selector
- * @param  {string}   [falseCase] Whether to check if the element exists or not
+ * @param  {string}   [negate] Whether to check if the element exists or not
  */
-module.exports = (selector, falseCase) => {
+module.exports = (selector, negate) => {
   /**
    * Elements found in the DOM
    * @type {Object}
    */
   const elements = browser.elements(selector).value;
 
-  if (falseCase) {
+  if (negate) {
     expect(elements).to.have.lengthOf(
       0,
       `Expected element "${selector}" not to exist`

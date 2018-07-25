@@ -65,9 +65,7 @@ if (CDN) {
   module.exports.externals = module.exports.externals || {};
   Object.assign(module.exports.externals, {
     jquery: '$',
-    // daterangepicker: 'daterangepicker',
-    vue: 'Vue',
-    'vee-validate': 'VeeValidate'
+    vue: 'Vue'
   });
 }
 

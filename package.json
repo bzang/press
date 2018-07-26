@@ -19,6 +19,7 @@
     "build:cjs": "BUILD_TARGET=cjs babel -d dist/cjs src",
     "build:esm": "BUILD_TARGET=esm babel -d dist/esm src",
     "build:readme": "markdown-toc -i --bullets='-' --maxdepth=3  README.md  && prettier --write README.md",
+    "clean": "rimraf dist press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
     "commitmsg": "commitlint -e",
     "eslint": "eslint --ignore --ignore-path .gitignore",
     "lint": "npm-run-all lint:*",

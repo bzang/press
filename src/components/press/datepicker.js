@@ -6,7 +6,6 @@ import {normalizeKeyPath} from '../../lib/normalize-key-path';
 Vue.component('datepicker', datepicker);
 
 /**
- *
  * @param {Element|HTMLElement} el
  */
 export function enhance(el) {
@@ -17,6 +16,7 @@ export function enhance(el) {
   const attributeNames = el.getAttributeNames();
   const name = el.getAttribute('name');
 
+  // Figure out the m-model name
   let vModelName;
   if (attributeNames.includes('v-model')) {
     vModelName = el.getAttribute('v-model');
@@ -24,42 +24,34 @@ export function enhance(el) {
     vModelName = name;
   }
 
-  el.setAttribute('v-model', stringToPath(vModelName));
+  // replace the v-model name with a normalized version of same.
   el.setAttribute('v-model', normalizeKeyPath(vModelName));
 
-  if (el.getAttribute('type') === 'date') {
-    annotateDateInput(el);
-  }
-}
-
-/**
- * Replaces the date input with the vue-hoteldatepicker single date component
- * @param {HTMLInputElement} input
- */
-function annotateDateInput(input) {
   // Configure the element to disappear as soon as Vue takes over
-  input.setAttribute('v-if', 'false');
+  el.setAttribute('v-if', 'false');
 
+  // Create a `<datepicker>` element *without a `name`* attribute for the user
+  // to interact with.
   const pdp = document.createElement('datepicker');
-  // pdp.setAttribute('name', input.getAttribute('name'));
-  pdp.setAttribute('v-model', input.getAttribute('v-model'));
-  const value = input.getAttribute('value');
+  pdp.setAttribute('v-model', el.getAttribute('v-model'));
+  const value = el.getAttribute('value');
   if (value) {
     pdp.setAttribute('value', value);
   }
 
-  input.after(pdp);
+  el.after(pdp);
 
+  // Bind the `<datepicker>` to a `name`d hidden input which will do the actual
+  // submission
   const php = document.createElement('input');
   php.setAttribute('type', 'hidden');
-  php.setAttribute('name', input.getAttribute('name'));
-  php.setAttribute('v-model', input.getAttribute('v-model'));
+  php.setAttribute('name', el.getAttribute('name'));
+  php.setAttribute('v-model', el.getAttribute('v-model'));
 
-  input.after(php);
+  el.after(php);
 }
 
 /**
- *
  * @param {Document|HTMLElement} root
  */
 export function infer(root) {

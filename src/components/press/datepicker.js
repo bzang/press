@@ -1,7 +1,7 @@
 import Vue from 'vue';
 // @ts-ignore - tsc isn't picking up vue files correctly
 import datepicker from '../vue/datepicker.vue';
-import {normalizeKeyPath} from '../../lib/normalize-key-path';
+import {normalizeKeyPath} from '../../lib/vue-helpers';
 
 Vue.component('datepicker', datepicker);
 

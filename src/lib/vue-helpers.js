@@ -1,8 +1,3 @@
-/**
- * @file
- * This is adapted from lodash's private _stringToPath.js
- */
-
 /** Used to match property names within property paths. */
 const rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
@@ -10,7 +5,8 @@ const rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?
 const reEscapeChar = /\\(\\)?/g;
 
 /**
- * Normalizes a deep object reference
+ * Normalizes a deep object reference. adapted from lodash's private
+ * _stringToPath.js
  *
  * @param {string} string The string to convert.
  * @returns {string} Returns the property path array.

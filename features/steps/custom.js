@@ -13,7 +13,7 @@ Given(
   }
 );
 
-Given(/^This scenario (prohibits|required) JavaScript$/, (mode) => {
+Given(/^This scenario (prohibits|requires) JavaScript$/, (mode) => {
   // @ts-ignore
   if (mode === 'requires' && global.capabilities.nojs) {
     return 'skipped';

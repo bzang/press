@@ -1,18 +1,9 @@
 import {logger} from './lib/logger';
 
-/**
- * @typedef {Object} PressComponent
- *
- * @property {Function} enhance
- * @property {string} name
- */
-
-/** @type {Map<string, PressComponent>} */
+/** @type {Map<string, Press.PressComponent>} */
 const components = new Map();
 
 /**
- *
- *
  * @param {Element|HTMLElement} el
  */
 export function enhanceComponent(el) {
@@ -37,8 +28,7 @@ export function enhanceComponent(el) {
 }
 
 /**
- *
- * @param {PressComponent} component
+ * @param {Press.PressComponent} component
  */
 export function registerComponent(component) {
   logger.info(`Registering component ${component.name}`);

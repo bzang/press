@@ -179,6 +179,21 @@ We use a few tricks to avoid rendering the templates until Vue takes over:
     </div>
     ```
 
+### Components
+
+In addition to providing a framework for progressively enhancing server-rendered
+HTML, press includes its own componets.
+
+> Eventually, there will be a sem-ver major release that makes the components
+> optional, but for now, they're required as are their dependencies
+
+#### `data-press-component="datepicker"`
+
+The `datepicker` component is a single-value input datepicker. See
+[http://daterangepicker.com/](http://daterangepicker.com/) for styling
+instructions. Any `input[type="date"]` is automatically enhanced with
+`datepicker`.
+
 ## How It Works
 
 PRESS executes a series of phases, decorating or replacing HTML as appropriate:

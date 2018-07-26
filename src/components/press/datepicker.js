@@ -1,7 +1,11 @@
 import Vue from 'vue';
 // @ts-ignore - tsc isn't picking up vue files correctly
 import datepicker from '../vue/datepicker.vue';
-import {normalizeKeyPath} from '../../lib/vue-helpers';
+import {
+  bindToHiddenInput,
+  normalizeKeyPath,
+  vModelFromNode
+} from '../../lib/vue-helpers';
 
 Vue.component('datepicker', datepicker);
 
@@ -13,16 +17,7 @@ export function enhance(el) {
     return;
   }
 
-  const attributeNames = el.getAttributeNames();
-  const name = el.getAttribute('name');
-
-  // Figure out the m-model name
-  let vModelName;
-  if (attributeNames.includes('v-model')) {
-    vModelName = el.getAttribute('v-model');
-  } else {
-    vModelName = name;
-  }
+  const vModelName = vModelFromNode(el);
 
   // replace the v-model name with a normalized version of same.
   el.setAttribute('v-model', normalizeKeyPath(vModelName));
@@ -43,12 +38,7 @@ export function enhance(el) {
 
   // Bind the `<datepicker>` to a `name`d hidden input which will do the actual
   // submission
-  const php = document.createElement('input');
-  php.setAttribute('type', 'hidden');
-  php.setAttribute('name', el.getAttribute('name'));
-  php.setAttribute('v-model', el.getAttribute('v-model'));
-
-  el.after(php);
+  bindToHiddenInput(el);
 }
 
 /**

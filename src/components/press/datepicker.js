@@ -1,7 +1,7 @@
 import Vue from 'vue';
 // @ts-ignore - tsc isn't picking up vue files correctly
 import datepicker from '../vue/datepicker.vue';
-import {stringToPath} from '../../lib/string-to-path';
+import {normalizeKeyPath} from '../../lib/normalize-key-path';
 
 Vue.component('datepicker', datepicker);
 
@@ -25,6 +25,7 @@ export function enhance(el) {
   }
 
   el.setAttribute('v-model', stringToPath(vModelName));
+  el.setAttribute('v-model', normalizeKeyPath(vModelName));
 
   if (el.getAttribute('type') === 'date') {
     annotateDateInput(el);

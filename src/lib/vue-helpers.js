@@ -2,14 +2,16 @@
  * Creates a hidden input binding a v-model to a name
  * @param {HTMLElement} el
  * @param {Object} [options]
- * @param {string} [options.name] - the `name` to use on the hidden element. if
+ * @param {string} options.name - the `name` to use on the hidden element. if
  * not specified, will be extract from `el`.
- * @param {string} [options.vModel] - the `v-model` to use on the hidden
+ * @param {string} options.vModel - the `v-model` to use on the hidden
  * element. if not specified, will be extract from `el`.
+ * @param {string|null} [options.value] - initial value for the element
  */
-export function bindToHiddenInput(el, options = {}) {
-  const name = options.name || el.getAttribute('name');
-  const vModel = options.vModel || el.getAttribute('v-model');
+export function bindToHiddenInput(el, options) {
+  const name = (options && options.name) || el.getAttribute('name');
+  const vModel = (options && options.vModel) || el.getAttribute('v-model');
+  const value = (options && options.value) || el.getAttribute('value');
 
   if (!name) {
     throw new Error(
@@ -27,6 +29,9 @@ export function bindToHiddenInput(el, options = {}) {
   hidden.setAttribute('type', 'hidden');
   hidden.setAttribute('name', name);
   hidden.setAttribute('v-model', vModel);
+  if (value) {
+    hidden.setAttribute('value', value);
+  }
 
   el.after(hidden);
 }
@@ -55,7 +60,7 @@ export function normalizeKeyPath(string) {
       quote ? subString.replace(reEscapeChar, '$1') : number || match
     );
 
-    return undefined;
+    return '';
   });
   return result.join('.');
 }
@@ -66,9 +71,13 @@ export function normalizeKeyPath(string) {
  * @returns {string}
  */
 export function vModelFromNode(el) {
-  if (el.getAttributeNames().includes('v-model')) {
-    return el.getAttribute('v-model');
-  } else {
-    return el.getAttribute('name');
+  const vModelName = el.getAttribute(
+    el.getAttributeNames().includes('v-model') ? 'v-model' : 'name'
+  );
+
+  if (!vModelName) {
+    throw new Error('v-model name cannot be determined from element');
   }
+
+  return normalizeKeyPath(vModelName);
 }

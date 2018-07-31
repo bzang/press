@@ -10,6 +10,19 @@ const firefoxProfileWithJavaScriptDisabled =
 
 let server;
 
+if (process.env.JS_ONLY && process.env.NO_JS) {
+  throw new Error('only one of JS_ONLY or NO_JS may be specified');
+}
+
+let js = true;
+let nojs = true;
+if (process.env.JS_ONLY) {
+  nojs = false;
+}
+if (process.env.NO_JS) {
+  js = false;
+}
+
 exports.config = {
   //
   // ==================
@@ -48,7 +61,7 @@ exports.config = {
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
   capabilities: [
-    {
+    js && {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
@@ -59,7 +72,7 @@ exports.config = {
         args: ['-headless']
       }
     },
-    {
+    nojs && {
       maxInstances: 5,
       browserName: 'firefox',
       nojs: true,
@@ -68,7 +81,7 @@ exports.config = {
         profile: firefoxProfileWithJavaScriptDisabled
       }
     }
-  ],
+  ].filter(Boolean),
   //
   // ===================
   // Test Configurations
@@ -224,7 +237,8 @@ exports.config = {
    * @param {Array.<string>} specs List of spec file paths that are to be run
    */
   before(capabilities) {
-    // @ts-ignore
+    // @ts-ignore - this file is not typechecked by the tsconfig that your
+    // editor uses, so we can't declare capabilitiies in place that picks it up
     global.capabilities = capabilities;
   },
   /**

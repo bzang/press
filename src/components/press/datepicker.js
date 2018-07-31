@@ -1,5 +1,4 @@
 import Vue from 'vue';
-// @ts-ignore - tsc isn't picking up vue files correctly
 import datepicker from '../vue/datepicker.vue';
 import {
   bindToHiddenInput,
@@ -10,17 +9,13 @@ import {
 Vue.component('datepicker', datepicker);
 
 /**
- * @param {Element|HTMLElement} el
+ * @param {HTMLElement} el
  */
 export function enhance(el) {
-  if (!(el instanceof HTMLInputElement)) {
-    return;
-  }
-
-  const vModelName = vModelFromNode(el);
+  const vModelName = normalizeKeyPath(vModelFromNode(el));
 
   // replace the v-model name with a normalized version of same.
-  el.setAttribute('v-model', normalizeKeyPath(vModelName));
+  el.setAttribute('v-model', vModelName);
 
   // Configure the element to disappear as soon as Vue takes over
   el.setAttribute('v-if', 'false');
@@ -28,7 +23,7 @@ export function enhance(el) {
   // Create a `<datepicker>` element *without a `name`* attribute for the user
   // to interact with.
   const pdp = document.createElement('datepicker');
-  pdp.setAttribute('v-model', el.getAttribute('v-model'));
+  pdp.setAttribute('v-model', vModelName);
   const value = el.getAttribute('value');
   if (value) {
     pdp.setAttribute('value', value);
@@ -47,7 +42,7 @@ export function enhance(el) {
 export function infer(root) {
   Array.from(root.querySelectorAll('input[type="date"]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
-      return;
+      throw new TypeError('PRESS can only infer HTMLElements');
     }
     const names = el.getAttributeNames();
     if (

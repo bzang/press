@@ -17,11 +17,11 @@ interface PressComponent {
  * adds additional attributes, children, or siblings to it. Typically, this
  * means adding Vue directives.
  */
-type PressComponentEnhancer = (el: Element | HTMLElement) => void;
+type PressComponentEnhancer = (el: HTMLElement) => void;
 
 /**
  * An Inferer receives a node (typically `document`) and searches its children
  * for nodes of particular criteria, then adds the appropriate `data-press`
  * attributes to those nodes.
  */
-type PressComponentInferrer = (el: Document | Element | HTMLElement) => void;
+type PressComponentInferrer = (el: Document | HTMLElement) => void;

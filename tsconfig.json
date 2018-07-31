@@ -5,7 +5,8 @@
       "dom",
       "esnext"
     ],
-    "noImplicitThis": true
+    "noImplicitAny": false,
+    "strict": true
   },
   "include": [
     "./src/**/*"

@@ -3,24 +3,24 @@ import {touch} from './touch';
 
 /**
  * Generates a data model and instantiates a Vue app at el
- * @param {HTMLElement} el
+ * @param {HTMLElement} root
  */
-export function vueify(el) {
+export function vueify(root) {
   const data = {
     isMounted: false
   };
 
-  generateModel(el, data);
-  Array.from(el.querySelectorAll('[v-model]')).forEach((el) => {
+  generateModel(root, data);
+  Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
       return;
     }
     generateModel(el, data);
   });
-  el.setAttribute(':class', '{"press-mounted": isMounted}');
+  root.setAttribute(':class', '{"press-mounted": isMounted}');
 
   new Vue({
-    el,
+    el: root,
     data,
     mounted() {
       // run on nextTick to avoid potentially showing the error divs before we
@@ -33,7 +33,7 @@ export function vueify(el) {
 }
 
 /**
- * Adds the specified element's v-model to the data mode, if it has one.
+ * Adds the specified element's v-model to the data model, if it has one.
  * @param {HTMLElement} el
  * @param {Object} data
  */

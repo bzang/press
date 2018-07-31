@@ -54,7 +54,7 @@ module.exports = {
     new LodashModuleReplacementPlugin({paths: true}),
     PROD &&
       new MiniCssExtractPlugin({
-        filename: 'style.css',
+        filename: 'press.css',
         chunkFilename: '[id].css'
       }),
     new VueLoaderPlugin()

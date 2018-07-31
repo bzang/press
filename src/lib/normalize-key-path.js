@@ -15,7 +15,7 @@ const reEscapeChar = /\\(\\)?/g;
  * @param {string} string The string to convert.
  * @returns {string} Returns the property path array.
  */
-export function stringToPath(string) {
+export function normalizeKeyPath(string) {
   const result = [];
   if (string.charCodeAt(0) === 46 /* . */) {
     result.push('');
@@ -26,7 +26,7 @@ export function stringToPath(string) {
       quote ? subString.replace(reEscapeChar, '$1') : number || match
     );
 
-    return '';
+    return undefined;
   });
   return result.join('.');
 }

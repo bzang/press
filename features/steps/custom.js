@@ -14,6 +14,8 @@ Given(
   }
 );
 
+Given('This scenario is pending', () => 'pending');
+
 Given(/^This scenario (prohibits|requires) JavaScript$/, (mode) => {
   if (mode === 'requires' && global.capabilities.nojs) {
     return 'skipped';

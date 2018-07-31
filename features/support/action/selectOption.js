@@ -1,7 +1,7 @@
 /**
  * Select an option of a select element
- * @param  {string}   selectionType  Type of method to select by (name, value or
- *                                   text)
+ * @param  {'name'|'value'|'text'}   selectionType  Type of method to select by
+ *                                                  (name, value or text)
  * @param  {string}   selectionValue Value to select by
  * @param  {string}   selectElem     Element selector
  */

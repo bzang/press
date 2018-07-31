@@ -51,6 +51,29 @@ app.use((req, res, next) => {
   next();
 });
 
+// this is a *really* silly endpoint that just returns strings of the letter
+// "a", depending on how many "a"s are sent.
+app.get('/autocomplete', (req, res, next) => {
+  if (req.accepts('html')) {
+    next();
+    return;
+  }
+
+  if (req.accepts('json')) {
+    if (!req.query.q || !req.query.q.length || !/^a+$/.test(req.query.q)) {
+      res.status(200).json([]);
+      return;
+    }
+
+    res
+      .status(200)
+      .send(['a', 'aa', 'aaa', 'aaaa', 'aaaaa'].slice(req.query.length - 1));
+    return;
+  }
+
+  res.status(406).send('This endpoint can only return HTML and JSON responses');
+});
+
 /**
  * Renders a view according the the request path.
  * @param {express.Request} req

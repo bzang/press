@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Autocomplete</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <form class="ui form column" method="POST">
+      <h3>Code Under Test</h3>
+      <input name="autocomplete[input]" <%- value('autocomplete[input]') %> data-press-component="autocomplete" data-press-autocomplete-label-path="label">
+      <button type="submit">Submit</button>
+    </form>
+    <template>
+      <table>
+        <caption>external accessors for writing assertions</caption>
+        <tr>
+          <th>Current Model Value</th>
+          <td><div id="selected-value">{{autocomplete.input}}</div></td>
+        </tr>
+        <tr>
+          <th><label for="external-input">Secondary Input</label></th>
+          <td><input id="external-input" v-model="autocomplete.input"></td>
+        </tr>
+      </table>
+    </template>
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

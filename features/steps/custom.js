@@ -84,8 +84,8 @@ When(
     );
     console.log('startMoment', startMoment.toISOString());
 
-    const clicksToStartDate = computeClicks(selectedMoment, startMoment);
-    increaseMonth(clicksToStartDate);
+    const clicksToStartMonth = computeClicks(selectedMoment, startMoment);
+    increaseMonth(clicksToStartMonth);
     clickDay(startDayString);
 
     if (endDayString && endMonthString && endYearString) {
@@ -110,16 +110,11 @@ When(/^I select day "(\d+)" of the next month$/, async (dayString) => {
 
 function computeClicks(current, target) {
   const yearClicks = 12 * (target.year() - current.year());
-  let monthClicks;
-  if (target.month() > current.month()) {
-    monthClicks = target.month() - current.month();
-  } else {
-    if (!yearClicks) {
-      throw new Error(
-        'We have not written the tooling to decrease the selected month, please only choose dates increasingly far in the future'
-      );
-    }
-    monthClicks = current.month() + target.month() - 12;
+  const monthClicks = target.month() - current.month();
+  if (target.month() < current.month() && !yearClicks) {
+    throw new Error(
+      'We have not written the tooling to decrease the selected month, please only choose dates increasingly far in the future'
+    );
   }
   return yearClicks + monthClicks;
 }

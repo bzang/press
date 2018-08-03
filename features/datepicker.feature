@@ -14,13 +14,18 @@ Feature: Date Picker
     And I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "date_picker_form.input" with a value of "2019-01-01"
 
-  Scenario: Submit a date (js disabled)
+  Scenario: Submit a date (js enabled)
     # And the HTML5 date input only accepts ISO date formatted dates
     Given This scenario requires JavaScript
     When I set "01/01/2019" to the inputfield "[name='date_picker_form[input]']:not([type=hidden]),[data-press-datepicker-input]"
     And I click on the element "body"
     And I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "date_picker_form.input" with a value of "2019-01-01"
+
+  Scenario: Submit the default range
+    Given This scenario requires JavaScript
+    When I click on the button "[type=submit]"
+    Then I expect the server received a form parameter named "date_picker_form.input" with a value matching /\d{4}-\d{2}-\d{2}/
 
   Scenario: Change the date value externally
     Given This scenario requires JavaScript

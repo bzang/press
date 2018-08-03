@@ -7,7 +7,8 @@
 <script>
 import $ from 'jquery';
 import 'daterangepicker';
-import moment from 'moment';
+import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
+import {get} from 'lodash';
 
 export default {
   props: {
@@ -17,38 +18,54 @@ export default {
     }
   },
   data() {
-    return {$$el: null};
+    return {
+      /** @type {JQuery<HTMLElement>|null} */
+      $$el: null
+    };
   },
   computed: {
     startDateFromValue() {
-      if (this.value) {
-        return moment(this.value)
-          .startOf('day')
-          .toDate();
-      }
+      return toDateRangePickerValue(get(this, 'value.start', undefined));
     },
     localeStringFromValue() {
       if (this.value) {
-        return moment(this.value)
-          .startOf('day')
-          .format('L');
+        return toLocaleString(this.value);
       }
     }
   },
   mounted() {
-    this.$$el = $(this.$el);
-    this.$$el.daterangepicker(
+    const $$el = $(this.$el);
+    this.$$el = $$el;
+
+    $$el.daterangepicker(
       {
         singleDatePicker: true,
         startDate: this.startDateFromValue
       },
       (start) => {
-        this.$emit('input', start.format('YYYY-MM-DD'));
+        this.emit(start);
       }
     );
+
+    const data = $$el.data('daterangepicker');
+    if (data) {
+      this.emit(data.startDate);
+    }
   },
   beforeDestroy() {
-    this.$$el.daterangepicker('hide').daterangepicker('destroy');
+    const {$$el} = this;
+    if ($$el) {
+      $$el.daterangepicker('hide');
+      $$el.daterangepicker('destroy');
+    }
+  },
+  methods: {
+    /**
+     * @param {moment.Moment} start
+     */
+    emit(start) {
+      this.$emit('input', start.format('YYYY-MM-DD'));
+    }
   }
 };
 </script>

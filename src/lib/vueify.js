@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import {touch} from './touch';
+import {vModelFromNode} from './vue-helpers';
 
 /**
  * Generates a data model and instantiates a Vue app at el
@@ -10,10 +11,9 @@ export function vueify(root) {
     isMounted: false
   };
 
-  generateModel(root, data);
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
-      return;
+      throw new TypeError('Only HTMLElements can be vueified');
     }
     generateModel(el, data);
   });
@@ -23,8 +23,8 @@ export function vueify(root) {
     el: root,
     data,
     mounted() {
-      // run on nextTick to avoid potentially showing the error divs before we
-      // finish initializing
+      // run on nextTick to avoid potentially showing templates before
+      // initialization complete
       this.$nextTick(() => {
         this.isMounted = true;
       });
@@ -40,13 +40,15 @@ export function vueify(root) {
 function generateModel(el, data) {
   const attributeNames = el.getAttributeNames();
 
-  const vModelName = el.getAttribute('v-model');
+  const vModelName = vModelFromNode(el);
 
   let defaultValue = null;
   if (el.nodeName.toLowerCase() === 'select') {
-    /** @type {HTMLOptionElement} */
+    /** @type {HTMLOptionElement|null} */
     const option = el.querySelector('option[selected]');
-    defaultValue = option.value;
+    if (option) {
+      defaultValue = option.value;
+    }
   } else if (attributeNames.includes('value')) {
     defaultValue = el.getAttribute('value');
   }

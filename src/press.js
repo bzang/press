@@ -3,7 +3,12 @@ import {vueify} from './lib/vueify';
 
 export class Press {
   get components() {
-    return components.get(this);
+    let comps = components.get(this);
+    if (!comps) {
+      comps = new Map();
+      components.set(this, comps);
+    }
+    return comps;
   }
 
   get logger() {
@@ -14,7 +19,6 @@ export class Press {
    * @param {{logger: Console}} options
    */
   constructor({logger = console} = {logger: console}) {
-    components.set(this, new Map());
     loggers.set(this, logger);
   }
 
@@ -39,7 +43,9 @@ export class Press {
       performance.mark(`press:infer:components:${name}:start`);
       logger.info(`Inferring ${name}`);
 
-      component.infer(document);
+      if (component.infer) {
+        component.infer(document);
+      }
 
       logger.info(`Inferred ${name}`);
       performance.mark(`press:infer:components:${name}:end`);
@@ -59,7 +65,12 @@ export class Press {
     logger.info('Enhancing components');
 
     Array.from(document.querySelectorAll('[data-press-component]')).forEach(
-      (el) => this.enhanceComponent(el)
+      (el) => {
+        if (!(el instanceof HTMLElement)) {
+          throw new TypeError('Only HTMLElements can be enhanced by PRESS');
+        }
+        this.enhanceComponent(el);
+      }
     );
 
     logger.info('Enhanced components');
@@ -68,15 +79,23 @@ export class Press {
 
   /**
    * Enhances the specified element
-   * @param {Element|HTMLElement} el
+   * @param {HTMLElement} el
    * @private
    */
   enhanceComponent(el) {
-    if (!(el instanceof HTMLElement)) {
+    if (el.matches('[data-press-component] [data-press-component]')) {
+      logger.info(
+        'Element is a child of another press component, not enhancing'
+      );
       return;
     }
     logger.info('Enhancing component');
     const componentName = el.dataset.pressComponent;
+    if (!componentName) {
+      throw new Error(
+        'Cannot enhanced a component that does not specify its component type'
+      );
+    }
     logger.info(`Finding enhancer for ${componentName}`);
     const component = this.components.get(componentName);
     if (!component) {
@@ -102,7 +121,7 @@ export class Press {
     Array.from(document.querySelectorAll('[data-press-app]')).forEach(
       (root) => {
         if (!(root instanceof HTMLElement)) {
-          return;
+          throw new TypeError('PRESS may only be activated on HTMLElements');
         }
         vueify(root);
       }

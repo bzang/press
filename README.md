@@ -23,6 +23,7 @@
     -   [Entrypoints](#entrypoints)
 -   [Usage](#usage)
     -   [Interactive Pages](#interactive-pages)
+    -   [Components](#components)
 -   [How It Works](#how-it-works)
 -   [Testing](#testing)
 -   [Maintainer](#maintainer)

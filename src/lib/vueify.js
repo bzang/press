@@ -11,7 +11,6 @@ export function vueify(root) {
     isMounted: false
   };
 
-  generateModel(root, data);
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
       throw new TypeError('Only HTMLElements can be vueified');

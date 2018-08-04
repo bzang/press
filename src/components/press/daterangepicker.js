@@ -1,3 +1,4 @@
+import {v4 as uuid} from 'uuid';
 import Vue from 'vue';
 import daterangepicker from '../vue/daterangepicker.vue';
 import {
@@ -5,6 +6,7 @@ import {
   normalizeKeyPath,
   vModelFromNode
 } from '../../lib/vue-helpers';
+const {logger} = require('../../lib/logger');
 
 Vue.component('daterangepicker', daterangepicker);
 
@@ -25,24 +27,21 @@ export function enhance(el) {
   const startAttrs = findParameters(el, startEl);
   const endAttrs = findParameters(el, endEl);
 
-  const baseModelName = findModelBaseName(startAttrs, endAttrs);
+  const baseModelName = normalizeParameters(startAttrs, endAttrs);
 
   el.setAttribute('v-if', 'false');
   bindToHiddenInput(el, startAttrs);
   bindToHiddenInput(el, endAttrs);
 
-  const startKey = startAttrs.vModel.replace(`${baseModelName}.`, '');
-  const endKey = endAttrs.vModel.replace(`${baseModelName}.`, '');
-
   const drp = document.createElement('daterangepicker');
   drp.setAttribute('v-model', baseModelName);
-  drp.setAttribute('start-key', startKey);
-  drp.setAttribute('end-key', endKey);
+  drp.setAttribute('start-key', startAttrs.key);
+  drp.setAttribute('end-key', endAttrs.key);
   drp.setAttribute(
     'value',
     JSON.stringify({
-      [startKey]: startAttrs.value,
-      [endKey]: endAttrs.value
+      [startAttrs.key]: startAttrs.value,
+      [endAttrs.key]: endAttrs.value
     })
   );
   el.after(drp);
@@ -72,11 +71,8 @@ function findModelBaseName(startAttrs, endAttrs) {
   }
 
   if (!intersection.length) {
-    throw new Error(
-      `start and end date elements do not share a common base name; could not determine model for ${
-        startAttrs.vModel
-      } and ${endAttrs.vModel}`
-    );
+    logger.warn('start and end date elements do not share a common base name.');
+    return '';
   }
 
   return intersection.join('.');
@@ -85,11 +81,12 @@ function findModelBaseName(startAttrs, endAttrs) {
 /**
  * @typedef {Object} DateRangePickerInputAttributes
  * @property {string|null} id
+ * @property {string} key
  * @property {string|null} label
- * @property {string} vModel
  * @property {string} name
  * @property {string|null} placeholder
  * @property {string|null} value
+ * @property {string} vModel
  */
 
 /**
@@ -117,12 +114,34 @@ function findParameters(el, input) {
 
   return {
     id,
+    key: '',
     label,
     vModel,
     name,
     placeholder,
     value
   };
+}
+
+/**
+ *
+ * @param {DateRangePickerInputAttributes} startAttrs
+ * @param {DateRangePickerInputAttributes} endAttrs
+ * @returns {string} - the baseModelName
+ */
+function normalizeParameters(startAttrs, endAttrs) {
+  let baseModelName = findModelBaseName(startAttrs, endAttrs);
+  if (baseModelName) {
+    startAttrs.key = startAttrs.vModel.replace(`${baseModelName}.`, '');
+    endAttrs.key = endAttrs.vModel.replace(`${baseModelName}.`, '');
+  } else {
+    baseModelName = `daterangepicker-${uuid()}`.replace(/-/g, '_');
+    startAttrs.key = startAttrs.vModel;
+    startAttrs.vModel = `${baseModelName}.${startAttrs.vModel}`;
+    endAttrs.key = endAttrs.vModel;
+    endAttrs.vModel = `${baseModelName}.${endAttrs.vModel}`;
+  }
+  return baseModelName;
 }
 
 export const name = 'daterangepicker';

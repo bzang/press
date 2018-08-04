@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Date Range Picker</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <form class="ui form column" method="POST">
+      <h3>Code Under Test</h3>
+      <div class="two fields" data-press-component="daterangepicker">
+        <div class="column">
+          <label for="start_date">Start date</label>
+          <input id="start_date" name="start_date" type="date" <%- value("start_date") %>>
+        </div>
+        <div class="column">
+          <label for="end_date">End date</label>
+          <input id="end_date" name="end_date" type="date" <%- value("end_date") %>>
+        </div>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

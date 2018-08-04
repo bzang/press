@@ -80,3 +80,32 @@ Feature: Date Range Picker
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-01-02"
     And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-01-03"
+
+  Scenario: Submit a date range (js enabled) (unnested input names)
+    Given This scenario requires JavaScript
+    And I open the site "/daterangepicker-unnested"
+    When I click on the element "[data-press-daterangepicker-input]"
+    And I select day "1" of the month "March" of the year "2019" and day "2" of the month "April" of the year "2019"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "03/01/2019 - 04/02/2019"
+    When I click on the button "[type=submit]"
+    Then I expect the server received a form parameter named "start_date" with a value of "2019-03-01"
+    And I expect the server received a form parameter named "end_date" with a value of "2019-04-02"
+
+  Scenario: Submit the default date range (unnested input names)
+    Given This scenario requires JavaScript
+    And I open the site "/daterangepicker-unnested"
+    When I click on the button "[type=submit]"
+    Then I expect the server received a form parameter named "start_date" with a value matching /\d{4}-\d{2}-\d{2}/
+    And I expect the server received a form parameter named "end_date" with a value matching /\d{4}-\d{2}-\d{2}/
+
+  Scenario: Select and change a date range (unnested input names)
+    Given This scenario requires JavaScript
+    And I open the site "/daterangepicker-unnested"
+    When I click on the element "[data-press-daterangepicker-input]"
+    And I select day "1" of the month "January" of the year "2019" and day "2" of the month "February" of the year "2019"
+    And I click on the element "[data-press-daterangepicker-input]"
+    And I select day "1" of the month "March" of the year "2019" and day "2" of the month "April" of the year "2019"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "03/01/2019 - 04/02/2019"
+    When I click on the button "[type=submit]"
+    Then I expect the server received a form parameter named "start_date" with a value of "2019-03-01"
+    And I expect the server received a form parameter named "end_date" with a value of "2019-04-02"

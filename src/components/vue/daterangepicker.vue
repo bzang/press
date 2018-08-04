@@ -68,8 +68,6 @@ export default {
     const $$el = $(this.$el);
     this.$$el = $$el;
 
-    console.log(this.startDateFromValue);
-    console.log(this.endDateFromValue);
     $$el.daterangepicker(
       {
         autoApply: true,

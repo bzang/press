@@ -16,11 +16,15 @@ if (process.env.JS_ONLY && process.env.NO_JS) {
 
 let js = true;
 let nojs = true;
+let headless = true;
 if (process.env.JS_ONLY) {
   nojs = false;
 }
 if (process.env.NO_JS) {
   js = false;
+}
+if (process.env.NO_HEADLESS) {
+  headless = false;
 }
 
 exports.config = {
@@ -69,7 +73,7 @@ exports.config = {
       //
       browserName: 'firefox',
       'moz:firefoxOptions': {
-        args: ['-headless']
+        args: [headless && '-headless'].filter(Boolean)
       }
     },
     nojs && {
@@ -77,7 +81,7 @@ exports.config = {
       browserName: 'firefox',
       nojs: true,
       'moz:firefoxOptions': {
-        args: ['-headless'],
+        args: [headless && '-headless'].filter(Boolean),
         profile: firefoxProfileWithJavaScriptDisabled
       }
     }

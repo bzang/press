@@ -67,7 +67,15 @@ app.get('/autocomplete', (req, res, next) => {
 
     res
       .status(200)
-      .send(['a', 'aa', 'aaa', 'aaaa', 'aaaaa'].slice(req.query.length - 1));
+      .send(
+        [
+          {label: 'a'},
+          {label: 'aa'},
+          {label: 'aaa'},
+          {label: 'aaaa'},
+          {label: 'aaaaa'}
+        ].slice(req.query.q.length - 1)
+      );
     return;
   }
 

@@ -27,6 +27,15 @@ Given(/^This scenario (prohibits|requires) JavaScript$/, (mode) => {
 });
 
 Then(
+  /^I expect an autocomplete popup with "(.+)" (?:entry|entries)$/,
+  (count) => {
+    browser.waitForVisible('.results .result');
+    const elements = browser.elements('.results .result').value;
+    assert.lengthOf(elements, count);
+  }
+);
+
+Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {
     console.log({name, value, pattern});
@@ -108,6 +117,21 @@ When(
 When(/^I select day "(\d+)" of the next month$/, async (dayString) => {
   $('.daterangepicker .next').click();
   clickDay(dayString);
+});
+
+When(/^I select the autocomplete option with the text "(.+)"$/, (text) => {
+  const xpath = `.//*[text() = '${text}']`;
+  const {value: elements} = browser.element('.results').elements(xpath);
+
+  if (elements.length === 0) {
+    throw new Error(`Could not locate element with XPath ${xpath}`);
+  }
+
+  if (elements.length > 1) {
+    throw new Error(`More than one element matched XPath ${xpath}`);
+  } else {
+    browser.elementIdClick(elements[0].ELEMENT);
+  }
 });
 
 function computeClicks(current, target) {

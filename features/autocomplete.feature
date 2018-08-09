@@ -54,7 +54,6 @@ Feature: Date Picker
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 
   Scenario: Select autocomplete with keyboard
-    Given This scenario is pending
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "[name='autocomplete[input]']"
     When I click on the element "[name='autocomplete[input]']"

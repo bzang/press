@@ -35,7 +35,7 @@ When(/^I set a cookie "([^"]*)?" with the content "([^"]*)?"$/, setCookie);
 
 When(/^I delete the cookie "([^"]*)?"$/, deleteCookie);
 
-When(/^I press "([^"]*)?" in "([^"]*)?"$/, pressButton);
+When(/^I press "([^"]*)?"(?: in "([^"]*)?")?$/, pressButton);
 
 When(/^I (accept|dismiss) the (alertbox|confirmbox|prompt)$/, handleModal);
 

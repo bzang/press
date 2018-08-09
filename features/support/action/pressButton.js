@@ -13,6 +13,10 @@ module.exports = (key, selector) => {
     );
   }
 
+  if (!selector) {
+    selector = ':focus';
+  }
+
   browser.addValue(selector, keyCode);
 };
 

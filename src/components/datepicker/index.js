@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import datepicker from '../vue/datepicker.vue';
+import datepicker from './datepicker.vue';
 import {
   bindToHiddenInput,
   normalizeKeyPath,

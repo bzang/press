@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import autocomplete from '../vue/autocomplete-controller.vue';
+import autocomplete from './autocomplete-controller.vue';
 import {normalizeKeyPath, vModelFromNode} from '../../lib/vue-helpers';
 
 Vue.component('autocomplete', autocomplete);

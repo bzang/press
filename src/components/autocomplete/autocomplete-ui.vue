@@ -43,7 +43,7 @@
 
 <script>
 import {v4 as uuid} from 'uuid';
-import {keyName} from './keys';
+import {keyName} from '../../lib/keys';
 
 export default {
   inheritAttrs: false,

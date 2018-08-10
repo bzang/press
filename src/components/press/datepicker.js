@@ -24,6 +24,8 @@ export function enhance(el) {
   // to interact with.
   const pdp = document.createElement('datepicker');
   pdp.setAttribute('v-model', vModelName);
+  pdp.setAttribute('class', el.getAttribute('class') || '');
+
   const value = el.getAttribute('value');
   if (value) {
     pdp.setAttribute('value', value);

@@ -84,3 +84,7 @@ rules:
   prefer-rest-params: error
   prefer-spread: error
   prefer-template: error
+
+settings:
+  polyfills:
+    - fetch

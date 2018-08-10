@@ -34,6 +34,7 @@ export function enhance(el) {
   bindToHiddenInput(el, endAttrs);
 
   const drp = document.createElement('daterangepicker');
+  drp.setAttribute('class', el.getAttribute('class') || '');
   drp.setAttribute('v-model', baseModelName);
   drp.setAttribute('start-key', startAttrs.key);
   drp.setAttribute('end-key', endAttrs.key);

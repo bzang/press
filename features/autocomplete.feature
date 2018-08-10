@@ -6,7 +6,8 @@ Feature: Date Picker
 
   Scenario: Submit a search string
     When I set "example" to the inputfield "[name='autocomplete[input]']"
-    And I press "Tab" in "[name='autocomplete[input]']"
+    And I click on the element "[name='autocomplete[input]']"
+    And I press "Tab"
     And I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "example"
 
@@ -53,15 +54,14 @@ Feature: Date Picker
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 
   Scenario: Select autocomplete with keyboard
-    Given This scenario is pending
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "[name='autocomplete[input]']"
     When I click on the element "[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "5" entries
-    When I press "Down" in ""
-    And I press "Down" in ""
-    And I press "Down" in ""
-    And I press "Enter" in ""
+    When I press "Down"
+    And I press "Down"
+    And I press "Down"
+    And I press "Enter"
     Then I expect that element "[name='autocomplete[input]']" contains the text "aaa"
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"

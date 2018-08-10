@@ -1,6 +1,7 @@
 <template>
   <div class="ui search">
     <input
+      ref="input"
       :aria-owns="ariaResultsId"
       :aria-expanded="showResultsList"
       :value="value"
@@ -23,12 +24,14 @@
       </template>
       <template v-if="results && results.length > 0">
         <a
-          v-for="result in results"
+          v-for="(result, index) in results"
           :key="result"
+          :ref="index"
           class="result"
           role="option"
           tabindex="0"
-          @click="chooseValueFromList(result)">
+          @click="chooseValueFromList(result)"
+          @keydown="onListItemKeyDown">
           <div class="content">
             <div class="title">{{ result }}</div>
           </div>
@@ -40,6 +43,7 @@
 
 <script>
 import {v4 as uuid} from 'uuid';
+import {keyName} from './keys';
 
 export default {
   inheritAttrs: false,
@@ -62,7 +66,9 @@ export default {
       ariaResultsId: uuid().replace(/-/g, '_'),
       focused: false,
       nextValue: '',
-      value: this.initialValue
+      selected: null,
+      value: this.initialValue,
+      lastUserInput: ''
     };
   },
   computed: {
@@ -75,46 +81,93 @@ export default {
   watch: {
     initialValue() {
       this.value = this.initialValue;
+    },
+    selected(current, previous) {
+      if (current !== null) {
+        this.value = this.results[current];
+        const next = this.$refs[current];
+        if (Array.isArray(next)) {
+          if (next[0]) {
+            next[0].focus();
+          }
+        } else {
+          next.focus();
+        }
+        if (previous === null) {
+          this.lastUserInput = this.value;
+        }
+      } else {
+        this.value = this.lastUserInput;
+      }
     }
   },
   methods: {
+    chooseValue(value) {
+      this.value = value;
+      this.lastUserInput = value;
+      this.$emit('choose', value);
+      this.focused = false;
+      this.selected = null;
+    },
+    chooseValueFromInput() {
+      this.chooseValue(this.value);
+    },
+    chooseValueFromList(value) {
+      this.chooseValue(value);
+    },
+    focusInput() {
+      this.$refs.input.focus();
+      this.selected = null;
+    },
+    onFocus() {
+      this.focused = true;
+      this.selected = null;
+    },
     onInput(event) {
       this.value = event.target.value;
       this.nextValue = '';
     },
-    onFocus() {
-      this.focused = true;
+    onListItemKeyDown(event) {
+      switch (keyName(event, true)) {
+        case 'Tab':
+          this.chooseValueFromInput();
+          break;
+        case 'ArrowUp':
+          this.selectPreviousItem();
+          break;
+        case 'ArrowDown':
+          this.selectNextItem();
+          break;
+        case 'Enter':
+          this.chooseValueFromInput();
+          break;
+      }
     },
     onKeyDown(event) {
-      if (isTab(event)) {
-        this.chooseValueFromInput(this.value);
+      switch (keyName(event, true)) {
+        case 'Tab':
+          this.chooseValueFromInput();
+          return;
+        case 'ArrowDown':
+          this.selected = 0;
+          return;
       }
     },
     onKeyUp(event) {
       this.$emit('type', event.target.value);
     },
-    chooseValue(value) {
-      this.value = value;
-      this.$emit('choose', value);
-      this.focused = false;
+    selectNextItem() {
+      if (this.selected + 1 < this.results.length) {
+        this.selected += 1;
+      }
     },
-    chooseValueFromInput(value) {
-      this.chooseValue(value);
-    },
-    chooseValueFromList(value) {
-      this.chooseValue(value);
+    selectPreviousItem() {
+      if (this.selected === 0) {
+        this.selected = null;
+      } else {
+        this.selected -= 1;
+      }
     }
   }
 };
-function isTab(event) {
-  if (event.code && event.code === 'Tab') {
-    return true;
-  }
-
-  if (String.fromCharCode(event.keyCode) === '\t') {
-    return true;
-  }
-
-  return false;
-}
 </script>

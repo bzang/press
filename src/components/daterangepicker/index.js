@@ -1,6 +1,6 @@
 import {v4 as uuid} from 'uuid';
 import Vue from 'vue';
-import daterangepicker from '../vue/daterangepicker.vue';
+import daterangepicker from './daterangepicker.vue';
 import {
   bindToHiddenInput,
   normalizeKeyPath,

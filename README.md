@@ -297,7 +297,9 @@ most everything in `./features/support` are taken pretty much directly from the
 
 ## Contribute
 
-PRs Welcome
+PRs Welcome.
+
+You can use `npm run plop -- component` to scaffold out a new PRESS component.
 
 ## License
 

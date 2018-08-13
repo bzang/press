@@ -40,7 +40,6 @@ Then(
 Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {
-    console.log({name, value, pattern});
     const req = JSON.parse(
       browser
         .elements('#last-req')

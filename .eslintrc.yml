@@ -13,10 +13,9 @@ extends:
 overrides:
   - files:
       - "src/**/*.js"
+      - "src/**/*.vue"
     env:
       browser: true
-    rules:
-      no-console: error
 
   - files:
       - "features/**/*.js"
@@ -68,10 +67,6 @@ rules:
       requireReturnType: true
       requireParamDescription: false
       requireReturnDescription: false
-
-  # lazies
-  no-console:
-    - off
 
   # force es6 behaviors
   no-template-curly-in-string: error

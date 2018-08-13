@@ -102,6 +102,7 @@ app.use(errorHandler());
 
 if (require.main === module) {
   app.listen(process.env.PORT, () => {
+    // eslint-disable-next-line no-console
     console.log(`Your app is listening on port ${process.env.PORT}`);
   });
 } else {

@@ -35,6 +35,8 @@ jobs:
 
   test:
     docker: *docker
+    environment:
+      PORT: 4000
     steps: *steps
 
   release:
@@ -59,12 +61,14 @@ workflows:
   build:
     jobs:
       - lint
-      - test
-      - release:
-          context: semantic-release
-          filters:
-            branches:
-              only: master
-          requires:
-            - test
-            - lint
+      - test:
+          context: browser-testing
+      # disabling release until we're ready to release 1.0
+      # - release:
+      #     context: semantic-release
+      #     filters:
+      #       branches:
+      #         only: master
+      #     requires:
+      #       - test
+      #       - lint

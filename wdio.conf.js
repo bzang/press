@@ -65,26 +65,51 @@ exports.config = {
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
   capabilities: [
-    js && {
-      // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-      // grid with only 5 firefox instances available you can make sure that not more than
-      // 5 instances get started at a time.
-      maxInstances: 5,
-      //
-      browserName: 'firefox',
-      'moz:firefoxOptions': {
-        args: [headless && '-headless'].filter(Boolean)
-      }
+    CI && {
+      browserName: 'MicrosoftEdge',
+      version: 'latest'
     },
-    nojs && {
-      maxInstances: 5,
+    CI && {
+      browserName: 'internet explorer',
+      version: '11'
+    },
+    CI && {
+      browserName: 'safari',
+      version: '11'
+    },
+    CI && {
+      browserName: 'safari',
+      version: '10'
+    },
+    CI && {
+      browserName: 'chrome',
+      version: 'latest'
+    },
+    CI && {
       browserName: 'firefox',
-      nojs: true,
-      'moz:firefoxOptions': {
-        args: [headless && '-headless'].filter(Boolean),
-        profile: firefoxProfileWithJavaScriptDisabled
+      version: 'latest'
+    },
+    CI && {
+      browserName: 'firefox',
+      version: 'latest',
+      profile: firefoxProfileWithJavaScriptDisabled
+    },
+    !CI &&
+      js && {
+        browserName: 'firefox',
+        'moz:firefoxOptions': {
+          args: [headless && '-headless'].filter(Boolean)
+        }
+      },
+    !CI &&
+      nojs && {
+        browserName: 'firefox',
+        nojs: true,
+        'moz:firefoxOptions': {
+          args: [headless && '-headless'].filter(Boolean),
+          profile: firefoxProfileWithJavaScriptDisabled
+        }
       }
-    }
   ].filter(Boolean),
   //
   // ===================
@@ -156,6 +181,11 @@ exports.config = {
     !CI && 'selenium-standalone',
     'screenshots-cleanup'
   ].filter(Boolean),
+  reporterOptions: {
+    junit: {
+      outputDir: './reports/cucumber'
+    }
+  },
   //
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -206,10 +236,21 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @returns {Promise<void>}
    */
-  onPrepare() {
+  onPrepare(config, capabilities) {
     mkdirp.sync(path.resolve(__dirname, 'reports', 'screenshots'));
     if (process.env.NO_SERVE) {
       return;
+    }
+
+    if (CI) {
+      const build =
+        process.env.CIRCLE_BUILD_NUM ||
+        `local-${process.env.USER}-wdio-${Date.now()}`;
+
+      capabilities.forEach((cap) => {
+        cap.build = build;
+        cap.base = 'SauceLabs';
+      });
     }
 
     return new Promise((resolve) => {
@@ -337,3 +378,11 @@ exports.config = {
     });
   }
 };
+
+if (CI) {
+  Object.assign(exports.config, {
+    user: process.env.SAUCE_USERNAME,
+    key: process.env.SAUCE_ACCESS_KEY,
+    sauceConnect: true
+  });
+}

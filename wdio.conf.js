@@ -198,7 +198,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: http://webdriver.io/guide/reporters/dot.html
-  reporters: [CI && 'dot', !CI && 'spec', 'junit'].filter(Boolean),
+  reporters: [CI && 'dot', 'spec', 'junit'].filter(Boolean),
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {

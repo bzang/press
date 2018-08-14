@@ -163,7 +163,7 @@ export default {
       this.$emit('type', event.target.value);
     },
     selectNextItem() {
-      if (this.selected + 1 < this.results.length) {
+      if (this.results && this.selected + 1 < this.results.length) {
         this.selected += 1;
       }
     },

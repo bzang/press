@@ -32,7 +32,7 @@
           role="option"
           tabindex="0"
           @click="chooseValueFromList(result)"
-          @keydown="onListItemKeyDown">
+          @keydown.prevent="onListItemKeyDown">
           <div class="content">
             <div class="title">{{ result }}</div>
           </div>

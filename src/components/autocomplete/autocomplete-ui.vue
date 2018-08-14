@@ -2,11 +2,12 @@
   <div class="ui search">
     <input
       ref="input"
-      :aria-owns="ariaResultsId"
+      :aria-owns="ariaComputedResultsId"
       :aria-expanded="showResultsList"
       :value="value"
       v-bind="$attrs"
       autocomplete="off"
+      role="listbox"
       @input="onInput"
       @focus="onFocus"
       @keyup="onKeyUp"
@@ -14,8 +15,8 @@
     >
     <div
       :class="{visible: showResultsList}"
-      class="results transition"
-      role="listbox">
+      :id="ariaComputedResultsId"
+      class="results transition">
       <template v-if="results && results.length === 0">
         <div class="message empty">
           <div class="header">No Results</div>
@@ -76,6 +77,11 @@ export default {
       return (
         this.focused && this.value && this.value.length > 0 && !!this.results
       );
+    },
+    ariaComputedResultsId() {
+      if (this.showResultsList) {
+        return this.ariaResultsId;
+      }
     }
   },
   watch: {

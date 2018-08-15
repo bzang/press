@@ -10,6 +10,20 @@ import 'daterangepicker';
 import {get} from 'lodash';
 
 import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
 
 export default {
   props: {
@@ -74,7 +88,9 @@ export default {
       {
         autoApply: true,
         startDate: this.startDateFromValue,
-        endDate: this.endDateFromValue
+        endDate: this.endDateFromValue,
+        minDate: toDateRangePickerValue(new Date()),
+        locale: {monthNames}
       },
       (start, end) => {
         this.emit(start, end);

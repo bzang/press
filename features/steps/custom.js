@@ -2,9 +2,11 @@ const _ = require('lodash');
 const {Given, Then, When} = require('cucumber');
 const {assert} = require('chai');
 const moment = require('moment');
-const openWebsite = require('../support/action/openWebsite');
-
 const checkTitle = require('../support/check/checkTitle');
+const openWebsite = require('../support/action/openWebsite');
+const setInputField = require('../support/action/setInputField');
+
+const ISO_FORMAT = 'YYYY-MM-DD';
 
 Given(
   /^I open the (url|site) "([^"]*)?" with inputfield "(.+)" set to "(.+)"$/,
@@ -55,6 +57,39 @@ Then(
 );
 
 Then(
+  /^I expect the server received an iso date named "(.+)"(?: of "(.+)", "(.+)" of next year)?$/,
+  (name, month, date) => {
+    const req = JSON.parse(
+      browser
+        .elements('#last-req')
+        .getText()
+        .trim()
+    );
+    assert.nestedProperty(req.body, name);
+
+    if (month && date) {
+      const targetDate = momentFromMonthDateNextYear(month, date);
+      assert.nestedPropertyVal(req.body, name, targetDate.format(ISO_FORMAT));
+    } else {
+      assert.match(_.get(req.body, name), /\d{4}-\d{2}-\d{2}/);
+    }
+  }
+);
+
+Then(
+  /^I expect that element "(.+)" contains the (iso date|formatted date) matching next year's "(.+)", "(.+)"$/,
+  (selector, type, month, date) => {
+    const el = browser.elements(selector);
+    const text = (el.getValue() || el.getText() || '').trim();
+    const targetDate = momentFromMonthDateNextYear(month, date);
+    assert.equal(
+      text,
+      targetDate.format(type === 'iso date' ? ISO_FORMAT : 'L')
+    );
+  }
+);
+
+Then(
   'I expect that the title indicates if this browser supports JavaScript',
   () => {
     const title = global.capabilities.nojs
@@ -65,52 +100,13 @@ Then(
 );
 
 When(
-  /^I select day "(\d+)" of the month "(.+?)" of the year "(\d\d\d\d)"(?: and day "(\d+)" of the month "(.+?)" of the year "(\d\d\d\d)")?$/,
-  async (
-    startDayString,
-    startMonthString,
-    startYearString,
-    endDayString,
-    endMonthString,
-    endYearString
-  ) => {
-    const [selectedMonthString, selectedYearString] = browser
-      .element('.drp-calendar.left .month')
-      .getText()
-      .split(' ');
-
-    console.log('selected strings', selectedMonthString, selectedYearString);
-
-    const selectedMoment = stringsToMoment(
-      selectedYearString,
-      selectedMonthString,
-      '1'
-    );
-
-    console.log('selectedMoment', selectedMoment.toISOString());
-    const startMoment = stringsToMoment(
-      startYearString,
-      startMonthString,
-      startDayString
-    );
-    console.log('startMoment', startMoment.toISOString());
-
+  /^I select day "(.+)" of the month "(.+)" of next year$/,
+  (date, month) => {
+    const selectedMoment = getSelectedMoment();
+    const startMoment = momentFromMonthDateNextYear(month, date);
     const clicksToStartMonth = computeClicks(selectedMoment, startMoment);
     increaseMonth(clicksToStartMonth);
-    clickDay(startDayString);
-
-    if (endDayString && endMonthString && endYearString) {
-      const endMoment = stringsToMoment(
-        endYearString,
-        endMonthString,
-        endDayString
-      );
-      console.log('endMoment', endMoment.toISOString());
-
-      const clicksToEndMonth = computeClicks(startMoment, endMoment);
-      increaseMonth(clicksToEndMonth);
-      clickDay(endDayString);
-    }
+    clickDay(date);
   }
 );
 
@@ -133,6 +129,28 @@ When(/^I select the autocomplete option with the text "(.+)"$/, (text) => {
     browser.elementIdClick(elements[0].ELEMENT);
   }
 });
+
+When(
+  /^I set "(.+)", "(.+)" of next year to the (date|text) input "(.+)"$/,
+  (month, date, type, selector) => {
+    const targetDate = momentFromMonthDateNextYear(month, date);
+
+    if (type === 'date') {
+      setInputField('set', targetDate.format(ISO_FORMAT), selector);
+    } else if (type === 'text') {
+      setInputField('set', targetDate.format('L'), selector);
+    } else {
+      throw new Error('type must be "date" or "text"');
+    }
+  }
+);
+
+function momentFromMonthDateNextYear(month, date) {
+  return moment()
+    .month(month)
+    .date(date)
+    .year(moment().year() + 1);
+}
 
 function computeClicks(current, target) {
   const yearClicks = 12 * (target.year() - current.year());
@@ -181,4 +199,19 @@ function clickDay(dayString) {
   } else {
     browser.elementIdClick(elements[0].ELEMENT);
   }
+}
+
+function getSelectedMoment() {
+  const [selectedMonthString, selectedYearString] = browser
+    .element('.drp-calendar.left .month')
+    .getText()
+    .split(' ');
+
+  const selectedMoment = stringsToMoment(
+    selectedYearString,
+    selectedMonthString,
+    '1'
+  );
+
+  return selectedMoment;
 }

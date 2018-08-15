@@ -12,8 +12,8 @@ Feature: Date Range Picker
     # need to click somewhere to unfocus the fancy datepicker
     And I click on the element "body"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "April", "2" of next year
 
   Scenario: Submit a date range (js enabled)
     Given This scenario requires JavaScript
@@ -23,8 +23,8 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "April", "2" of next year
 
   Scenario: Submit the default date range
     Given This scenario requires JavaScript
@@ -43,8 +43,8 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "April", "2" of next year
 
   Scenario: Submit a prefilled date range
     Given This scenario requires JavaScript
@@ -53,8 +53,8 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-01-01"
     And I expect that element "#external-input-end" contains the text "2019-02-01"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-01-01"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-02-01"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "January", "1" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "February", "1" of next year
 
   Scenario: Change and submit a prefilled date range
     Given This scenario requires JavaScript
@@ -65,8 +65,8 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     And I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "April", "2" of next year
 
   Scenario: Change the model backing a date range
     Given This scenario requires JavaScript
@@ -78,8 +78,8 @@ Feature: Date Range Picker
     When I set "2019-01-02" to the inputfield "#external-input-start"
     When I set "2019-01-03" to the inputfield "#external-input-end"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "date_rangepicker_form.start_date" with a value of "2019-01-02"
-    And I expect the server received a form parameter named "date_rangepicker_form.end_date" with a value of "2019-01-03"
+    Then I expect the server received an iso date named "date_rangepicker_form.start_date" of "January", "2" of next year
+    And I expect the server received an iso date named "date_rangepicker_form.end_date" of "January", "3" of next year
 
   Scenario: Submit a date range (js enabled) (unnested input names)
     Given This scenario requires JavaScript
@@ -88,8 +88,8 @@ Feature: Date Range Picker
     And I select day "1" of the month "March" of the year "2019" and day "2" of the month "April" of the year "2019"
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "03/01/2019   →   04/02/2019"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "end_date" of "April", "2" of next year
 
   Scenario: Submit the default date range (unnested input names)
     Given This scenario requires JavaScript
@@ -107,5 +107,5 @@ Feature: Date Range Picker
     And I select day "1" of the month "March" of the year "2019" and day "2" of the month "April" of the year "2019"
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "03/01/2019   →   04/02/2019"
     When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "start_date" with a value of "2019-03-01"
-    And I expect the server received a form parameter named "end_date" with a value of "2019-04-02"
+    Then I expect the server received an iso date named "start_date" of "March", "1" of next year
+    And I expect the server received an iso date named "end_date" of "April", "2" of next year

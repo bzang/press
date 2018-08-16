@@ -100,13 +100,22 @@ Then(
 );
 
 When(
-  /^I select day "(.+)" of the month "(.+)" of next year$/,
-  (date, month) => {
+  /^I select day "(\d+)" of the month "(\w+)" of next year(?: and day "(\d+)" of the month "(\w+)" of next year)?$/,
+  (date, month, endDate, endMonth) => {
+    console.log({date, month, endDate, endMonth});
     const selectedMoment = getSelectedMoment();
     const startMoment = momentFromMonthDateNextYear(month, date);
     const clicksToStartMonth = computeClicks(selectedMoment, startMoment);
     increaseMonth(clicksToStartMonth);
     clickDay(date);
+
+    if (endDate && endMonth) {
+      const endMoment = momentFromMonthDateNextYear(endMonth, endDate);
+
+      const clicksToEndMonth = computeClicks(startMoment, endMoment);
+      increaseMonth(clicksToEndMonth);
+      clickDay(endDate);
+    }
   }
 );
 

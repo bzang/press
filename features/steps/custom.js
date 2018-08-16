@@ -101,7 +101,6 @@ Then(
 When(
   /^I select day "(\d+)" of the month "(\w+)" of next year(?: and day "(\d+)" of the month "(\w+)" of next year)?$/,
   (date, month, endDate, endMonth) => {
-    console.log({date, month, endDate, endMonth});
     const selectedMoment = getSelectedMoment();
     const startMoment = momentFromMonthDateNextYear(month, date);
     const clicksToStartMonth = computeClicks(selectedMoment, startMoment);

@@ -1,15 +1,20 @@
 import {Press} from './press';
+// PLOP: START COMPONENT IMPORT
 import Autocomplete from './components/autocomplete';
 import Datepicker from './components/datepicker';
 import Daterangepicker from './components/daterangepicker';
+// PLOP: END COMPONENT IMPORT
 import {logger} from './lib/logger';
 
 export const press = new Press({logger});
 
 performance.mark('press:register:components:start');
+// PLOP: START COMPONENT REGISTRATION
 press.registerComponent(new Autocomplete({logger}));
 press.registerComponent(new Datepicker({logger}));
 press.registerComponent(new Daterangepicker({logger}));
+// PLOP: END COMPONENT REGISTRATION
+
 performance.mark('press:register:components:end');
 
 if (process.env.BUILD_TARGET === 'cdn' || process.env.AUTORUN) {

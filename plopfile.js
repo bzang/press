@@ -12,13 +12,27 @@ module.exports = function(plop) {
     actions: [
       {
         type: 'add',
-        path: 'src/components/{{name}}/index.js',
+        path: 'src/components/{{kebabCase name}}/index.js',
         templateFile: 'plop-templates/components/js.hbs'
       },
       {
         type: 'add',
-        path: 'src/components/{{name}}/{{name}}.vue',
+        path: 'src/components/{{kebabCase name}}/{{kebabCase name}}.vue',
         templateFile: 'plop-templates/components/vue.hbs'
+      },
+      {
+        type: 'modify',
+        path: 'src/index.js',
+        pattern: /(\/\/ PLOP: END COMPONENT REGISTRATION)/gi,
+        template:
+          'press.registerComponent(new {{pascalCase name}}({logger}));\n$1'
+      },
+      {
+        type: 'modify',
+        path: 'src/index.js',
+        pattern: /(\/\/ PLOP: END COMPONENT IMPORT)/gi,
+        template:
+          "import {{pascalCase name}} from './components/{{kebabCase name}};\n$1"
       }
     ]
   });

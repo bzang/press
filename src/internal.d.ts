@@ -6,7 +6,7 @@ declare interface HTMLElement {
   after<T extends Node>(...nodes: T[]): void;
 }
 
-interface PressComponent {
+interface IPressComponent {
   name: string;
   infer?: PressComponentInferrer;
   enhance: PressComponentEnhancer;

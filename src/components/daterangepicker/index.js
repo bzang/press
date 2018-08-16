@@ -6,77 +6,104 @@ import {
   normalizeKeyPath,
   vModelFromNode
 } from '../../lib/vue-helpers';
-const {logger} = require('../../lib/logger');
+import PressComponentBase from '../../press-component';
 
 Vue.component('daterangepicker', daterangepicker);
 
-/**
- * @param {HTMLElement} el
- */
-export function enhance(el) {
-  const [startEl, endEl, ...rest] = Array.from(
-    el.querySelectorAll('input[type="date"]')
-  );
-  if (rest.length) {
-    throw new Error('Too many date inputs were found under el');
-  }
-  if (!startEl || !endEl) {
-    throw new Error('Too few date inputs were found under el');
-  }
+export default class DateRangePicker extends PressComponentBase {
+  /**
+   * @param {HTMLElement} el
+   */
+  enhance(el) {
+    const [startEl, endEl, ...rest] = Array.from(
+      el.querySelectorAll('input[type="date"]')
+    );
+    if (rest.length) {
+      throw new Error('Too many date inputs were found under el');
+    }
+    if (!startEl || !endEl) {
+      throw new Error('Too few date inputs were found under el');
+    }
 
-  const startAttrs = findParameters(el, startEl);
-  const endAttrs = findParameters(el, endEl);
+    const startAttrs = findParameters(el, startEl);
+    const endAttrs = findParameters(el, endEl);
 
-  const baseModelName = normalizeParameters(startAttrs, endAttrs);
+    const baseModelName = this.normalizeParameters(startAttrs, endAttrs);
 
-  el.setAttribute('v-if', 'false');
-  bindToHiddenInput(el, startAttrs);
-  bindToHiddenInput(el, endAttrs);
+    el.setAttribute('v-if', 'false');
+    bindToHiddenInput(el, startAttrs);
+    bindToHiddenInput(el, endAttrs);
 
-  const drp = document.createElement('daterangepicker');
-  drp.setAttribute('class', el.getAttribute('class') || '');
-  drp.setAttribute('v-model', baseModelName);
-  drp.setAttribute('start-key', startAttrs.key);
-  drp.setAttribute('end-key', endAttrs.key);
-  drp.setAttribute(
-    'value',
-    JSON.stringify({
-      [startAttrs.key]: startAttrs.value,
-      [endAttrs.key]: endAttrs.value
-    })
-  );
-  el.after(drp);
-}
-
-/**
- * Finds the root model path for the two date inputs
- * @param {DateRangePickerInputAttributes} startAttrs
- * @param {DateRangePickerInputAttributes} endAttrs
- * @returns {string}
- */
-function findModelBaseName(startAttrs, endAttrs) {
-  const startKeys = startAttrs.vModel.split('.');
-  const endKeys = endAttrs.vModel.split('.');
-
-  /** @type {string[]} */
-  const intersection = [];
-
-  let i = 0;
-  while (
-    i < endKeys.length &&
-    i < startKeys.length &&
-    endKeys[i] === startKeys[i]
-  ) {
-    intersection.push(startKeys[i]);
-    i++;
+    const drp = document.createElement('daterangepicker');
+    drp.setAttribute('class', el.getAttribute('class') || '');
+    drp.setAttribute('v-model', baseModelName);
+    drp.setAttribute('start-key', startAttrs.key);
+    drp.setAttribute('end-key', endAttrs.key);
+    drp.setAttribute(
+      'value',
+      JSON.stringify({
+        [startAttrs.key]: startAttrs.value,
+        [endAttrs.key]: endAttrs.value
+      })
+    );
+    el.after(drp);
   }
 
-  if (!intersection.length) {
-    logger.warn('start and end date elements do not share a common base name.');
-    return '';
+  /**
+   * Finds the root model path for the two date inputs
+   * @param {DateRangePickerInputAttributes} startAttrs
+   * @param {DateRangePickerInputAttributes} endAttrs
+   * @private
+   * @returns {string}
+   */
+  findModelBaseName(startAttrs, endAttrs) {
+    const startKeys = startAttrs.vModel.split('.');
+    const endKeys = endAttrs.vModel.split('.');
+
+    /** @type {string[]} */
+    const intersection = [];
+
+    let i = 0;
+    while (
+      i < endKeys.length &&
+      i < startKeys.length &&
+      endKeys[i] === startKeys[i]
+    ) {
+      intersection.push(startKeys[i]);
+      i++;
+    }
+
+    if (!intersection.length) {
+      this.logger.warn(
+        'start and end date elements do not share a common base name.'
+      );
+      return '';
+    }
+
+    return intersection.join('.');
   }
 
-  return intersection.join('.');
+  /**
+   *
+   * @param {DateRangePickerInputAttributes} startAttrs
+   * @param {DateRangePickerInputAttributes} endAttrs
+   * @private
+   * @returns {string} - the baseModelName
+   */
+  normalizeParameters(startAttrs, endAttrs) {
+    let baseModelName = this.findModelBaseName(startAttrs, endAttrs);
+    if (baseModelName) {
+      startAttrs.key = startAttrs.vModel.replace(`${baseModelName}.`, '');
+      endAttrs.key = endAttrs.vModel.replace(`${baseModelName}.`, '');
+    } else {
+      baseModelName = `daterangepicker-${uuid()}`.replace(/-/g, '_');
+      startAttrs.key = startAttrs.vModel;
+      startAttrs.vModel = `${baseModelName}.${startAttrs.vModel}`;
+      endAttrs.key = endAttrs.vModel;
+      endAttrs.vModel = `${baseModelName}.${endAttrs.vModel}`;
+    }
+    return baseModelName;
+  }
 }
 
 /**
@@ -123,26 +150,3 @@ function findParameters(el, input) {
     value
   };
 }
-
-/**
- *
- * @param {DateRangePickerInputAttributes} startAttrs
- * @param {DateRangePickerInputAttributes} endAttrs
- * @returns {string} - the baseModelName
- */
-function normalizeParameters(startAttrs, endAttrs) {
-  let baseModelName = findModelBaseName(startAttrs, endAttrs);
-  if (baseModelName) {
-    startAttrs.key = startAttrs.vModel.replace(`${baseModelName}.`, '');
-    endAttrs.key = endAttrs.vModel.replace(`${baseModelName}.`, '');
-  } else {
-    baseModelName = `daterangepicker-${uuid()}`.replace(/-/g, '_');
-    startAttrs.key = startAttrs.vModel;
-    startAttrs.vModel = `${baseModelName}.${startAttrs.vModel}`;
-    endAttrs.key = endAttrs.vModel;
-    endAttrs.vModel = `${baseModelName}.${endAttrs.vModel}`;
-  }
-  return baseModelName;
-}
-
-export const name = 'daterangepicker';

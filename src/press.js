@@ -1,4 +1,3 @@
-import {logger} from './lib/logger';
 import {vueify} from './lib/vueify';
 
 export class Press {
@@ -12,7 +11,13 @@ export class Press {
   }
 
   get logger() {
-    return loggers.get(this);
+    const logger = loggers.get(this);
+    if (!logger) {
+      throw new TypeError(
+        'Somehow, logger is not defined. This should be impossible.'
+      );
+    }
+    return logger;
   }
 
   /**
@@ -23,13 +28,13 @@ export class Press {
   }
 
   /**
-   * @param {PressComponent} component
+   * @param {IPressComponent} component
    * @param {string} [name] - override the component's name in order to get around name collisions
    */
   registerComponent(component, name) {
-    logger.info(`Registering component ${component.name}`);
+    this.logger.info(`Registering component ${component.name}`);
     this.components.set(name || component.name, component);
-    logger.info(`Registered component ${component.name}`);
+    this.logger.info(`Registered component ${component.name}`);
   }
 
   /**
@@ -38,21 +43,21 @@ export class Press {
    */
   infer() {
     performance.mark('press:infer:components:start');
-    logger.info('Inferring component types');
+    this.logger.info('Inferring component types');
 
     for (const [name, component] of this.components) {
       performance.mark(`press:infer:components:${name}:start`);
-      logger.info(`Inferring ${name}`);
+      this.logger.info(`Inferring ${name}`);
 
       if (component.infer) {
         component.infer(document);
       }
 
-      logger.info(`Inferred ${name}`);
+      this.logger.info(`Inferred ${name}`);
       performance.mark(`press:infer:components:${name}:end`);
     }
 
-    logger.info('Inferred component types');
+    this.logger.info('Inferred component types');
     performance.mark('press:infer:components:end');
   }
 
@@ -63,7 +68,7 @@ export class Press {
    */
   enhance() {
     performance.mark('press:enhance:components:start');
-    logger.info('Enhancing components');
+    this.logger.info('Enhancing components');
 
     Array.from(document.querySelectorAll('[data-press-component]')).forEach(
       (el) => {
@@ -74,7 +79,7 @@ export class Press {
       }
     );
 
-    logger.info('Enhanced components');
+    this.logger.info('Enhanced components');
     performance.mark('press:enhance:components:end');
   }
 
@@ -85,31 +90,31 @@ export class Press {
    */
   enhanceComponent(el) {
     if (el.matches('[data-press-component] [data-press-component]')) {
-      logger.info(
+      this.logger.info(
         'Element is a child of another press component, not enhancing'
       );
       return;
     }
-    logger.info('Enhancing component');
+    this.logger.info('Enhancing component');
     const componentName = el.dataset.pressComponent;
     if (!componentName) {
       throw new Error(
         'Cannot enhanced a component that does not specify its component type'
       );
     }
-    logger.info(`Finding enhancer for ${componentName}`);
+    this.logger.info(`Finding enhancer for ${componentName}`);
     const component = this.components.get(componentName);
     if (!component) {
-      logger.warn(
+      this.logger.warn(
         `Component "${componentName}" has not be registered with PRESS`
       );
       return;
     }
-    logger.info(`Found enhancer for ${componentName}`);
+    this.logger.info(`Found enhancer for ${componentName}`);
 
-    logger.info(`Enhancing element with ${componentName}`);
+    this.logger.info(`Enhancing element with ${componentName}`);
     component.enhance(el);
-    logger.info(`Enhanced element with ${componentName}`);
+    this.logger.info(`Enhanced element with ${componentName}`);
   }
 
   /**
@@ -118,7 +123,7 @@ export class Press {
    */
   activate() {
     performance.mark('press:activate:start');
-    logger.info('Vueifying non-apped PRESS component');
+    this.logger.info('Vueifying non-apped PRESS component');
     Array.from(document.querySelectorAll('[data-press-app]')).forEach(
       (root) => {
         if (!(root instanceof HTMLElement)) {
@@ -127,7 +132,7 @@ export class Press {
         vueify(root);
       }
     );
-    logger.info('Vueified non-apped PRESS component');
+    this.logger.info('Vueified non-apped PRESS component');
     performance.mark('press:activate:end');
   }
 
@@ -140,10 +145,10 @@ export class Press {
       .getEntriesByType('mark')
       .filter(({name}) => name.startsWith('press'));
 
-    if (logger.table) {
-      logger.table(results.map(({name, startTime}) => [name, startTime]));
+    if (this.logger.table) {
+      this.logger.table(results.map(({name, startTime}) => [name, startTime]));
     } else {
-      logger.info(results.map(({name, startTime}) => ({name, startTime})));
+      this.logger.info(results.map(({name, startTime}) => ({name, startTime})));
     }
   }
 
@@ -160,7 +165,7 @@ export class Press {
   }
 }
 
-/** @type {WeakMap<Press, Map<string, PressComponent>>} */
+/** @type {WeakMap<Press, Map<string, IPressComponent>>} */
 const components = new WeakMap();
 
 /** @type {WeakMap<Press, Console>} */

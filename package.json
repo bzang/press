@@ -31,8 +31,8 @@
     "plop": "plop",
     "precommit": "lint-staged",
     "semantic-release": "semantic-release",
-    "start": "nodemon --watch features --watch webpack.config.js --ext js features/server/index.js",
-    "test": "DEBUG=press:test* wdio"
+    "start": "PORT=4000 AUTORUN=true nodemon --watch features --watch webpack.config.js --ext js features/server/index.js",
+    "test": "PORT=4000 AUTORUN=true DEBUG=press:test* wdio"
   },
   "engines": {
     "node": ">=8"

@@ -24,10 +24,11 @@ export class Press {
 
   /**
    * @param {PressComponent} component
+   * @param {string} [name] - override the component's name in order to get around name collisions
    */
-  registerComponent(component) {
+  registerComponent(component, name) {
     logger.info(`Registering component ${component.name}`);
-    this.components.set(component.name, component);
+    this.components.set(name || component.name, component);
     logger.info(`Registered component ${component.name}`);
   }
 

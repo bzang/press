@@ -1,20 +1,21 @@
 import Vue from 'vue';
-import {{name}} from './{{name}}.vue';
+import {{lowerCase name}} from './{{lowerCase name}}.vue';
+import PressComponentBase from '../../press-component';
 
-Vue.component('{{name}}', {{name}});
+Vue.component('{{lowerCase name}}', {{lowerCase name}});
 
-/**
- * @param {HTMLElement} el
- */
-export function enhance(el) {
+export default class {{pascalCase name}} extends PressComponentBase {
+  /**
+   * @param {HTMLElement} el
+   */
+  enhance(el) {
 
+  }
+
+  /**
+   * @param {Document|HTMLElement} root
+   */
+  infer(root) {
+
+  }
 }
-
-/**
- * @param {Document|HTMLElement} root
- */
-export function infer(root) {
-
-}
-
-export const name = '{{name}}';

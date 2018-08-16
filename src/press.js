@@ -21,9 +21,9 @@ export class Press {
   }
 
   /**
-   * @param {{logger: Console}} options
+   * @param {{logger: Logger}} options
    */
-  constructor({logger = console} = {logger: console}) {
+  constructor({logger}) {
     loggers.set(this, logger);
   }
 
@@ -168,5 +168,5 @@ export class Press {
 /** @type {WeakMap<Press, Map<string, IPressComponent>>} */
 const components = new WeakMap();
 
-/** @type {WeakMap<Press, Console>} */
+/** @type {WeakMap<Press, Logger>} */
 const loggers = new WeakMap();

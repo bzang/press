@@ -40,7 +40,6 @@ Then(
 Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {
-    console.log({name, value, pattern});
     const req = JSON.parse(
       browser
         .elements('#last-req')
@@ -102,7 +101,6 @@ Then(
 When(
   /^I select day "(\d+)" of the month "(\w+)" of next year(?: and day "(\d+)" of the month "(\w+)" of next year)?$/,
   (date, month, endDate, endMonth) => {
-    console.log({date, month, endDate, endMonth});
     const selectedMoment = getSelectedMoment();
     const startMoment = momentFromMonthDateNextYear(month, date);
     const clicksToStartMonth = computeClicks(selectedMoment, startMoment);

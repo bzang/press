@@ -18,10 +18,10 @@ export default class PressComponentBase {
     return this.constructor.name.toLowerCase();
   }
 
-  constructor({logger} = {logger: console}) {
+  constructor({logger}) {
     loggers.set(this, logger);
   }
 }
 
-/** @type WeakMap<PressComponentBase, Console> */
+/** @type WeakMap<PressComponentBase, Logger> */
 const loggers = new WeakMap();

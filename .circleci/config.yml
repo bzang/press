@@ -48,6 +48,8 @@ jobs:
       - run: npm test
       - store_test_results:
           path: reports
+      - store_artifacts:
+          path: reports
 
   release:
     docker: *docker

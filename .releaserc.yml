@@ -3,14 +3,12 @@ verifyConditions:
   - '@semantic-release/changelog'
   - '@semantic-release/npm'
   - '@semantic-release/github'
-  - '@semantic-release/git'
 prepare:
   - '@semantic-release/changelog'
   -
     path: '@semantic-release/exec'
     cmd: "npm run build"
   - '@semantic-release/npm'
-  - '@semantic-release/git'
 publish:
   - '@semantic-release/npm'
-- '@semantic-release/github'
+  - '@semantic-release/github'

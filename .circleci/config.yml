@@ -79,12 +79,11 @@ workflows:
           context: browser-testing
           requires:
             - install
-      # disabling release until we're ready to release 1.0
-      # - release:
-      #     context: semantic-release
-      #     filters:
-      #       branches:
-      #         only: master
-      #     requires:
-      #       - test
-      #       - lint
+      - release:
+          context: semantic-release
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+            - lint

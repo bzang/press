@@ -2,6 +2,7 @@ verifyConditions:
   - condition-circle
   - '@semantic-release/changelog'
   - '@semantic-release/npm'
+  - '@semantic-release/github'
 prepare:
   - '@semantic-release/changelog'
   -
@@ -10,3 +11,4 @@ prepare:
   - '@semantic-release/npm'
 publish:
   - '@semantic-release/npm'
+- '@semantic-release/github'

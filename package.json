@@ -1,5 +1,5 @@
 {
-  "name": "@ianwremmel/press",
+  "name": "@urbandoor/press",
   "version": "0.0.0-development",
   "description": "Progressive enhancement with VueJS",
   "bin": {},
@@ -10,7 +10,7 @@
   "source": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ianwremmel/press.git"
+    "url": "git://github.com/urbandoor/press.git"
   },
   "scripts": {
     "prebuild": "rimraf dist press.js press.js.map press.min.js press.min.js.map",

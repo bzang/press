@@ -303,5 +303,5 @@ You can use `npm run plop -- component` to scaffold out a new PRESS component.
 
 ## License
 
-[UNLICENSED](LICENSE) &copy; [Ian Remmel](https://github.com/ianwremmel) 2018
-until at least now
+[MIT](LICENSE) &copy; [Urbandoor Inc.](https://github.com/UrbanDoor) 2018 until
+at least now

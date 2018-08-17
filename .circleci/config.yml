@@ -39,7 +39,7 @@ jobs:
   test:
     docker: *docker
     environment:
-      PORT: 4000
+      PORT: '4000'
     steps:
       - checkout
       - attach_workspace:
@@ -59,7 +59,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: "."
-      - run: npm run build
       - deploy:
           name: Semantic Release
           command: |

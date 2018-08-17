@@ -27,6 +27,7 @@ export default class DateRangePicker extends PressComponentBase {
 
     const startAttrs = findParameters(el, startEl);
     const endAttrs = findParameters(el, endEl);
+    const parentElAttrs = el.getAttribute('data-parent-el');
 
     const baseModelName = this.normalizeParameters(startAttrs, endAttrs);
 
@@ -39,6 +40,8 @@ export default class DateRangePicker extends PressComponentBase {
     drp.setAttribute('v-model', baseModelName);
     drp.setAttribute('start-key', startAttrs.key);
     drp.setAttribute('end-key', endAttrs.key);
+    parentElAttrs && drp.setAttribute('parent-el', parentElAttrs);
+
     drp.setAttribute(
       'value',
       JSON.stringify({

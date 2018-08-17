@@ -90,7 +90,8 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        locale: {monthNames}
+        locale: {monthNames},
+        parentEl: '.ui.form.search-form'
       },
       (start, end) => {
         this.emit(start, end);

@@ -1,7 +1,8 @@
 <template>
   <input
     :value="localeStringeFromValue"
-    data-press-daterangepicker-input>
+    data-press-daterangepicker-input
+  >
 </template>
 
 <script>
@@ -10,6 +11,8 @@ import 'daterangepicker';
 import {get} from 'lodash';
 
 import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
+import {attributeToClassSelector} from '../../lib/css-selector';
+
 const monthNames = [
   'January',
   'February',
@@ -33,6 +36,10 @@ export default {
     },
     endKey: {
       default: 'end',
+      type: String
+    },
+    parentEl: {
+      default: '',
       type: String
     },
     value: {
@@ -90,7 +97,8 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        locale: {monthNames}
+        locale: {monthNames},
+        parentEl: this.parentEl && attributeToClassSelector(this.parentEl)
       },
       (start, end) => {
         this.emit(start, end);

@@ -98,7 +98,7 @@ export default {
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
         locale: {monthNames},
-        parentEl: attributeToClassSelector(this.parentEl)
+        parentEl: this.parentEl && attributeToClassSelector(this.parentEl)
       },
       (start, end) => {
         this.emit(start, end);

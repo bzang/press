@@ -81,9 +81,7 @@ export default {
     },
     localeStringeFromValue() {
       if (this.start && this.end) {
-        return `${toLocaleString(this.start)}   →   ${toLocaleString(
-          this.end
-        )}`;
+        return `${toLocaleString(this.start)} - ${toLocaleString(this.end)}`;
       }
     }
   },

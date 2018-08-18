@@ -1,7 +1,7 @@
 /**
  * Converts an HTML attribute string to a CSS selector
  * by pre-pending each word in a class string with a period
- * e.g. "one two three" => ".one .two .three';
+ * e.g. "one two three" => ".one.two.three';
  * @param {string} attr
  * @returns {string}
  */

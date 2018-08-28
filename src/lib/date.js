@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 
+export const shortMonthFormat = 'MMM D, YYYY';
+
 /**
  * @param {any} arg
  * @returns {Date|undefined}
@@ -21,5 +23,5 @@ export function toDateRangePickerValue(arg) {
 export function toLocaleString(dateString) {
   return moment(dateString)
     .startOf('day')
-    .format('MMM D, YYYY');
+    .format(shortMonthFormat);
 }

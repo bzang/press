@@ -122,8 +122,8 @@ export default {
      */
     emit(start, end) {
       this.$emit('input', {
-        [this.startKey]: start.format('YYYY-MM-DD'),
-        [this.endKey]: end.format('YYYY-MM-DD')
+        [this.startKey]: start.format('MMM D, YYYY'),
+        [this.endKey]: end.format('MMM D, YYYY')
       });
     }
   }

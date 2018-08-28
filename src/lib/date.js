@@ -21,5 +21,5 @@ export function toDateRangePickerValue(arg) {
 export function toLocaleString(arg) {
   return moment(arg)
     .startOf('day')
-    .format('L');
+    .format('MMM D, YYYY');
 }

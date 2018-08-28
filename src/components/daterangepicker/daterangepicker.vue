@@ -10,7 +10,12 @@ import $ from 'jquery';
 import 'daterangepicker';
 import {get} from 'lodash';
 
-import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
+import {
+  shortMonthFormat,
+  toDateRangePickerValue,
+  toLocaleString
+} from '../../lib/date';
+
 
 const monthNames = [
   'January',
@@ -121,8 +126,8 @@ export default {
      */
     emit(start, end) {
       this.$emit('input', {
-        [this.startKey]: start.format('MMM D, YYYY'),
-        [this.endKey]: end.format('MMM D, YYYY')
+        [this.startKey]: start.format(shortMonthFormat),
+        [this.endKey]: end.format(shortMonthFormat)
       });
     }
   }

@@ -11,26 +11,12 @@ import 'daterangepicker';
 import {get} from 'lodash';
 
 import {
+  monthNames,
   shortMonthFormat,
   toDateRangePickerValue,
   toLocaleString
 } from '../../lib/date';
 import {attributeToClassSelector} from '../../lib/css-selector';
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
 
 export default {
   props: {

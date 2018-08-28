@@ -15,11 +15,11 @@ export function toDateRangePickerValue(arg) {
 }
 
 /**
- * @param {any} arg
+ * @param {string} dateString
  * @returns {string}
  */
-export function toLocaleString(arg) {
-  return moment(arg)
+export function toLocaleString(dateString) {
+  return moment(dateString)
     .startOf('day')
     .format('MMM D, YYYY');
 }

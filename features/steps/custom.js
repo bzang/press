@@ -146,7 +146,7 @@ When(
     if (type === 'date') {
       setInputField('set', targetDate.format(ISO_FORMAT), selector);
     } else if (type === 'text') {
-      setInputField('set', targetDate.format(NATIVE_DISPLAY_FORMAT), selector);
+      setInputField('set', targetDate.format(DISPLAY_FORMAT), selector);
     } else {
       throw new Error('type must be "date" or "text"');
     }

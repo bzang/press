@@ -7,6 +7,8 @@ const openWebsite = require('../support/action/openWebsite');
 const setInputField = require('../support/action/setInputField');
 
 const ISO_FORMAT = 'YYYY-MM-DD';
+const DISPLAY_FORMAT = 'MMM D, YYYY';
+const NATIVE_DISPLAY_FORMAT = 'L';
 
 Given(
   /^I open the (url|site) "([^"]*)?" with inputfield "(.+)" set to "(.+)"$/,
@@ -221,4 +223,17 @@ function getSelectedMoment() {
   );
 
   return selectedMoment;
+}
+
+function getDateFormat(dateType) {
+  switch (dateType) {
+    case 'iso date':
+      return ISO_FORMAT;
+    case 'formatted date':
+      return DISPLAY_FORMAT;
+    case 'native formatted date':
+      return NATIVE_DISPLAY_FORMAT;
+    default:
+      throw new Error(`Invalid date type of ${dateType} supplied`);
+  }
 }

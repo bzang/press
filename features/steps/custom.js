@@ -78,15 +78,14 @@ Then(
 );
 
 Then(
-  /^I expect that element "(.+)" contains the (iso date|formatted date) matching next year's "(.+)", "(.+)"$/,
+  /^I expect that element "(.+)" contains the (iso date|formatted date|native formatted date) matching next year's "(.+)", "(.+)"$/,
   (selector, type, month, date) => {
     const el = browser.elements(selector);
     const text = (el.getValue() || el.getText() || '').trim();
     const targetDate = momentFromMonthDateNextYear(month, date);
-    assert.equal(
-      text,
-      targetDate.format(type === 'iso date' ? ISO_FORMAT : 'L')
-    );
+    const selectedFormat = getDateFormat(type);
+
+    assert.equal(text, targetDate.format(selectedFormat));
   }
 );
 
@@ -147,7 +146,7 @@ When(
     if (type === 'date') {
       setInputField('set', targetDate.format(ISO_FORMAT), selector);
     } else if (type === 'text') {
-      setInputField('set', targetDate.format('L'), selector);
+      setInputField('set', targetDate.format(NATIVE_DISPLAY_FORMAT), selector);
     } else {
       throw new Error('type must be "date" or "text"');
     }

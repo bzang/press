@@ -39,7 +39,7 @@ Feature: Date Picker
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "2" of next year
 
   Scenario: The date is prepopulated by the server
-    When I open the site "/datepicker" with inputfield "date_picker_form[input]" set to "2019-01-01"
+    Given I open the site "/datepicker" with inputfield "date_picker_form[input]" set to "2019-01-01"
     Then I expect that element "[name='date_picker_form[input]']" contains the text "2019-01-01"
 
   Scenario: Submit a start-of-month date with fancy interactions

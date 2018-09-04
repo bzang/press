@@ -16,6 +16,7 @@ import {
   toLocaleString
 } from '../../lib/date';
 
+import {attributeToClassSelector} from '../../lib/css-selector';
 
 const monthNames = [
   'January',
@@ -99,8 +100,11 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        locale: {monthNames},
-        parentEl: this.parentSelector
+        locale: {
+          format: shortMonthFormat,
+          monthNames
+        },
+        parentEl: this.parentEl && attributeToClassSelector(this.parentEl)
       },
       (start, end) => {
         this.emit(start, end);

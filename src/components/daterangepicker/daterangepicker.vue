@@ -126,8 +126,8 @@ export default {
      */
     emit(start, end) {
       this.$emit('input', {
-        [this.startKey]: start.format(shortMonthFormat),
-        [this.endKey]: end.format(shortMonthFormat)
+        [this.startKey]: start.format('YYYY-MM-DD'),
+        [this.endKey]: end.format('YYYY-MM-DD')
       });
     }
   }

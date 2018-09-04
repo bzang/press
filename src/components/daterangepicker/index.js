@@ -7,6 +7,7 @@ import {
   vModelFromNode
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
+import {attributeToClassSelector} from '../../lib/css-selector';
 
 Vue.component('daterangepicker', daterangepicker);
 
@@ -27,7 +28,21 @@ export default class DateRangePicker extends PressComponentBase {
 
     const startAttrs = findParameters(el, startEl);
     const endAttrs = findParameters(el, endEl);
-    const parentElAttrs = el.getAttribute('data-parent-el');
+    let {parentSelector} = el.dataset;
+    const {parentEl} = el.dataset;
+    if (parentEl) {
+      let msg =
+        '`data-parent-el` is deprecated. Please pass a valid css selector via `data-parent-selector`.';
+      if (parentSelector) {
+        msg +=
+          ' Since you also passed `data-parent-selector`, you can fix this warning by simply removing `data-parent-el`';
+      } else {
+        parentSelector = attributeToClassSelector(parentEl);
+        msg += `\nYou can fix this warning by replacing 'data-parent-el=${parentEl}' with 'data-parent-selector=${parentSelector}'`;
+      }
+
+      this.logger.warn(msg);
+    }
 
     const baseModelName = this.normalizeParameters(startAttrs, endAttrs);
 
@@ -40,7 +55,9 @@ export default class DateRangePicker extends PressComponentBase {
     drp.setAttribute('v-model', baseModelName);
     drp.setAttribute('start-key', startAttrs.key);
     drp.setAttribute('end-key', endAttrs.key);
-    parentElAttrs && drp.setAttribute('parent-el', parentElAttrs);
+    if (parentSelector) {
+      drp.setAttribute('parent-selector', parentSelector);
+    }
 
     drp.setAttribute(
       'value',

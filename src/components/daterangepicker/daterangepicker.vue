@@ -11,7 +11,6 @@ import 'daterangepicker';
 import {get} from 'lodash';
 
 import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
-import {attributeToClassSelector} from '../../lib/css-selector';
 
 const monthNames = [
   'January',
@@ -38,7 +37,7 @@ export default {
       default: 'end',
       type: String
     },
-    parentEl: {
+    parentSelector: {
       default: '',
       type: String
     },
@@ -96,7 +95,7 @@ export default {
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
         locale: {monthNames},
-        parentEl: this.parentEl && attributeToClassSelector(this.parentEl)
+        parentEl: this.parentSelector
       },
       (start, end) => {
         this.emit(start, end);

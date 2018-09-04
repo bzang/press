@@ -86,7 +86,7 @@ Feature: Date Range Picker
     And I open the site "/daterangepicker-unnested"
     When I click on the element "[data-press-daterangepicker-input]"
     And I select day "1" of the month "March" of next year and day "2" of the month "April" of next year
-    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019 - Apr 2, 201"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019 - Apr 2, 2019"
     When I click on the button "[type=submit]"
     Then I expect the server received an iso date named "start_date" of "March", "1" of next year
     And I expect the server received an iso date named "end_date" of "April", "2" of next year

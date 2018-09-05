@@ -7,11 +7,7 @@
 <script>
 import $ from 'jquery';
 import 'daterangepicker';
-import {
-  shortMonthFormat,
-  toDateRangePickerValue,
-  toLocaleString
-} from '../../lib/date';
+import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 import {get} from 'lodash';
 
 export default {
@@ -45,9 +41,7 @@ export default {
       {
         singleDatePicker: true,
         startDate: this.startDateFromValue,
-        locale: {
-          format: shortMonthFormat
-        }
+        locale
       },
       (start) => {
         this.emit(start);

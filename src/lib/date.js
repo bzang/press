@@ -1,6 +1,24 @@
 import * as moment from 'moment';
 
 export const shortMonthFormat = 'MMM D, YYYY';
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+export const locale = {
+  format: shortMonthFormat,
+  monthNames
+};
 
 /**
  * @param {any} arg

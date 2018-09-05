@@ -10,22 +10,8 @@ import $ from 'jquery';
 import 'daterangepicker';
 import {get} from 'lodash';
 
-import {toDateRangePickerValue, toLocaleString} from '../../lib/date';
-
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
+import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
+import {attributeToClassSelector} from '../../lib/css-selector';
 
 export default {
   props: {
@@ -94,8 +80,8 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        locale: {monthNames},
-        parentEl: this.parentSelector
+        parentEl: this.parentEl && attributeToClassSelector(this.parentEl),
+        locale
       },
       (start, end) => {
         this.emit(start, end);

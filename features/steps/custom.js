@@ -7,6 +7,8 @@ const openWebsite = require('../support/action/openWebsite');
 const setInputField = require('../support/action/setInputField');
 
 const ISO_FORMAT = 'YYYY-MM-DD';
+const DISPLAY_FORMAT = 'MMM D, YYYY';
+const NATIVE_DISPLAY_FORMAT = 'L';
 
 Given(
   /^I open the (url|site) "([^"]*)?" with inputfield "(.+)" set to "(.+)"$/,
@@ -76,15 +78,14 @@ Then(
 );
 
 Then(
-  /^I expect that element "(.+)" contains the (iso date|formatted date) matching next year's "(.+)", "(.+)"$/,
+  /^I expect that element "(.+)" contains the (iso date|formatted date|native formatted date) matching next year's "(.+)", "(.+)"$/,
   (selector, type, month, date) => {
     const el = browser.elements(selector);
     const text = (el.getValue() || el.getText() || '').trim();
     const targetDate = momentFromMonthDateNextYear(month, date);
-    assert.equal(
-      text,
-      targetDate.format(type === 'iso date' ? ISO_FORMAT : 'L')
-    );
+    const selectedFormat = getDateFormat(type);
+
+    assert.equal(text, targetDate.format(selectedFormat));
   }
 );
 
@@ -145,7 +146,7 @@ When(
     if (type === 'date') {
       setInputField('set', targetDate.format(ISO_FORMAT), selector);
     } else if (type === 'text') {
-      setInputField('set', targetDate.format('L'), selector);
+      setInputField('set', targetDate.format(DISPLAY_FORMAT), selector);
     } else {
       throw new Error('type must be "date" or "text"');
     }
@@ -221,4 +222,17 @@ function getSelectedMoment() {
   );
 
   return selectedMoment;
+}
+
+function getDateFormat(dateType) {
+  switch (dateType) {
+    case 'iso date':
+      return ISO_FORMAT;
+    case 'formatted date':
+      return DISPLAY_FORMAT;
+    case 'native formatted date':
+      return NATIVE_DISPLAY_FORMAT;
+    default:
+      throw new Error(`Invalid date type of ${dateType} supplied`);
+  }
 }

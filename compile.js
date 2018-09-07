@@ -42,18 +42,21 @@ async function compile(file) {
 
   const {code} = await transform(script.content);
 
-  fs.writeFileSync(outFile, toSfc(styles, template.content, code));
+  fs.writeFileSync(
+    outFile,
+    toSingleFileComponent(styles, template.content, code)
+  );
 }
 
 /**
  * Formats the transformed code and original styles/template back into a Single
  * File Component
  * @param {any[]} styles
- * @param {any} template
- * @param {any} code
+ * @param {string} template
+ * @param {string} code
  * @returns {string}
  */
-function toSfc(styles, template, code) {
+function toSingleFileComponent(styles, template, code) {
   return `<template>
   ${template
     .split('\n')

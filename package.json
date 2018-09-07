@@ -15,9 +15,10 @@
   "scripts": {
     "prebuild": "rimraf dist press.js press.js.map press.min.js press.min.js.map",
     "build": "npm-run-all build:*",
+    "compile": "babel -d dist/${BUILD_TARGET} src && ./compile.js",
     "build:cdn": "BUILD_TARGET=cdn webpack && BUILD_TARGET=cdn NODE_ENV=production webpack",
-    "build:cjs": "BUILD_TARGET=cjs babel -d dist/cjs src",
-    "build:esm": "BUILD_TARGET=esm babel -d dist/esm src",
+    "build:cjs": "BUILD_TARGET=cjs npm run compile",
+    "build:esm": "BUILD_TARGET=esm npm run compile",
     "build:readme": "markdown-toc -i --bullets='-' --maxdepth=3  README.md  && prettier --write README.md",
     "clean": "rimraf dist press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
     "commitmsg": "commitlint -e",
@@ -41,11 +42,21 @@
   "author": "Ian Remmel <1182361+ianwremmel@users.noreply.github.com>",
   "license": "MIT",
   "peerDependencies": {
+    "autoprefixer": "^9.0.2",
+    "cssnano": "^4.0.5",
     "daterangepicker": "^3.0.3",
     "jquery": "^3.3.1",
-    "vue": "^2.5.16"
+    "postcss-import": "^12.0.0",
+    "postcss-loader": "^3.0.0",
+    "vue": "^2.5.16",
+    "vue-loader": "^15.2.6",
+    "vue-template-compiler": "^2.5.16"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
     "@semantic-release/changelog": "^3.0.0",
@@ -67,12 +78,8 @@
     "@types/webpack": "^4.4.8",
     "@types/webpack-dev-middleware": "^2.0.2",
     "autoprefixer": "^9.0.2",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
+    "babel-loader": "^8.0.2",
     "babel-plugin-lodash": "^3.3.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
     "babel-preset-minify": "^0.4.3",
     "chai": "^4.1.2",
     "condition-circle": "^2.0.1",
@@ -89,6 +96,7 @@
     "eslint-plugin-vue": "^4.7.1",
     "eslint-plugin-webdriverio": "^1.0.1",
     "express": "^4.16.3",
+    "glob": "^7.1.3",
     "husky": "^0.14.3",
     "jquery": "^3.3.1",
     "lint-staged": "^7.2.0",
@@ -101,8 +109,8 @@
     "nodemon": "^1.18.3",
     "npm-run-all": "^4.1.3",
     "plop": "^2.1.0",
-    "postcss-import": "^11.1.0",
-    "postcss-loader": "^2.1.6",
+    "postcss-import": "^12.0.0",
+    "postcss-loader": "^3.0.0",
     "prettier": "^1.14.0",
     "rimraf": "^2.6.2",
     "semantic-release": "^15.9.2",
@@ -132,7 +140,7 @@
     "verifyConditions": "condition-circle"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "^7.0.0",
     "uuid": "^3.3.2"
   }
 }

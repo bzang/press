@@ -24,6 +24,11 @@ const CJS = process.env.BUILD_TARGET === 'cjs';
   }
 })();
 
+/**
+ * Loads .vue Single File Component, runs its `<script>` section through babel,
+ * and writes the result to the appropriate dist directory
+ * @param {string} file
+ */
 async function compile(file) {
   const inPath = path.resolve(__dirname, 'src', file);
   const outFile = path.resolve(__dirname, 'dist', CJS ? 'cjs' : 'esm', file);
@@ -40,6 +45,14 @@ async function compile(file) {
   fs.writeFileSync(outFile, toSfc(styles, template.content, code));
 }
 
+/**
+ * Formats the transformed code and original styles/template back into a Single
+ * File Component
+ * @param {any[]} styles
+ * @param {any} template
+ * @param {any} code
+ * @returns {string}
+ */
 function toSfc(styles, template, code) {
   return `<template>
   ${template

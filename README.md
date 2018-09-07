@@ -51,11 +51,25 @@ dependencies) onto your page.
 > we'll release a version of PRESS that makes our custom components optional and
 > removes the jQuery dependency.
 
+> If you intend to use the autocomplete component, you may need to polyfill
+> `window.fetch()`. The easiest way to do so is with polyfill.io
+>
+> ```html
+> <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+> ```
+>
+> But following the instructions for
+> [whatwg-fetch](https://github.com/github/fetch) is probably a better long-term
+> option.
+
 Of course, PRESS is also available as an npm module:
 
 ```bash
 npm install @urbandoor/press
 ```
+
+> Note the peer dependency warnings; PRESS has a number of peers for setting up
+> webpack.
 
 > The npm version is intended for use with module bundlers: the following should
 > also work, but is untested:
@@ -67,16 +81,61 @@ npm install @urbandoor/press
 <script src="//node_modules/@urbandoor/press/press.min.js"></script>
 ```
 
-> If you intend to use the autocomplete component, you may need to polyfill
-> `window.fetch()`. The easiest way to do so is with polyfill.io
->
-> ```html
-> <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-> ```
->
-> But following the instructions for
-> [whatwg-fetch](https://github.com/github/fetch) is probably a better long-term
-> option.
+### Integration with webpack
+
+We're building PRESS from npm in our main application project using webpacker.
+
+Since the nature of Vue makes it a little tricky to distribute a
+fully-functional library that still tree shakes effectively. The following
+webpack configuration _should_ add the PRESS JavaScript and CSS to your app.
+
+```js
+// webpack.config.js
+
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+
+module.exports = {
+    externals: {
+        jQuery: 'jquery',
+        vue: 'Vue'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin(),
+        new LodashModuleReplacementPlugin({paths: true})
+    ]
+};
+```
+
+> This config externalizes Vue and jQuery so they can be loaded directly from
+> their CDNs rather than building them into your bundle.
+
+```js
+// postcss.config.js
+'use strict';
+
+module.exports = function({
+    env,
+    file,
+    options: {autoprefixer = {}, cssnano = {}}
+}) {
+    return {
+        plugins: {
+            'postcss-import': {root: file.dirname},
+            autoprefixer: env === 'production' ? autoprefixer : false,
+            cssnano: env === 'production' ? cssnano : false
+        }
+    };
+};
+```
 
 ### Entrypoints
 

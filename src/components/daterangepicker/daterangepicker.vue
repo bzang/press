@@ -13,6 +13,11 @@ import {get} from 'lodash';
 import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 import {attributeToClassSelector} from '../../lib/css-selector';
 
+function setDefaultText() {
+  document.getElementsByClassName('two fields')[0].value =
+    'Arrive   →   Depart';
+}
+
 export default {
   props: {
     startKey: {
@@ -75,7 +80,6 @@ export default {
   mounted() {
     const $$el = $(this.$el);
     this.$$el = $$el;
-
     $$el.daterangepicker(
       {
         autoApply: true,
@@ -83,12 +87,19 @@ export default {
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
         parentEl: this.parentEl && attributeToClassSelector(this.parentEl),
+        onOutsideClick: this.clearDate,
         locale
       },
       (start, end) => {
         this.emit(start, end);
       }
     );
+    if (this.start === this.end) {
+      setTimeout(setDefaultText, 0);
+    }
+    if (this.start === undefined || this.end === undefined) {
+      setTimeout(setDefaultText, 0);
+    }
 
     const data = $$el.data('daterangepicker');
     if (data) {
@@ -108,10 +119,18 @@ export default {
      * @param {moment.Moment} end
      */
     emit(start, end) {
+      if (start.isSame(end, 'day')) {
+        setTimeout(setDefaultText, 0);
+      }
       this.$emit('input', {
         [this.startKey]: start.format('YYYY-MM-DD'),
         [this.endKey]: end.format('YYYY-MM-DD')
       });
+    },
+    clearDate() {
+      if (this.start === this.end) {
+        setTimeout(setDefaultText, 0);
+      }
     }
   }
 };

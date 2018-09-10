@@ -80,6 +80,9 @@ export default {
   mounted() {
     const $$el = $(this.$el);
     this.$$el = $$el;
+    this.$$el.on('hide.daterangepicker', () => {
+      this.clearDate();
+    });
     $$el.daterangepicker(
       {
         autoApply: true,
@@ -87,7 +90,6 @@ export default {
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
         parentEl: this.parentEl && attributeToClassSelector(this.parentEl),
-        onOutsideClick: this.clearDate,
         locale
       },
       (start, end) => {
@@ -129,7 +131,7 @@ export default {
     },
     clearDate() {
       if (this.start === this.end) {
-        this.$nextTick().then(setDefaultText);
+        setDefaultText();
       }
     }
   }

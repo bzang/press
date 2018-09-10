@@ -95,10 +95,10 @@ export default {
       }
     );
     if (this.start === this.end) {
-      setTimeout(setDefaultText, 0);
+      this.$nextTick().then(setDefaultText);
     }
     if (this.start === undefined || this.end === undefined) {
-      setTimeout(setDefaultText, 0);
+      this.$nextTick().then(setDefaultText);
     }
 
     const data = $$el.data('daterangepicker');
@@ -120,7 +120,7 @@ export default {
      */
     emit(start, end) {
       if (start.isSame(end, 'day')) {
-        setTimeout(setDefaultText, 0);
+        this.$nextTick().then(setDefaultText);
       }
       this.$emit('input', {
         [this.startKey]: start.format('YYYY-MM-DD'),
@@ -129,7 +129,7 @@ export default {
     },
     clearDate() {
       if (this.start === this.end) {
-        setTimeout(setDefaultText, 0);
+        this.$nextTick().then(setDefaultText);
       }
     }
   }

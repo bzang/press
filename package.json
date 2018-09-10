@@ -15,7 +15,7 @@
   "scripts": {
     "prebuild": "rimraf dist press.js press.js.map press.min.js press.min.js.map",
     "build": "npm-run-all build:*",
-    "compile": "babel -d dist/${BUILD_TARGET} src && ./compile.js",
+    "compile": "babel -d dist/${BUILD_TARGET} src --source-maps && ./compile.js",
     "build:cdn": "BUILD_TARGET=cdn webpack && BUILD_TARGET=cdn NODE_ENV=production webpack",
     "build:cjs": "BUILD_TARGET=cjs npm run compile",
     "build:esm": "BUILD_TARGET=esm npm run compile",

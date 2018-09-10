@@ -20,6 +20,7 @@
 <!-- toc -->
 
 -   [Install](#install)
+    -   [Integration with webpack](#integration-with-webpack)
     -   [Entrypoints](#entrypoints)
 -   [Usage](#usage)
     -   [Interactive Pages](#interactive-pages)

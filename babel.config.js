@@ -1,4 +1,3 @@
-const PROD = process.env.NODE_ENV === 'production';
 const CJS = process.env.BUILD_TARGET === 'cjs';
 
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
         modules: CJS ? 'commonjs' : false,
         useBuiltIns: 'entry'
       }
-    ],
-    PROD && 'minify'
-  ].filter(Boolean)
+    ]
+  ].filter(Boolean),
+  sourceMaps: true
 };

@@ -13,11 +13,6 @@ import {get} from 'lodash';
 import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 import {attributeToClassSelector} from '../../lib/css-selector';
 
-function setDefaultText() {
-  document.getElementsByClassName('two fields')[0].value =
-    'Arrive   →   Depart';
-}
-
 export default {
   props: {
     startKey: {
@@ -97,10 +92,10 @@ export default {
       }
     );
     if (this.start === this.end) {
-      this.$nextTick().then(setDefaultText);
+      this.$nextTick().then(this.setDefaultText);
     }
     if (this.start === undefined || this.end === undefined) {
-      this.$nextTick().then(setDefaultText);
+      this.$nextTick().then(this.setDefaultText);
     }
 
     const data = $$el.data('daterangepicker');
@@ -122,7 +117,7 @@ export default {
      */
     emit(start, end) {
       if (start.isSame(end, 'day')) {
-        this.$nextTick().then(setDefaultText);
+        this.$nextTick().then(this.setDefaultText);
       }
       this.$emit('input', {
         [this.startKey]: start.format('YYYY-MM-DD'),
@@ -131,8 +126,11 @@ export default {
     },
     clearDate() {
       if (this.start === this.end) {
-        setDefaultText();
+        this.setDefaultText();
       }
+    },
+    setDefaultText() {
+      this.$$el.val('Arrive   →   Depart');
     }
   }
 };

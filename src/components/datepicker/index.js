@@ -10,6 +10,10 @@ import PressComponentBase from '../../press-component';
 Vue.component('datepicker', datepicker);
 
 export default class DatePicker extends PressComponentBase {
+  get name() {
+    return 'datepicker';
+  }
+
   /**
    * @param {HTMLElement} el
    */

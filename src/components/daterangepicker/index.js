@@ -12,6 +12,10 @@ import {attributeToClassSelector} from '../../lib/css-selector';
 Vue.component('daterangepicker', daterangepicker);
 
 export default class DateRangePicker extends PressComponentBase {
+  get name() {
+    return 'daterangepicker';
+  }
+
   /**
    * @param {HTMLElement} el
    */

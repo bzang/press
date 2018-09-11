@@ -75,7 +75,9 @@ export default {
   mounted() {
     const $$el = $(this.$el);
     this.$$el = $$el;
-
+    this.$$el.on('hide.daterangepicker', () => {
+      this.clearDate();
+    });
     $$el.daterangepicker(
       {
         autoApply: true,
@@ -89,6 +91,12 @@ export default {
         this.emit(start, end);
       }
     );
+    if (this.start === this.end) {
+      this.$nextTick().then(this.setDefaultText);
+    }
+    if (this.start === undefined || this.end === undefined) {
+      this.$nextTick().then(this.setDefaultText);
+    }
 
     const data = $$el.data('daterangepicker');
     if (data) {
@@ -108,10 +116,21 @@ export default {
      * @param {moment.Moment} end
      */
     emit(start, end) {
+      if (start.isSame(end, 'day')) {
+        this.$nextTick().then(this.setDefaultText);
+      }
       this.$emit('input', {
         [this.startKey]: start.format('YYYY-MM-DD'),
         [this.endKey]: end.format('YYYY-MM-DD')
       });
+    },
+    clearDate() {
+      if (this.start === this.end) {
+        this.setDefaultText();
+      }
+    },
+    setDefaultText() {
+      this.$$el.val('Arrive   →   Depart');
     }
   }
 };

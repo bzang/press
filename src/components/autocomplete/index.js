@@ -6,6 +6,10 @@ import PressComponentBase from '../../press-component';
 Vue.component('autocomplete', autocomplete);
 
 export default class Autocomplete extends PressComponentBase {
+  get name() {
+    return 'autocomplete';
+  }
+
   /**
    * @param {HTMLElement} el
    */

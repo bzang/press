@@ -14,10 +14,6 @@ export default class PressComponentBase {
     return logger;
   }
 
-  get name() {
-    return this.constructor.name.toLowerCase();
-  }
-
   constructor({logger}) {
     loggers.set(this, logger);
   }

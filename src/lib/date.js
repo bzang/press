@@ -18,7 +18,7 @@ const monthNames = [
 export const locale = {
   format: shortMonthFormat,
   monthNames,
-  separator: '   →   '
+  separator: '        →        '
 };
 
 /**

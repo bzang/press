@@ -130,7 +130,7 @@ export default {
       }
     },
     setDefaultText() {
-      this.$$el.val('Arrive   →   Depart');
+      this.$$el.val('Arrive        →        Depart');
     }
   }
 };

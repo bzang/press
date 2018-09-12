@@ -1,5 +1,5 @@
 <template>
-  <div class="ui search">
+  <div class="ui input search">
     <input
       ref="input"
       :aria-owns="ariaComputedResultsId"

@@ -76,7 +76,10 @@ export default {
   computed: {
     showResultsList() {
       return (
-        this.interactive && this.value && this.value.length > 0 && !!this.results
+        this.interactive &&
+        this.value &&
+        this.value.length > 0 &&
+        !!this.results
       );
     },
     ariaComputedResultsId() {

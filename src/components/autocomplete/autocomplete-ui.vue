@@ -8,6 +8,7 @@
       v-bind="$attrs"
       autocomplete="off"
       role="listbox"
+      @click="onInputClick"
       @input="onInput"
       @focus="onFocus"
       @keyup="onKeyUp"
@@ -65,7 +66,7 @@ export default {
   data() {
     return {
       ariaResultsId: uuid().replace(/-/g, '_'),
-      focused: false,
+      interactive: false,
       nextValue: '',
       selected: null,
       value: this.initialValue,
@@ -75,7 +76,10 @@ export default {
   computed: {
     showResultsList() {
       return (
-        this.focused && this.value && this.value.length > 0 && !!this.results
+        this.interactive &&
+        this.value &&
+        this.value.length > 0 &&
+        !!this.results
       );
     },
     ariaComputedResultsId() {
@@ -112,8 +116,8 @@ export default {
       this.value = value;
       this.lastUserInput = value;
       this.$emit('choose', value);
-      this.focused = false;
       this.selected = null;
+      this.focusInputWithoutMenu();
     },
     chooseValueFromInput() {
       this.chooseValue(this.value);
@@ -125,13 +129,21 @@ export default {
       this.$refs.input.focus();
       this.selected = null;
     },
+    focusInputWithoutMenu() {
+      this.$refs.input.focus();
+      this.selected = null;
+      this.interactive = false;
+    },
     onFocus() {
-      this.focused = true;
+      this.interactive = true;
       this.selected = null;
     },
     onInput(event) {
       this.value = event.target.value;
       this.nextValue = '';
+    },
+    onInputClick() {
+      this.interactive = true;
     },
     onListItemKeyDown(event) {
       switch (keyName(event, true)) {
@@ -156,6 +168,7 @@ export default {
           return;
         case 'ArrowDown':
           this.selected = 0;
+          this.interactive = true;
           return;
       }
     },

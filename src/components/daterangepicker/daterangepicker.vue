@@ -11,8 +11,9 @@ import 'daterangepicker';
 import {get} from 'lodash';
 
 import {
+  dateSeparator,
+  defaultTextSeparator,
   locale,
-  separator,
   toDateRangePickerValue,
   toLocaleString
 } from '../../lib/date';
@@ -71,7 +72,7 @@ export default {
     },
     localeStringeFromValue() {
       if (this.start && this.end) {
-        return `${toLocaleString(this.start)}${separator}${toLocaleString(
+        return `${toLocaleString(this.start)}${dateSeparator}${toLocaleString(
           this.end
         )}`;
       }
@@ -135,7 +136,7 @@ export default {
       }
     },
     setDefaultText() {
-      this.$$el.val(`Arrive${separator}Depart`);
+      this.$$el.val(`Arrive${defaultTextSeparator}Depart`);
     }
   }
 };

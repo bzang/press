@@ -15,10 +15,12 @@ const monthNames = [
   'November',
   'December'
 ];
+export const defaultTextSeparator = '        →        ';
+export const dateSeparator = '   →   ';
 export const locale = {
   format: shortMonthFormat,
   monthNames,
-  separator: '   →   '
+  separator: dateSeparator
 };
 
 /**

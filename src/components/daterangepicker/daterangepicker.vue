@@ -10,7 +10,12 @@ import $ from 'jquery';
 import 'daterangepicker';
 import {get} from 'lodash';
 
-import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
+import {
+  locale,
+  separator,
+  toDateRangePickerValue,
+  toLocaleString
+} from '../../lib/date';
 import {attributeToClassSelector} from '../../lib/css-selector';
 
 export default {
@@ -66,7 +71,7 @@ export default {
     },
     localeStringeFromValue() {
       if (this.start && this.end) {
-        return `${toLocaleString(this.start)}        →        ${toLocaleString(
+        return `${toLocaleString(this.start)}${separator}${toLocaleString(
           this.end
         )}`;
       }
@@ -130,7 +135,7 @@ export default {
       }
     },
     setDefaultText() {
-      this.$$el.val('Arrive        →        Depart');
+      this.$$el.val(`Arrive${separator}Depart`);
     }
   }
 };

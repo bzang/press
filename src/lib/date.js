@@ -15,10 +15,11 @@ const monthNames = [
   'November',
   'December'
 ];
+export const separator = '        →        ';
 export const locale = {
   format: shortMonthFormat,
   monthNames,
-  separator: '        →        '
+  separator
 };
 
 /**

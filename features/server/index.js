@@ -8,6 +8,7 @@ const express = require('express');
 const morgan = require('morgan');
 const webpack = require('webpack');
 const middleware = require('webpack-dev-middleware');
+const glob = require('glob');
 
 const config = require('../../webpack.config');
 
@@ -42,6 +43,11 @@ app.use((req, res, next) => {
     null,
     2
   );
+
+  res.locals.pages = glob
+    .sync('**/*.ejs', {cwd: path.resolve(__dirname, 'views', 'pages')})
+    .filter((page) => page !== 'index.ejs');
+
   res.locals.value = (name) => {
     if (_.has(req, `query.${name}`)) {
       return `value="${_.get(req, `query.${name}`)}"`;

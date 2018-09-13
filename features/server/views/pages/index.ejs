@@ -3,5 +3,10 @@
   <header>
     <h1>PRESS Test Site</h1>
   </header>
+  <ul>
+    <% pages.forEach((page) => { %>
+      <li><a href="/<%= page %>"><%= page %></a></li>
+    <% }) %>
+  </ul>
 </section>
 <% include ../partials/footer %>

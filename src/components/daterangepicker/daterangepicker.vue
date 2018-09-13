@@ -17,7 +17,6 @@ import {
   toDateRangePickerValue,
   toLocaleString
 } from '../../lib/date';
-import {attributeToClassSelector} from '../../lib/css-selector';
 
 export default {
   props: {
@@ -90,7 +89,7 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        parentEl: this.parentEl && attributeToClassSelector(this.parentEl),
+        parentEl: this.parentSelector,
         locale
       },
       (start, end) => {

@@ -7,7 +7,6 @@ import {
   vModelFromNode
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
-import {attributeToClassSelector} from '../../lib/css-selector';
 
 Vue.component('daterangepicker', daterangepicker);
 
@@ -41,7 +40,7 @@ export default class DateRangePicker extends PressComponentBase {
         msg +=
           ' Since you also passed `data-parent-selector`, you can fix this warning by simply removing `data-parent-el`';
       } else {
-        parentSelector = attributeToClassSelector(parentEl);
+        parentSelector = parentEl;
         msg += `\nYou can fix this warning by replacing 'data-parent-el=${parentEl}' with 'data-parent-selector=${parentSelector}'`;
       }
 

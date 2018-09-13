@@ -113,14 +113,14 @@ Feature: Date Range Picker
   Scenario: See default Arrive / Depart text on initialization (unnested input names)
     Given This scenario requires JavaScript
     And I open the site "/daterangepicker-unnested"
-    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive   →   Depart"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive        →        Depart"
 
   Scenario: Select the same start and end date (unnested input names)
     Given This scenario requires JavaScript
     And I open the site "/daterangepicker-unnested"
     When I click on the element "[data-press-daterangepicker-input]"
     And I select day "1" of the month "January" of next year and day "1" of the month "January" of next year
-    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive   →   Depart"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive        →        Depart"
     And I click on the element "[data-press-daterangepicker-input]"
     And I select day "1" of the month "March" of next year and day "2" of the month "April" of next year
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019   →   Apr 2, 2019"

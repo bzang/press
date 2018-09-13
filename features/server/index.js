@@ -46,7 +46,8 @@ app.use((req, res, next) => {
 
   res.locals.pages = glob
     .sync('**/*.ejs', {cwd: path.resolve(__dirname, 'views', 'pages')})
-    .filter((page) => page !== 'index.ejs');
+    .filter((filename) => filename !== 'index.ejs')
+    .map((filename) => filename.replace('.ejs', ''));
 
   res.locals.value = (name) => {
     if (_.has(req, `query.${name}`)) {

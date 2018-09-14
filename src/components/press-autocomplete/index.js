@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import autocomplete from './autocomplete-controller.vue';
+import autocomplete from './press-autocomplete-controller.vue';
 import {normalizeKeyPath, vModelFromNode} from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
 
-Vue.component('autocomplete', autocomplete);
+Vue.component('press-autocomplete', autocomplete);
 
 export default class Autocomplete extends PressComponentBase {
   get name() {
@@ -17,7 +17,7 @@ export default class Autocomplete extends PressComponentBase {
     const vModelName = normalizeKeyPath(vModelFromNode(el));
     el.setAttribute('v-model', vModelName);
 
-    const component = document.createElement('autocomplete');
+    const component = document.createElement('press-autocomplete');
     const attrNames = el.getAttributeNames();
     for (const attrName of attrNames) {
       const value = el.getAttribute(attrName) || '';

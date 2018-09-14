@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import datepicker from './datepicker.vue';
+import datepicker from './press-datepicker.vue';
 import {
   bindToHiddenInput,
   normalizeKeyPath,
@@ -8,7 +8,7 @@ import {
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';
 
-Vue.component('datepicker', datepicker);
+Vue.component('press-datepicker', datepicker);
 
 export default class DatePicker extends PressComponentBase {
   get name() {
@@ -29,7 +29,7 @@ export default class DatePicker extends PressComponentBase {
 
     // Create a `<datepicker>` element *without a `name`* attribute for the user
     // to interact with.
-    const pdp = document.createElement('datepicker');
+    const pdp = document.createElement('press-datepicker');
     pdp.setAttribute('v-model', vModelName);
     pdp.setAttribute('class', el.getAttribute('class') || '');
 

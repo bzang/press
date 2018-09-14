@@ -1,8 +1,8 @@
 import {Press} from './press';
 // PLOP: START COMPONENT IMPORT
-import Autocomplete from './components/autocomplete';
-import Datepicker from './components/datepicker';
-import Daterangepicker from './components/daterangepicker';
+import Autocomplete from './components/press-autocomplete';
+import Datepicker from './components/press-datepicker';
+import Daterangepicker from './components/press-daterangepicker';
 // PLOP: END COMPONENT IMPORT
 import {logger} from './lib/logger';
 

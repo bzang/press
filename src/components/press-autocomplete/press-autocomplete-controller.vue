@@ -1,5 +1,5 @@
 <template>
-  <autocomplete-ui
+  <press-autocomplete-ui
     v-bind="$attrs"
     :initial-value="value"
     :results="results"
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import {fetchResults} from './autocomplete-api.js';
-import AutocompleteUI from './autocomplete-ui.vue';
+import {fetchResults} from './press-autocomplete-api.js';
+import AutocompleteUI from './press-autocomplete-ui.vue';
 
 export default {
   components: {
-    'autocomplete-ui': AutocompleteUI
+    'press-autocomplete-ui': AutocompleteUI
   },
   inheritAttrs: false,
   props: {

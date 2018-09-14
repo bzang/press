@@ -1,6 +1,6 @@
 import {v4 as uuid} from 'uuid';
 import Vue from 'vue';
-import daterangepicker from './daterangepicker.vue';
+import daterangepicker from './press-daterangepicker.vue';
 import {
   bindToHiddenInput,
   normalizeKeyPath,
@@ -8,7 +8,7 @@ import {
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
 
-Vue.component('daterangepicker', daterangepicker);
+Vue.component('press-daterangepicker', daterangepicker);
 
 export default class DateRangePicker extends PressComponentBase {
   get name() {
@@ -53,7 +53,7 @@ export default class DateRangePicker extends PressComponentBase {
     bindToHiddenInput(el, startAttrs);
     bindToHiddenInput(el, endAttrs);
 
-    const drp = document.createElement('daterangepicker');
+    const drp = document.createElement('press-daterangepicker');
     drp.setAttribute('class', el.getAttribute('class') || '');
     drp.setAttribute('v-model', baseModelName);
     drp.setAttribute('start-key', startAttrs.key);

@@ -29,6 +29,7 @@
     "lint:types": "npm-run-all lint:types:*",
     "lint:types:src": "tsc",
     "lint:types:features": "tsc --project ./tsconfig.features.json",
+    "now-build": "echo 'now-build is a noop since the server just runs webpack dev server'",
     "plop": "plop",
     "precommit": "lint-staged",
     "semantic-release": "semantic-release",

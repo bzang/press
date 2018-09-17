@@ -51,6 +51,18 @@ jobs:
       - store_artifacts:
           path: reports
 
+  ensure-valid-credentials:
+    docker: *docker
+    steps:
+      - checkout
+      - attach_workspace:
+          at: "."
+      - run:
+          name: "Check that the Semantic Release credentials are valid"
+          command: |
+            echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ./.npmrc
+            npm whoami
+
   release:
     docker: *docker
     environment:
@@ -60,7 +72,7 @@ jobs:
       - attach_workspace:
           at: "."
       - deploy:
-          name: Semantic Release
+          name: "Semantic Release"
           command: |
             echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ./.npmrc
             npm run build
@@ -75,11 +87,17 @@ workflows:
           requires:
             - install
       - test:
-          context: browser-testing
+          context: "browser-testing"
           requires:
             - install
+      - ensure-valid-credentials:
+          context: "semantic-release"
+          requires:
+            - install
+            - lint
+            - test
       - release:
-          context: semantic-release-ians-credentials
+          context: "semantic-release"
           filters:
             branches:
               only: master

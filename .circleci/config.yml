@@ -79,7 +79,7 @@ workflows:
           requires:
             - install
       - release:
-          context: semantic-release-ians-credentials
+          context: semantic-release
           filters:
             branches:
               only: master

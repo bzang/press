@@ -8,16 +8,18 @@
   <main class="ui two column grid">
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
-      <div class="two fields" data-press-component="daterangepicker">
-        <div class="column">
-          <label for="start_date">Start date</label>
-          <input id="start_date" name="start_date" type="date" <%- value("start_date") %>>
-        </div>
-        <div class="column">
-          <label for="end_date">End date</label>
-          <input id="end_date" name="end_date" type="date" <%- value("end_date") %>>
-        </div>
-      </div>
+        <press-daterangepicker start-name="start_date" end-name="end_date" start-label="Start date" end-label="End date" <%- valueObject(['start_date', 'end_date']) %>>
+          <div class="two fields">
+            <div class="column">
+              <label for="start_date">Start date</label>
+              <input id="start_date" name="start_date" type="date" <%- value("start_date") %>>
+            </div>
+            <div class="column">
+              <label for="end_date">End date</label>
+              <input id="end_date" name="end_date" type="date" <%- value("end_date") %>>
+            </div>
+          </div>
+        </press-daterangepicker>
       <button type="submit">Submit</button>
     </form>
     <div class="ui column">

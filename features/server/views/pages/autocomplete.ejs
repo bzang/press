@@ -8,7 +8,9 @@
   <main class="ui two column grid">
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
-      <input name="autocomplete[input]" <%- value('autocomplete[input]') %> data-press-component="autocomplete" data-press-autocomplete-label-path="label">
+      <press-autocomplete name="autocomplete[input]" label-path="label" <%- value('autocomplete[input]') %>>
+        <input name="autocomplete[input]" <%- value('autocomplete[input]') %> >
+      </press-autocomplete>
       <button type="submit">Submit</button>
     </form>
     <template>

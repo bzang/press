@@ -30,3 +30,7 @@ type PressComponentEnhancer = (el: HTMLElement) => void;
  * attributes to those nodes.
  */
 type PressComponentInferrer = (el: Document | HTMLElement) => void;
+
+interface StringMap {
+  [key: string]: string;
+}

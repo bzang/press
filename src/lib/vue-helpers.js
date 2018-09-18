@@ -89,3 +89,23 @@ export function vModelFromNode(el) {
 export function hideWhenVued(el) {
   el.setAttribute('v-if', 'false');
 }
+
+/**
+ * Wraps el with a press component
+ *
+ * @export
+ * @param {HTMLElement} el
+ * @param {string} componentName
+ * @param {StringMap} attrs
+ * @param {Logger} logger
+ */
+export function wrapWith(el, componentName, attrs, logger) {
+  logger.info(`wrapping element with <${componentName}>`);
+  const component = document.createElement(componentName);
+  Object.keys(attrs).forEach((key) => {
+    component.setAttribute(key, attrs[key]);
+  });
+
+  el.after(component);
+  component.appendChild(el);
+}

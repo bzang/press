@@ -81,3 +81,11 @@ export function vModelFromNode(el) {
 
   return normalizeKeyPath(vModelName);
 }
+
+/**
+ * Causes `el` to be removed from the DOM when Vue initializes
+ * @param {HTMLElement} el
+ */
+export function hideWhenVued(el) {
+  el.setAttribute('v-if', 'false');
+}

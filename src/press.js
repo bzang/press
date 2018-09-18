@@ -1,4 +1,5 @@
 import {vueify} from './lib/vueify';
+import {TypeNarrowingError} from './lib/errors';
 
 export class Press {
   get components() {
@@ -13,7 +14,7 @@ export class Press {
   get logger() {
     const logger = loggers.get(this);
     if (!logger) {
-      throw new TypeError(
+      throw new TypeNarrowingError(
         'Somehow, logger is not defined. This should be impossible.'
       );
     }
@@ -73,7 +74,7 @@ export class Press {
     Array.from(document.querySelectorAll('[data-press-component]')).forEach(
       (el) => {
         if (!(el instanceof HTMLElement)) {
-          throw new TypeError('Only HTMLElements can be enhanced by PRESS');
+          throw new TypeNarrowingError();
         }
         this.enhanceComponent(el);
       }
@@ -127,7 +128,7 @@ export class Press {
     Array.from(document.querySelectorAll('[data-press-app]')).forEach(
       (root) => {
         if (!(root instanceof HTMLElement)) {
-          throw new TypeError('PRESS may only be activated on HTMLElements');
+          throw new TypeNarrowingError();
         }
         vueify(root);
       }

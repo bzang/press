@@ -6,6 +6,7 @@ import {
   vModelFromNode
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
+import {TypeNarrowingError} from '../../lib/errors';
 
 Vue.component('datepicker', datepicker);
 
@@ -50,7 +51,7 @@ export default class DatePicker extends PressComponentBase {
   infer(root) {
     Array.from(root.querySelectorAll('input[type="date"]')).forEach((el) => {
       if (!(el instanceof HTMLElement)) {
-        throw new TypeError('PRESS can only infer HTMLElements');
+        throw new TypeNarrowingError();
       }
       const names = el.getAttributeNames();
       if (

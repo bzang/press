@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {touch} from './touch';
 import {vModelFromNode} from './vue-helpers';
+import {TypeNarrowingError} from './errors';
 
 /**
  * Generates a data model and instantiates a Vue app at el
@@ -13,7 +14,7 @@ export function vueify(root) {
 
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
-      throw new TypeError('Only HTMLElements can be vueified');
+      throw new TypeNarrowingError();
     }
     generateModel(el, data);
   });

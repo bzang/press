@@ -1,3 +1,5 @@
+import {TypeNarrowingError} from './lib/errors';
+
 /**
  * @export
  * @abstract
@@ -7,7 +9,7 @@ export default class PressComponentBase {
   get logger() {
     const logger = loggers.get(this);
     if (!logger) {
-      throw new TypeError(
+      throw new TypeNarrowingError(
         'Somehow, logger is not defined. This should be impossible.'
       );
     }

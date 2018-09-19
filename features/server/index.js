@@ -49,6 +49,14 @@ app.use((req, res, next) => {
     .filter((filename) => filename !== 'index.ejs')
     .map((filename) => filename.replace('.ejs', ''));
 
+  res.locals.valueObject = (names) => {
+    const obj = names.reduce((acc, name) => {
+      acc[name] = _.get(req, `query.${name}`);
+      return acc;
+    }, {});
+    return `value='${JSON.stringify(obj) || ''}'`;
+  };
+
   res.locals.value = (name) => {
     if (_.has(req, `query.${name}`)) {
       return `value="${_.get(req, `query.${name}`)}"`;

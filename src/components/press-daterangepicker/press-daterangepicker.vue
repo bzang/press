@@ -1,5 +1,6 @@
 <template>
   <input
+    :name="name"
     :value="localeStringeFromValue"
     data-press-daterangepicker-input
   >
@@ -18,20 +19,44 @@ import {
   toLocaleString
 } from '../../lib/date';
 
+/**
+ * Multi-value date range picker
+ */
 export default {
   props: {
+    /** The start date portion of the object bound to v-model */
     startKey: {
       default: 'start',
       type: String
     },
+    /** The start date portion of the object bound to v-model */
     endKey: {
       default: 'end',
       type: String
     },
+    /**
+     * When supplied, will be treated as a common key path for startKey and
+     * endKey. If no name is specified, the value and input events will emit
+     * objects like `{[startKey]: '...', [endKey]: '...'}`; when name is supplied, the
+     * object will look like `{[name]: {[startKey]: '...', [endKey]: '...'}}`
+     */
+    name: {
+      default() {
+        return '';
+      },
+      type: String
+    },
+    /**
+     * Passed through to the [daterangepicker.com](daterangepicker.com) jQuery
+     * plugin
+     */
     parentSelector: {
       default: '',
       type: String
     },
+    /**
+     * @model
+     */
     value: {
       default() {
         return {
@@ -97,9 +122,10 @@ export default {
       }
     );
     if (this.start === this.end) {
-      this.$nextTick().then(this.setDefaultText);
-    }
-    if (this.start === undefined || this.end === undefined) {
+      this.$nextTick()
+        .then(() => this.$nextTick())
+        .then(this.setDefaultText);
+    } else if (this.start === undefined || this.end === undefined) {
       this.$nextTick().then(this.setDefaultText);
     }
 

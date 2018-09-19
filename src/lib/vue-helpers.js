@@ -8,11 +8,11 @@
  * element. if not specified, will be extract from `el`.
  * @param {string|null} [options.value] - initial value for the element
  */
-export function bindToHiddenInput(el, options) {
-  const name = (options && options.name) || el.getAttribute('name');
-  const vModel = (options && options.vModel) || el.getAttribute('v-model');
-  const value = (options && options.value) || el.getAttribute('value');
-
+export function bindToHiddenInput(el, options = {name: '', vModel: ''}) {
+  const name = options.name || el.getAttribute('name');
+  const vModel = options.vModel || el.getAttribute('v-model');
+  const value =
+    'value' in options ? options.value : el.getAttribute('value') || '';
   if (!name) {
     throw new Error(
       'Cannot bind hidden input without a name parameter or attribute'
@@ -32,6 +32,11 @@ export function bindToHiddenInput(el, options) {
   if (value) {
     hidden.setAttribute('value', value);
   }
+  // The only time we should be using this function is when we want to use the
+  // value in the hidden input instead of the press component, so we don't want
+  // the original to keep its name and therefore submit to values for the same
+  // name
+  el.removeAttribute('name');
 
   el.after(hidden);
 }

@@ -3,7 +3,8 @@ import datepicker from './press-datepicker.vue';
 import {
   bindToHiddenInput,
   normalizeKeyPath,
-  vModelFromNode
+  vModelFromNode,
+  wrapWith
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';
@@ -20,28 +21,11 @@ export default class DatePicker extends PressComponentBase {
    */
   enhance(el) {
     const vModelName = normalizeKeyPath(vModelFromNode(el));
-
-    // replace the v-model name with a normalized version of same.
     el.setAttribute('v-model', vModelName);
 
-    // Configure the element to disappear as soon as Vue takes over
-    el.setAttribute('v-if', 'false');
-
-    // Create a `<datepicker>` element *without a `name`* attribute for the user
-    // to interact with.
-    const pdp = document.createElement('press-datepicker');
-    pdp.setAttribute('v-model', vModelName);
-    pdp.setAttribute('class', el.getAttribute('class') || '');
-
-    const value = el.getAttribute('value');
-    if (value) {
-      pdp.setAttribute('value', value);
-    }
-
-    el.after(pdp);
-
-    // Bind the `<datepicker>` to a `name`d hidden input which will do the actual
-    // submission
+    // daterangepicker.com's date picker puts the locale format in the value
+    // attribute, so we can't submit it. Instead, we'll bind its ISO formatted
+    // value to a hidden input field and remove the name from `el`
     bindToHiddenInput(el);
   }
 
@@ -53,14 +37,23 @@ export default class DatePicker extends PressComponentBase {
       if (!(el instanceof HTMLElement)) {
         throw new TypeNarrowingError();
       }
-      const names = el.getAttributeNames();
-      if (
-        names.includes('data-press-component') ||
-        names.includes('data-press-app')
-      ) {
-        return;
+      const ancestor = el.closest('press-datepicker');
+      if (!ancestor) {
+        this.logger.warn(
+          'Inferring <press-datepicker> from input[type="date"]. Inferrence may be removed in the future; you should explicitly use <press-datepicker> here.'
+        );
+        wrapWith(
+          el,
+          'press-datepicker',
+          {
+            name: el.getAttribute('name') || '',
+            placeholder: el.getAttribute('placeholder') || '',
+            'v-model': normalizeKeyPath(vModelFromNode(el)),
+            value: el.getAttribute('value') || ''
+          },
+          this.logger
+        );
       }
-      el.setAttribute('data-press-component', 'datepicker');
     });
   }
 }

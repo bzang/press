@@ -25,12 +25,12 @@ import {
 export default {
   props: {
     /** The start date portion of the object bound to v-model */
-    startKey: {
+    pressStartKey: {
       default: 'start',
       type: String
     },
     /** The start date portion of the object bound to v-model */
-    endKey: {
+    pressEndKey: {
       default: 'end',
       type: String
     },
@@ -50,7 +50,7 @@ export default {
      * Passed through to the [daterangepicker.com](daterangepicker.com) jQuery
      * plugin
      */
-    parentSelector: {
+    pressParentSelector: {
       default: '',
       type: String
     },
@@ -60,8 +60,8 @@ export default {
     value: {
       default() {
         return {
-          [this.startKey]: undefined,
-          [this.endKey]: undefined
+          [this.pressStartKey]: undefined,
+          [this.pressEndKey]: undefined
         };
       },
       type: Object
@@ -76,22 +76,22 @@ export default {
   computed: {
     startDateFromValue() {
       return toDateRangePickerValue(
-        get(this, `value.${this.startKey}`, undefined)
+        get(this, `value.${this.pressStartKey}`, undefined)
       );
     },
     endDateFromValue() {
       return toDateRangePickerValue(
-        get(this, `value.${this.endKey}`, undefined)
+        get(this, `value.${this.pressEndKey}`, undefined)
       );
     },
     start() {
-      if (this.value && this.value[this.startKey]) {
-        return this.value[this.startKey];
+      if (this.value && this.value[this.pressStartKey]) {
+        return this.value[this.pressStartKey];
       }
     },
     end() {
-      if (this.value && this.value[this.endKey]) {
-        return this.value[this.endKey];
+      if (this.value && this.value[this.pressEndKey]) {
+        return this.value[this.pressEndKey];
       }
     },
     localeStringeFromValue() {
@@ -114,7 +114,7 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        parentEl: this.parentSelector,
+        parentEl: this.pressParentSelector,
         locale
       },
       (start, end) => {
@@ -151,8 +151,8 @@ export default {
         this.$nextTick().then(this.setDefaultText);
       }
       this.$emit('input', {
-        [this.startKey]: start.format('YYYY-MM-DD'),
-        [this.endKey]: end.format('YYYY-MM-DD')
+        [this.pressStartKey]: start.format('YYYY-MM-DD'),
+        [this.pressEndKey]: end.format('YYYY-MM-DD')
       });
     },
     clearDate() {

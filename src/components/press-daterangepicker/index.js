@@ -31,17 +31,17 @@ export default class DateRangePicker extends PressComponentBase {
 
     el.setAttribute('v-model', baseVModel);
 
-    const startKey = el.getAttribute('start-key');
+    const startKey = el.getAttribute('press-start-key');
     if (!startKey) {
       throw new Error(
-        '<press-daterangepicker> may not be used without a `start-key` attribute'
+        '<press-daterangepicker> may not be used without a `press-start-key` attribute'
       );
     }
 
-    const endKey = el.getAttribute('end-key');
+    const endKey = el.getAttribute('press-end-key');
     if (!endKey) {
       throw new Error(
-        '<press-daterangepicker> may not be used without a `end-key` attribute'
+        '<press-daterangepicker> may not be used without a `press-end-key` attribute'
       );
     }
 

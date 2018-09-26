@@ -27,7 +27,7 @@ export default {
      * compatible keypath for extracting label values. Use `'.'` for an array of
      * strings.
      */
-    labelPath: {
+    pressLabelPath: {
       default() {
         return 'label';
       },
@@ -36,7 +36,7 @@ export default {
     /**
      * Indicates the HTTP verb used to reach your autocomplete API
      */
-    method: {
+    pressMethod: {
       default() {
         return 'GET';
       },
@@ -46,7 +46,7 @@ export default {
      * querystring parameter in which the server expects to find the search
      * string.
      */
-    param: {
+    pressParam: {
       default() {
         return 'q';
       },
@@ -55,7 +55,7 @@ export default {
     /**
      * API route that receives the autocomplete request.
      */
-    route: {
+    pressRoute: {
       default() {
         return window.location.pathname;
       },
@@ -88,10 +88,10 @@ export default {
         return;
       }
 
-      fetchResults(this.route, value, {
-        keyPath: this.labelPath,
-        method: this.method,
-        param: this.param
+      fetchResults(this.pressRoute, value, {
+        keyPath: this.pressLabelPath,
+        method: this.pressMethod,
+        param: this.pressParam
       }).then((res) => {
         this.results = res;
       });

@@ -21,7 +21,7 @@
     "build:esm": "BUILD_TARGET=esm npm run compile",
     "build:readme": "markdown-toc -i --bullets='-' --maxdepth=3  README.md  && prettier --write README.md",
     "build:docs": "vue-styleguidist build",
-    "clean": "rimraf dist press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
+    "clean": "rimraf dist styleguide press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
     "commitmsg": "commitlint -e",
     "eslint": "eslint --ignore --ignore-path .gitignore --ext js --ext vue",
     "lint": "npm-run-all lint:*",

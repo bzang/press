@@ -19,8 +19,10 @@ following form.
 
 ```html
 <press-daterangepicker start-key="start_date" end-key="end_date">
-    <input type="date" name="start_date" />
-    <input type="date" name="end_date" />
+    <press-noscript>
+        <input type="date" name="start_date" />
+        <input type="date" name="end_date" />
+    </press-noscript>
 </press-daterangepicker>
 ```
 
@@ -32,8 +34,10 @@ with pre-filled dates:
     end-key="end_date"
     value='{"start_date":"2022-01-01","end_date":"2022-02-02"}'
 >
-    <input type="date" name="start_date" value="2022-01-01" />
-    <input type="date" name="end_date" value="2022-01-02" />
+    <press-noscript>
+        <input type="date" name="start_date" value="2022-01-01" />
+        <input type="date" name="end_date" value="2022-01-02" />
+    </press-noscript>
 </press-daterangepicker>
 ```
 
@@ -64,8 +68,10 @@ with pre-filled dates:
     end-key="end_date"
     value='{"date_rangepicker_form[start_date]":"2022-01-01","date_rangepicker_form[end_date]":"2022-02-02"}'
 >
-    <input type="date" name="my_date_range[start_date]" value="2022-01-01" />
-    <input type="date" name="my_date_range[end_date]" value="2022-01-02" />
+    <press-noscript>
+        <input type="date" name="my_date_range[start_date]" value="2022-01-01" />
+        <input type="date" name="my_date_range[end_date]" value="2022-01-02" />
+    </press-noscript>
 </press-daterangepicker>
 ```
 

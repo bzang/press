@@ -5,6 +5,10 @@ import PressComponentBase from '../../press-component';
 Vue.component('{{lowerCase name}}', {{lowerCase name}});
 
 export default class {{pascalCase name}} extends PressComponentBase {
+  get name() {
+    return '{{lowerCase name}}';
+  }
+
   /**
    * @param {HTMLElement} el
    */

@@ -9,7 +9,9 @@
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
       <press-autocomplete name="autocomplete[input]" press-label-path="label" <%- value('autocomplete[input]') %>>
-        <input name="autocomplete[input]" <%- value('autocomplete[input]') %> >
+        <press-noscript>
+          <input name="autocomplete[input]" <%- value('autocomplete[input]') %> >
+        </press-noscript>
       </press-autocomplete>
       <button type="submit">Submit</button>
     </form>

@@ -23,7 +23,9 @@ Your API will need to respond with an array of items:
 
 ```html
 <press-autocomplete name="q">
-    <input type="text" name="q">
+    <press-noscript>
+        <input type="text" name="q">
+    </press-noscript>
 </press-autocomplete>
 ```
 
@@ -46,6 +48,8 @@ You can use `label-path` to tell `press-component` where to look:
 
 ```html
 <press-autocomplete label-path="result.label" name="q">
-    <input type="text" name="q">
+    <press-noscript>
+        <input type="text" name="q">
+    </press-noscript>
 </press-autocomplete>
 ```

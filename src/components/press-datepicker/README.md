@@ -7,7 +7,9 @@ instructions. Any `input[type="date"]` is automatically enhanced with
 
 ```html
 <press-datepicker name="my_date">
-    <input type="date" name="my_date" />
+    <press-noscript>
+        <input type="date" name="my_date" />
+    </press-noscript>
 </press-datepicker>
 ```
 
@@ -15,7 +17,9 @@ with prefilled date:
 
 ```html
 <press-datepicker name="my_date" value="2022-01-01">
-    <input type="date" name="my_date" value="2022-01-01" />
+    <press-noscript>
+        <input type="date" name="my_date" value="2022-01-01" />
+    </press-noscript>
 </press-datepicker>
 ```
 
@@ -27,10 +31,12 @@ The `<press-datepicker>` is automatically applied to any date input on the page:
 <input type="date" name="start" />
 ```
 
-becomes
+effectively becomes
 
 ```html
 <press-datepicker v-model="start">
-    <input type="date" name="start" v-model="start" />
+    <press-noscript>
+        <input type="date" name="start" />
+    </press-noscript>
 </press-datepicker>
 ```

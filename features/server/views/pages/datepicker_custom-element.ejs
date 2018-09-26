@@ -9,7 +9,9 @@
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
       <press-datepicker name="date_picker_form[input]" placeholder="Enter a date" <%- value('date_picker_form[input]') %>>
-        <input name="date_picker_form[input]" placeholder="Enter a date" type="date" <%- value('date_picker_form[input]') %>>
+        <press-noscript>
+          <input name="date_picker_form[input]" placeholder="Enter a date" type="date" <%- value('date_picker_form[input]') %>>
+        </press-noscript>
       </press-datepicker>
       <button type="submit">Submit</button>
     </form>

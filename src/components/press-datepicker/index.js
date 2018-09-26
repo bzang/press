@@ -37,6 +37,9 @@ export default class DatePicker extends PressComponentBase {
       if (!(el instanceof HTMLElement)) {
         throw new TypeNarrowingError();
       }
+      if (el.closest('press-noscript')) {
+        return;
+      }
       const ancestor = el.closest('press-datepicker');
       if (!ancestor) {
         this.logger.warn(

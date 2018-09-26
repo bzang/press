@@ -33,7 +33,7 @@ module.exports = function(plop) {
         path: 'src/index.js',
         pattern: /(\/\/ PLOP: END COMPONENT IMPORT)/gi,
         template:
-          "import {{pascalCase name}} from './components/press-{{kebabCase name}};\n$1"
+          "import {{pascalCase name}} from './components/press-{{kebabCase name}}';\n$1"
       }
     ]
   });

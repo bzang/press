@@ -81,7 +81,7 @@
     "autoprefixer": "^9.0.2",
     "babel-loader": "^8.0.2",
     "babel-plugin-lodash": "^3.3.4",
-    "babel-preset-minify": "^0.4.3",
+    "babel-preset-minify": "^0.5.0",
     "chai": "^4.1.2",
     "condition-circle": "^2.0.1",
     "css-loader": "^1.0.0",

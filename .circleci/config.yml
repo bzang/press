@@ -44,7 +44,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: "."
-      - run: env
       - run: npm run build
       - run: npm test
       - store_test_results:

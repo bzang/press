@@ -1,8 +1,9 @@
 import {Press} from './press';
 // PLOP: START COMPONENT IMPORT
-import Autocomplete from './components/autocomplete';
-import Datepicker from './components/datepicker';
-import Daterangepicker from './components/daterangepicker';
+import Autocomplete from './components/press-autocomplete';
+import Datepicker from './components/press-datepicker';
+import Daterangepicker from './components/press-daterangepicker';
+import Noscript from './components/press-noscript';
 // PLOP: END COMPONENT IMPORT
 import {logger} from './lib/logger';
 
@@ -13,6 +14,7 @@ performance.mark('press:register:components:start');
 press.registerComponent(new Autocomplete({logger}));
 press.registerComponent(new Datepicker({logger}));
 press.registerComponent(new Daterangepicker({logger}));
+press.registerComponent(new Noscript({logger}));
 // PLOP: END COMPONENT REGISTRATION
 
 performance.mark('press:register:components:end');

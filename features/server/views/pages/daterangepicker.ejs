@@ -8,16 +8,20 @@
   <main class="ui two column grid">
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
-      <div class="two fields" data-press-component="daterangepicker">
-        <div class="column">
-          <label for="date_rangepicker_form_start_date">Start date</label>
-          <input id="date_rangepicker_form_start_date" name="date_rangepicker_form[start_date]" type="date" <%- value("date_rangepicker_form[start_date]") %>>
-        </div>
-        <div class="column">
-          <label for="date_rangepicker_form_end_date">End date</label>
-          <input id="date_rangepicker_form_end_date" name="date_rangepicker_form[end_date]" type="date" <%- value("date_rangepicker_form[end_date]") %>>
-        </div>
-      </div>
+      <press-daterangepicker name="date_rangepicker_form" press-start-key="start_date" press-end-key="end_date" <%- valueObject(['date_rangepicker_form[start_date]', 'date_rangepicker_form[end_date]']) %>>
+        <press-noscript>
+          <div class="two fields">
+            <div class="column">
+              <label for="date_rangepicker_form_start_date">Start date</label>
+              <input id="date_rangepicker_form_start_date" name="date_rangepicker_form[start_date]" type="date" <%- value("date_rangepicker_form[start_date]") %>>
+            </div>
+            <div class="column">
+              <label for="date_rangepicker_form_end_date">End date</label>
+              <input id="date_rangepicker_form_end_date" name="date_rangepicker_form[end_date]" type="date" <%- value("date_rangepicker_form[end_date]") %>>
+            </div>
+          </div>
+        </press-noscript>
+      </press-daterangepicker>
       <button type="submit">Submit</button>
     </form>
     <template>

@@ -20,7 +20,8 @@
     "build:cjs": "BUILD_TARGET=cjs npm run compile",
     "build:esm": "BUILD_TARGET=esm npm run compile",
     "build:readme": "markdown-toc -i --bullets='-' --maxdepth=3  README.md  && prettier --write README.md",
-    "clean": "rimraf dist press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
+    "build:docs": "vue-styleguidist build",
+    "clean": "rimraf dist styleguide press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
     "commitmsg": "commitlint -e",
     "eslint": "eslint --ignore --ignore-path .gitignore --ext js --ext vue",
     "lint": "npm-run-all lint:*",
@@ -34,6 +35,7 @@
     "precommit": "lint-staged",
     "semantic-release": "semantic-release",
     "start": "PORT=4000 AUTORUN=true nodemon --watch features --watch webpack.config.js --ext js features/server/index.js",
+    "start:docs": "vue-styleguidist server",
     "test": "PORT=4000 AUTORUN=true DEBUG=press:test* wdio"
   },
   "engines": {
@@ -119,6 +121,7 @@
     "typescript": "^3.0.3",
     "vue": "^2.5.16",
     "vue-loader": "^15.2.6",
+    "vue-styleguidist": "^1.8.5",
     "vue-template-compiler": "^2.5.16",
     "wdio": "^2.0.2",
     "wdio-cucumber-framework": "^2.2.2",

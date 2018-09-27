@@ -1,7 +1,7 @@
 <template>
   <input
     :value="localeStringFromValue"
-    data-press-datepicker-input>
+    :placeholder="placeholder">
 </template>
 
 <script>
@@ -10,9 +10,19 @@ import 'daterangepicker';
 import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 import {get} from 'lodash';
 
+/**
+ * Single value date picker
+ */
 export default {
   props: {
+    /**
+     * @model
+     */
     value: {
+      default: '',
+      type: String
+    },
+    placeholder: {
       default: '',
       type: String
     }

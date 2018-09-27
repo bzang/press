@@ -2,17 +2,17 @@
 <section class="ui basic segment">
   <header>
     <h1>PRESS Test Site</h1>
-    <h2>Autocomplete</h2>
+    <h2>Date Picker</h2>
   </header>
 
   <main class="ui two column grid">
     <form class="ui form column" method="POST">
       <h3>Code Under Test</h3>
-      <press-autocomplete name="autocomplete[input]" press-label-path="label" <%- value('autocomplete[input]') %>>
+      <press-datepicker name="date_picker_form[input]" placeholder="Enter a date" <%- value('date_picker_form[input]') %>>
         <press-noscript>
-          <input name="autocomplete[input]" <%- value('autocomplete[input]') %> >
+          <input name="date_picker_form[input]" placeholder="Enter a date" type="date" <%- value('date_picker_form[input]') %>>
         </press-noscript>
-      </press-autocomplete>
+      </press-datepicker>
       <button type="submit">Submit</button>
     </form>
     <template>
@@ -20,11 +20,11 @@
         <caption>external accessors for writing assertions</caption>
         <tr>
           <th>Current Model Value</th>
-          <td><div id="selected-value">{{autocomplete.input}}</div></td>
+          <td><div id="selected-value">{{date_picker_form.input}}</div></td>
         </tr>
         <tr>
           <th><label for="external-input">Secondary Input</label></th>
-          <td><input id="external-input" v-model="autocomplete.input"></td>
+          <td><input id="external-input" v-model="date_picker_form.input"></td>
         </tr>
       </table>
     </template>

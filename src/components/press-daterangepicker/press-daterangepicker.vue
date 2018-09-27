@@ -1,5 +1,6 @@
 <template>
   <input
+    :name="name"
     :value="localeStringeFromValue"
     data-press-daterangepicker-input
   >
@@ -18,25 +19,49 @@ import {
   toLocaleString
 } from '../../lib/date';
 
+/**
+ * Multi-value date range picker
+ */
 export default {
   props: {
-    startKey: {
+    /** The start date portion of the object bound to v-model */
+    pressStartKey: {
       default: 'start',
       type: String
     },
-    endKey: {
+    /** The start date portion of the object bound to v-model */
+    pressEndKey: {
       default: 'end',
       type: String
     },
-    parentSelector: {
+    /**
+     * When supplied, will be treated as a common key path for startKey and
+     * endKey. If no name is specified, the value and input events will emit
+     * objects like `{[startKey]: '...', [endKey]: '...'}`; when name is supplied, the
+     * object will look like `{[name]: {[startKey]: '...', [endKey]: '...'}}`
+     */
+    name: {
+      default() {
+        return '';
+      },
+      type: String
+    },
+    /**
+     * Passed through to the [daterangepicker.com](daterangepicker.com) jQuery
+     * plugin
+     */
+    pressParentSelector: {
       default: '',
       type: String
     },
+    /**
+     * @model
+     */
     value: {
       default() {
         return {
-          [this.startKey]: undefined,
-          [this.endKey]: undefined
+          [this.pressStartKey]: undefined,
+          [this.pressEndKey]: undefined
         };
       },
       type: Object
@@ -51,22 +76,22 @@ export default {
   computed: {
     startDateFromValue() {
       return toDateRangePickerValue(
-        get(this, `value.${this.startKey}`, undefined)
+        get(this, `value.${this.pressStartKey}`, undefined)
       );
     },
     endDateFromValue() {
       return toDateRangePickerValue(
-        get(this, `value.${this.endKey}`, undefined)
+        get(this, `value.${this.pressEndKey}`, undefined)
       );
     },
     start() {
-      if (this.value && this.value[this.startKey]) {
-        return this.value[this.startKey];
+      if (this.value && this.value[this.pressStartKey]) {
+        return this.value[this.pressStartKey];
       }
     },
     end() {
-      if (this.value && this.value[this.endKey]) {
-        return this.value[this.endKey];
+      if (this.value && this.value[this.pressEndKey]) {
+        return this.value[this.pressEndKey];
       }
     },
     localeStringeFromValue() {
@@ -89,7 +114,7 @@ export default {
         startDate: this.startDateFromValue,
         endDate: this.endDateFromValue,
         minDate: toDateRangePickerValue(new Date()),
-        parentEl: this.parentSelector,
+        parentEl: this.pressParentSelector,
         locale
       },
       (start, end) => {
@@ -97,9 +122,10 @@ export default {
       }
     );
     if (this.start === this.end) {
-      this.$nextTick().then(this.setDefaultText);
-    }
-    if (this.start === undefined || this.end === undefined) {
+      this.$nextTick()
+        .then(() => this.$nextTick())
+        .then(this.setDefaultText);
+    } else if (this.start === undefined || this.end === undefined) {
       this.$nextTick().then(this.setDefaultText);
     }
 
@@ -125,8 +151,8 @@ export default {
         this.$nextTick().then(this.setDefaultText);
       }
       this.$emit('input', {
-        [this.startKey]: start.format('YYYY-MM-DD'),
-        [this.endKey]: end.format('YYYY-MM-DD')
+        [this.pressStartKey]: start.format('YYYY-MM-DD'),
+        [this.pressEndKey]: end.format('YYYY-MM-DD')
       });
     },
     clearDate() {

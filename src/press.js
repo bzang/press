@@ -33,9 +33,13 @@ export class Press {
    * @param {string} [name] - override the component's name in order to get around name collisions
    */
   registerComponent(component, name) {
-    this.logger.info(`Registering component ${component.name}`);
-    this.components.set(name || component.name, component);
-    this.logger.info(`Registered component ${component.name}`);
+    let componentName = (name || component.name).toLowerCase();
+    if (!componentName.startsWith('press-')) {
+      componentName = `press-${componentName}`;
+    }
+    this.logger.info(`Registering component ${componentName}`);
+    this.components.set(componentName, component);
+    this.logger.info(`Registered component ${componentName}`);
   }
 
   /**
@@ -47,15 +51,13 @@ export class Press {
     this.logger.info('Inferring component types');
 
     for (const [name, component] of this.components) {
-      performance.mark(`press:infer:components:${name}:start`);
-      this.logger.info(`Inferring ${name}`);
-
       if (component.infer) {
+        performance.mark(`press:infer:components:${name}:start`);
+        this.logger.info(`Inferring ${name}`);
         component.infer(document);
+        this.logger.info(`Inferred ${name}`);
+        performance.mark(`press:infer:components:${name}:end`);
       }
-
-      this.logger.info(`Inferred ${name}`);
-      performance.mark(`press:infer:components:${name}:end`);
     }
 
     this.logger.info('Inferred component types');
@@ -71,51 +73,24 @@ export class Press {
     performance.mark('press:enhance:components:start');
     this.logger.info('Enhancing components');
 
-    Array.from(document.querySelectorAll('[data-press-component]')).forEach(
-      (el) => {
+    for (const [name, component] of this.components) {
+      performance.mark(`press:enhance:components:${name}:start`);
+      this.logger.info(`Enhancing ${name}`);
+      const elements = Array.from(document.querySelectorAll(name));
+      for (const el of elements) {
         if (!(el instanceof HTMLElement)) {
           throw new TypeNarrowingError();
         }
-        this.enhanceComponent(el);
+        this.logger.info(`Enhancing a ${name} instance`);
+        component.enhance(el);
+        this.logger.info(`Enhanced a ${name} instance`);
       }
-    );
+      this.logger.info(`Enhanceed ${name}`);
+      performance.mark(`press:enhance:components:${name}:end`);
+    }
 
     this.logger.info('Enhanced components');
     performance.mark('press:enhance:components:end');
-  }
-
-  /**
-   * Enhances the specified element
-   * @param {HTMLElement} el
-   * @private
-   */
-  enhanceComponent(el) {
-    if (el.matches('[data-press-component] [data-press-component]')) {
-      this.logger.info(
-        'Element is a child of another press component, not enhancing'
-      );
-      return;
-    }
-    this.logger.info('Enhancing component');
-    const componentName = el.dataset.pressComponent;
-    if (!componentName) {
-      throw new Error(
-        'Cannot enhanced a component that does not specify its component type'
-      );
-    }
-    this.logger.info(`Finding enhancer for ${componentName}`);
-    const component = this.components.get(componentName);
-    if (!component) {
-      this.logger.warn(
-        `Component "${componentName}" has not be registered with PRESS`
-      );
-      return;
-    }
-    this.logger.info(`Found enhancer for ${componentName}`);
-
-    this.logger.info(`Enhancing element with ${componentName}`);
-    component.enhance(el);
-    this.logger.info(`Enhanced element with ${componentName}`);
   }
 
   /**

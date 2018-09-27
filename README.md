@@ -263,60 +263,8 @@ HTML, press includes its own componets.
 > Eventually, there will be a sem-ver major release that makes the components
 > optional, but for now, they're required as are their dependencies
 
-#### `data-press-component="autocomplete"`
-
-The `autocomplete` component decorates a text input with semantic ui attributes
-and the semantic ui search plugin. It further populates html with results when
-the request resolves.
-
-You must specify the following data attributes to configure the autocomplete
-component.
-
--   data-press-autocomplete-method - defaults to `GET`. indicates the HTTP verb
-    used to reach your autocomplete API
--   data-press-autocomplete-route - url route that receives the autocomplete
-    request. Defaults to `window.location.pathname`, but you should almost
-    certainly override this.
--   data-press-autocomplete-param - defaults to `q`. query parameter to put the
-    current string in.
--   data-press-autocomplete-label-path - defaults to 'label', this is the
-    lodash-compatible path within each result object at which to find the
-    display value. Use `.` for an array of strings.
-
-Your API must return an array of objects or strings.
-
-> Results will be rendered in the order returned by the service.
-
-#### `data-press-component="datepicker"`
-
-The `datepicker` component is a single-value input datepicker. See
-[http://daterangepicker.com/](http://daterangepicker.com/) for styling
-instructions. Any `input[type="date"]` is automatically enhanced with
-`datepicker`.
-
-#### `data-press-component="daterangepicker"`
-
-A bit more complicated than the `datepicker`, the `daterangepicker` helps your
-users select a range of dates. To use it, you'll need to provide html of the
-following form.
-
-```html
-<div>
-  <div>
-    <label for="START_ID">START_LABEL</label>
-    <input id="START_ID" name="START_NAME" placeholder="START_PLACEHOLDER" type="date">
-  </div>
-  <div>
-    <label for="END_ID">END_LABEL</label>
-    <input id="END_ID" name="END_NAME" placeholder="END_PLACEHOLDER" type="date">
-  </div>
-</div>
-```
-
-The `label`s, `placeholder`s, and `id`s are optional if `label`s are omitted but
-you must specify the `name`s. We call `querySelectorAll('input[type="date"]')`
-on the top div, expect to discover two date elements, and assume they are in
-`[start, end]` order.
+Each component in [./src/components/](./src/components/) has a README explaining
+its usage.
 
 ## How It Works
 

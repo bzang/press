@@ -22,7 +22,6 @@
     "build:readme": "markdown-toc -i --bullets='-' --maxdepth=3  README.md  && prettier --write README.md",
     "build:docs": "vue-styleguidist build",
     "clean": "rimraf dist styleguide press.js press.js.map press.min.js press.min.js.map press.css press.css.map press.min.css press.min.css.map",
-    "commitmsg": "commitlint -e",
     "eslint": "eslint --ignore --ignore-path .gitignore --ext js --ext vue",
     "lint": "npm-run-all lint:*",
     "lint:changelog": "commitlint --from origin/master --to HEAD",
@@ -32,7 +31,6 @@
     "lint:types:features": "tsc --project ./tsconfig.features.json",
     "now-build": "echo 'now-build is a noop since the server just runs webpack dev server'",
     "plop": "plop",
-    "precommit": "lint-staged",
     "semantic-release": "semantic-release",
     "start": "PORT=4000 AUTORUN=true nodemon --watch features --watch webpack.config.js --ext js features/server/index.js",
     "start:docs": "vue-styleguidist server",
@@ -146,5 +144,11 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "uuid": "^3.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e",
+      "pre-commit": "lint-staged"
+    }
   }
 }

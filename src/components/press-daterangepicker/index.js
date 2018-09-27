@@ -45,15 +45,15 @@ export default class DateRangePicker extends PressComponentBase {
       );
     }
 
-    const value = {[startKey]: undefined, [endKey]: undefined};
+    const value = {[startKey]: null, [endKey]: null};
 
     /** @type {string|Object} */
     let rawValue = el.getAttribute('value');
     el.removeAttribute('value');
     if (rawValue) {
       rawValue = JSON.parse(rawValue);
-      value[startKey] = get(rawValue, `${name}[${startKey}]`);
-      value[endKey] = get(rawValue, `${name}[${endKey}]`);
+      value[startKey] = get(rawValue, `${name}[${startKey}]`, null);
+      value[endKey] = get(rawValue, `${name}[${endKey}]`, null);
     }
     bindToHiddenInput(el, {
       name: name ? `${name}[${startKey}]` : startKey,

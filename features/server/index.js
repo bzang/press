@@ -115,6 +115,7 @@ app.post('*', renderView);
 
 app.use(errorHandler());
 
+// @ts-ignore - this will *not* always return false, but ts changed something
 if (require.main === module) {
   app.listen(process.env.PORT, () => {
     // eslint-disable-next-line no-console

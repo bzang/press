@@ -1,10 +1,16 @@
 import Vue from 'vue';
-import {{lowerCase name}} from './press-{{lowerCase name}}.vue';
+
 import PressComponentBase from '../../press-component';
+
+import {{lowerCase name}} from './press-{{lowerCase name}}.vue';
 
 Vue.component('{{lowerCase name}}', {{lowerCase name}});
 
+/**
+ * press component for press-{{lowerCase name}} tag
+ */
 export default class {{pascalCase name}} extends PressComponentBase {
+  /** @returns {'{{lowerCase name}}'} */
   get name() {
     return '{{lowerCase name}}';
   }

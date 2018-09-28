@@ -1,3 +1,5 @@
+const {Given} = require('cucumber');
+
 const checkContainsAnyText = require('../support/check/checkContainsAnyText');
 const checkIsEmpty = require('../support/check/checkIsEmpty');
 const checkContainsText = require('../support/check/checkContainsText');
@@ -17,8 +19,6 @@ const isEnabled = require('../support/check/isEnabled');
 const isVisible = require('../support/check/isVisible');
 const openWebsite = require('../support/action/openWebsite');
 const resizeScreenSize = require('../support/action/resizeScreenSize');
-
-const {Given} = require('cucumber');
 
 Given(/^I open the (url|site) "([^"]*)?"$/, openWebsite);
 

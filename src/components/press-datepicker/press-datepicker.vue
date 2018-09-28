@@ -7,26 +7,31 @@
 <script>
 import $ from 'jquery';
 import 'daterangepicker';
-import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 import {get} from 'lodash';
 
+import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
+
+/* eslint-disable sort-keys */
 /**
  * Single value date picker
  */
 export default {
   props: {
+    placeholder: {
+      default: '',
+      type: String
+    },
     /**
      * @model
      */
     value: {
       default: '',
       type: String
-    },
-    placeholder: {
-      default: '',
-      type: String
     }
   },
+  /**
+   * @returns {Object}
+   */
   data() {
     return {
       /** @type {JQuery<HTMLElement>|null} */
@@ -34,15 +39,18 @@ export default {
     };
   },
   computed: {
+    /** @returns {Date|undefined} */
     startDateFromValue() {
       return toDateRangePickerValue(get(this, 'value.start', undefined));
     },
+    /** @returns {string|undefined} */
     localeStringFromValue() {
       if (this.value) {
         return toLocaleString(this.value);
       }
     }
   },
+  /** lifecycle method */
   mounted() {
     const $$el = $(this.$el);
     this.$$el = $$el;
@@ -58,11 +66,13 @@ export default {
       }
     );
 
+    // eslint-disable-next-line jquery/no-data
     const data = $$el.data('daterangepicker');
     if (data) {
       this.emit(data.startDate);
     }
   },
+  /** lifecycle method */
   beforeDestroy() {
     const {$$el} = this;
     if ($$el) {
@@ -79,6 +89,7 @@ export default {
     }
   }
 };
+/* eslint-enable sort-keys */
 </script>
 
 <style>

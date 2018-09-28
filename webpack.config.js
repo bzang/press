@@ -1,4 +1,5 @@
 const path = require('path');
+
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -16,15 +17,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
         exclude: /node_modules/,
+        test: /\.js$/,
         use: {
           loader: 'babel-loader'
         }
       },
       {
-        test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        test: /\.vue$/
       },
       {
         test: /\.css$/,
@@ -37,13 +38,6 @@ module.exports = {
         ]
       }
     ]
-  },
-  resolve: {
-    alias: {
-      // By default, the version of Vue published to npm does not include the
-      // template compiler; this alias overrides that.
-      vue: 'vue/dist/vue.esm.js'
-    }
   },
   output: {
     filename: PROD ? 'press.min.js' : 'press.js',
@@ -59,11 +53,18 @@ module.exports = {
     new LodashModuleReplacementPlugin({paths: true}),
     PROD &&
       new MiniCssExtractPlugin({
-        filename: 'press.css',
-        chunkFilename: '[id].css'
+        chunkFilename: '[id].css',
+        filename: 'press.css'
       }),
     new VueLoaderPlugin()
-  ].filter(Boolean)
+  ].filter(Boolean),
+  resolve: {
+    alias: {
+      // By default, the version of Vue published to npm does not include the
+      // template compiler; this alias overrides that.
+      vue: 'vue/dist/vue.esm.js'
+    }
+  }
 };
 
 if (CDN) {

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+
 import {touch} from './touch';
 import {vModelFromNode} from './vue-helpers';
 import {TypeNarrowingError} from './errors';
@@ -8,9 +9,7 @@ import {TypeNarrowingError} from './errors';
  * @param {HTMLElement} root
  */
 export function vueify(root) {
-  const data = {
-    isMounted: false
-  };
+  const data = {isMounted: false};
 
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
@@ -20,9 +19,11 @@ export function vueify(root) {
   });
   root.setAttribute(':class', '{"press-mounted": isMounted}');
 
+  /* eslint-disable sort-keys */
   new Vue({
     el: root,
     data,
+    /** lifecycle hook */
     mounted() {
       // run on nextTick to avoid potentially showing templates before
       // initialization complete
@@ -31,6 +32,7 @@ export function vueify(root) {
       });
     }
   });
+  /* eslint-enable sort-keys */
 }
 
 /**

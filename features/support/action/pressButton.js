@@ -1,25 +1,3 @@
-/**
- * Perform a key press. Ideally, this would be implemented with the actions api,
- * but that doesn't exist yet, so we have to hack this nightmare into place.
- * @param {string} key - The key to press
- * @param {string} selector - The active element. We shouldn't need this, but
- * selenium
- */
-module.exports = (key, selector) => {
-  const keyCode = keyCodes[key.toUpperCase()];
-  if (!keyCode) {
-    throw new Error(
-      `"${key}" doesn't map to a known key code, but you can add its unicode value to this file.`
-    );
-  }
-
-  if (!selector) {
-    selector = ':focus';
-  }
-
-  browser.addValue(selector, keyCode);
-};
-
 const keyCodes = {
   ADD: '\ue025',
   ALT: '\ue00a',
@@ -85,4 +63,26 @@ const keyCodes = {
   SUBTRACT: '\ue027',
   TAB: '\ue004',
   UP: '\ue013'
+};
+
+/**
+ * Perform a key press. Ideally, this would be implemented with the actions api,
+ * but that doesn't exist yet, so we have to hack this nightmare into place.
+ * @param {string} key - The key to press
+ * @param {string} selector - The active element. We shouldn't need this, but
+ * selenium
+ */
+module.exports = (key, selector) => {
+  const keyCode = keyCodes[key.toUpperCase()];
+  if (!keyCode) {
+    throw new Error(
+      `"${key}" doesn't map to a known key code, but you can add its unicode value to this file.`
+    );
+  }
+
+  if (!selector) {
+    selector = ':focus';
+  }
+
+  browser.addValue(selector, keyCode);
 };

@@ -1,3 +1,5 @@
+const {When} = require('cucumber');
+
 const clearInputField = require('../support/action/clearInputField');
 const clickElement = require('../support/action/clickElement');
 const deleteCookie = require('../support/action/deleteCookie');
@@ -13,8 +15,6 @@ const setCookie = require('../support/action/setCookie');
 const setInputField = require('../support/action/setInputField');
 const setPromptText = require('../support/action/setPromptText');
 const submitForm = require('../support/action/submitForm');
-
-const {When} = require('cucumber');
 
 When(
   /^I (click|doubleclick) on the (link|button|element) "([^"]*)?"$/,

@@ -34,6 +34,10 @@ module.exports = {
   }
 };
 
+/**
+ * @param {Object} context
+ * @returns {string[]}
+ */
 async function listComponents(context) {
   const cwd = context.cwd || process.cwd();
   const components = glob.sync('*/', {

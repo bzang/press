@@ -1,8 +1,8 @@
 const codes = {
-  9: 'Tab',
   13: 'Enter',
   38: 'ArrowUp',
-  40: 'ArrowDown'
+  40: 'ArrowDown',
+  9: 'Tab'
 };
 
 /**

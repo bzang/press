@@ -124,3 +124,10 @@ Feature: Date Range Picker
     And I click on the element "[data-press-daterangepicker-input]"
     And I select day "1" of the month "March" of next year and day "2" of the month "April" of next year
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019   →   Apr 2, 2019"
+
+  Scenario: Change an unrelated input and still show the custom text
+    Given This scenario requires JavaScript
+    And I open the site "/daterangepicker"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive        →        Depart"
+    When I set "example" to the inputfield "#unrelated-input"
+    Then I expect that element "[data-press-daterangepicker-input]" contains the text "Arrive        →        Depart"

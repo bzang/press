@@ -1,5 +1,6 @@
 <template>
   <input
+    v-once
     :name="name"
     :value="localeStringeFromValue"
     data-press-daterangepicker-input
@@ -10,6 +11,7 @@
 import $ from 'jquery';
 import 'daterangepicker';
 import {get} from 'lodash';
+import * as moment from 'moment';
 
 import {
   dateSeparator,
@@ -102,13 +104,17 @@ export default {
       }
     }
   },
+  watch: {
+    end() {
+      this.update();
+    },
+    start() {
+      this.update();
+    }
+  },
   mounted() {
-    const $$el = $(this.$el);
-    this.$$el = $$el;
-    this.$$el.on('hide.daterangepicker', () => {
-      this.clearDate();
-    });
-    $$el.daterangepicker(
+    this.$$el = $(this.$el);
+    this.$$el.daterangepicker(
       {
         autoApply: true,
         startDate: this.startDateFromValue,
@@ -121,15 +127,7 @@ export default {
         this.emit(start, end);
       }
     );
-    if (this.start === this.end) {
-      this.$nextTick()
-        .then(() => this.$nextTick())
-        .then(this.setDefaultText);
-    } else if (this.start === undefined || this.end === undefined) {
-      this.$nextTick().then(this.setDefaultText);
-    }
-
-    const data = $$el.data('daterangepicker');
+    const data = this.$$el.data('daterangepicker');
     if (data) {
       this.emit(data.startDate, data.endDate);
     }
@@ -147,20 +145,36 @@ export default {
      * @param {moment.Moment} end
      */
     emit(start, end) {
-      if (start.isSame(end, 'day')) {
-        this.$nextTick().then(this.setDefaultText);
-      }
       this.$emit('input', {
         [this.pressStartKey]: start.format('YYYY-MM-DD'),
         [this.pressEndKey]: end.format('YYYY-MM-DD')
       });
     },
-    clearDate() {
+    update() {
       if (this.start === this.end) {
         this.setDefaultText();
+      } else if (this.start === undefined || this.end === undefined) {
+        this.setDefaultText();
+      } else if (
+        moment.isMoment(this.start) &&
+        moment.isMoment(this.end) &&
+        this.start.isSame(this.end, 'day')
+      ) {
+        this.setDefaultText();
+      } else {
+        const localeString = this.localeStringeFromValue;
+        if (localeString) {
+          if (!this.$$el) {
+            throw new TypeError('Somehow, $$el became undefined');
+          }
+          this.$$el.val(localeString);
+        }
       }
     },
     setDefaultText() {
+      if (!this.$$el) {
+        throw new TypeError('Somehow, $$el became undefined');
+      }
       this.$$el.val(`Arrive${defaultTextSeparator}Depart`);
     }
   }

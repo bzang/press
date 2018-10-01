@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import datepicker from './press-datepicker.vue';
+
 import {
   bindToHiddenInput,
   normalizeKeyPath,
@@ -9,9 +9,15 @@ import {
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';
 
+import datepicker from './press-datepicker.vue';
+
 Vue.component('press-datepicker', datepicker);
 
+/**
+ * press component for press-datepicker tag
+ */
 export default class DatePicker extends PressComponentBase {
+  /** @returns {'datepicker'} */
   get name() {
     return 'datepicker';
   }

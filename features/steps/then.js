@@ -1,3 +1,5 @@
+const {Then} = require('cucumber');
+
 const checkClass = require('../support/check/checkClass');
 const checkContainsAnyText = require('../support/check/checkContainsAnyText');
 const checkIsEmpty = require('../support/check/checkIsEmpty');
@@ -24,8 +26,6 @@ const isExisting = require('../support/check/isExisting');
 const isVisible = require('../support/check/isVisible');
 const waitForVisible = require('../support/action/waitForVisible');
 const checkIfElementExists = require('../support/lib/checkIfElementExists');
-
-const {Then} = require('cucumber');
 
 Then(/^I expect that the title is( not)* "([^"]*)?"$/, checkTitle);
 

@@ -1,4 +1,5 @@
 import * as querystring from 'querystring';
+
 import {debounce, get} from 'lodash';
 
 /**
@@ -28,10 +29,10 @@ export const fetchResults = debounce(
   (route, query, options) => {
     const uri = formatRoute(route, query, options.param);
     return fetch(uri, {
-      method: options.method,
       headers: {
         accept: 'application/json'
-      }
+      },
+      method: options.method
     })
       .then((res) => res.json())
       .then((body) => body.map((item) => get(item, options.keyPath)));

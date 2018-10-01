@@ -2,6 +2,7 @@ const _ = require('lodash');
 const {Given, Then, When} = require('cucumber');
 const {assert} = require('chai');
 const moment = require('moment');
+
 const checkTitle = require('../support/check/checkTitle');
 const openWebsite = require('../support/action/openWebsite');
 const setInputField = require('../support/action/setInputField');
@@ -153,6 +154,11 @@ When(
   }
 );
 
+/**
+ * @param {number} month
+ * @param {number} date
+ * @returns {moment.Moment}
+ */
 function momentFromMonthDateNextYear(month, date) {
   return moment()
     .month(month)
@@ -160,6 +166,11 @@ function momentFromMonthDateNextYear(month, date) {
     .year(moment().year() + 1);
 }
 
+/**
+ * @param {moment.Moment} current
+ * @param {moment.Moment} target
+ * @returns {number}
+ */
 function computeClicks(current, target) {
   const yearClicks = 12 * (target.year() - current.year());
   const monthClicks = target.month() - current.month();
@@ -171,6 +182,12 @@ function computeClicks(current, target) {
   return yearClicks + monthClicks;
 }
 
+/**
+ * @param {number} year
+ * @param {number|string} month
+ * @param {number} date
+ * @returns {moment.Moment}
+ */
 function stringsToMoment(year, month, date) {
   return moment()
     .year(year)
@@ -178,6 +195,9 @@ function stringsToMoment(year, month, date) {
     .date(date);
 }
 
+/**
+ * @param {number} count
+ */
 function increaseMonth(count) {
   for (let i = 0; i < count; i++) {
     // we need to reselect the element after each click; otherwise, it seems
@@ -186,6 +206,9 @@ function increaseMonth(count) {
   }
 }
 
+/**
+ * @param {string} dayString
+ */
 function clickDay(dayString) {
   const xpath = `.//td[text() = '${dayString}']`;
   const {value: elements} = browser.element('.calendar-table').elements(xpath);
@@ -198,7 +221,7 @@ function clickDay(dayString) {
     const el = elements.find(({ELEMENT}) => {
       const classes = browser.elementIdAttribute(ELEMENT, 'class');
       if (!classes.value) {
-        return;
+        return undefined;
       }
       return !classes.value.includes('off');
     });
@@ -209,6 +232,9 @@ function clickDay(dayString) {
   }
 }
 
+/**
+ * @returns {moment.Moment}
+ */
 function getSelectedMoment() {
   const [selectedMonthString, selectedYearString] = browser
     .element('.drp-calendar.left .month')
@@ -216,14 +242,19 @@ function getSelectedMoment() {
     .split(' ');
 
   const selectedMoment = stringsToMoment(
-    selectedYearString,
+    Number(selectedYearString),
     selectedMonthString,
-    '1'
+    1
   );
 
   return selectedMoment;
 }
 
+/**
+ * Converts human-readable string to enum value
+ * @param {string} dateType
+ * @returns {string}
+ */
 function getDateFormat(dateType) {
   switch (dateType) {
     case 'iso date':

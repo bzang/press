@@ -1,13 +1,18 @@
 import {get} from 'lodash';
 import {v4 as uuid} from 'uuid';
 import Vue from 'vue';
-import daterangepicker from './press-daterangepicker.vue';
+
 import {bindToHiddenInput, vModelFromNode} from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
 
-Vue.component('press-daterangepicker', daterangepicker);
+import daterangepicker from './press-daterangepicker.vue';
 
+Vue.component('press-daterangepicker', daterangepicker);
+/**
+ * press component for press-daterangepicker tag
+ */
 export default class DateRangePicker extends PressComponentBase {
+  /** @returns {'daterangepicker'} */
   get name() {
     return 'daterangepicker';
   }
@@ -45,7 +50,7 @@ export default class DateRangePicker extends PressComponentBase {
       );
     }
 
-    const value = {[startKey]: null, [endKey]: null};
+    const value = {[endKey]: null, [startKey]: null};
 
     /** @type {string|Object} */
     let rawValue = el.getAttribute('value');

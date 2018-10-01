@@ -1,7 +1,17 @@
 import {vueify} from './lib/vueify';
 import {TypeNarrowingError} from './lib/errors';
 
+/** @type {WeakMap<Press, Map<string, IPressComponent>>} */
+const components = new WeakMap();
+
+/** @type {WeakMap<Press, Logger>} */
+const loggers = new WeakMap();
+
+/**
+ * PRESS kernel
+ */
 export class Press {
+  /** @returns {Map<string, IPressComponent>} */
   get components() {
     let comps = components.get(this);
     if (!comps) {
@@ -11,6 +21,7 @@ export class Press {
     return comps;
   }
 
+  /** @returns {Logger} */
   get logger() {
     const logger = loggers.get(this);
     if (!logger) {
@@ -50,7 +61,7 @@ export class Press {
     performance.mark('press:infer:components:start');
     this.logger.info('Inferring component types');
 
-    for (const [name, component] of this.components) {
+    Array.from(this.components.entries()).forEach(([name, component]) => {
       if (component.infer) {
         performance.mark(`press:infer:components:${name}:start`);
         this.logger.info(`Inferring ${name}`);
@@ -58,7 +69,7 @@ export class Press {
         this.logger.info(`Inferred ${name}`);
         performance.mark(`press:infer:components:${name}:end`);
       }
-    }
+    });
 
     this.logger.info('Inferred component types');
     performance.mark('press:infer:components:end');
@@ -73,21 +84,21 @@ export class Press {
     performance.mark('press:enhance:components:start');
     this.logger.info('Enhancing components');
 
-    for (const [name, component] of this.components) {
+    Array.from(this.components.entries()).forEach(([name, component]) => {
       performance.mark(`press:enhance:components:${name}:start`);
       this.logger.info(`Enhancing ${name}`);
       const elements = Array.from(document.querySelectorAll(name));
-      for (const el of elements) {
+      elements.forEach((el) => {
         if (!(el instanceof HTMLElement)) {
           throw new TypeNarrowingError();
         }
         this.logger.info(`Enhancing a ${name} instance`);
         component.enhance(el);
         this.logger.info(`Enhanced a ${name} instance`);
-      }
+      });
       this.logger.info(`Enhanceed ${name}`);
       performance.mark(`press:enhance:components:${name}:end`);
-    }
+    });
 
     this.logger.info('Enhanced components');
     performance.mark('press:enhance:components:end');
@@ -140,9 +151,3 @@ export class Press {
     }
   }
 }
-
-/** @type {WeakMap<Press, Map<string, IPressComponent>>} */
-const components = new WeakMap();
-
-/** @type {WeakMap<Press, Logger>} */
-const loggers = new WeakMap();

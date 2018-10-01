@@ -12,6 +12,7 @@
 import {fetchResults} from './press-autocomplete-api.js';
 import AutocompleteUI from './press-autocomplete-ui.vue';
 
+/* eslint-disable sort-keys */
 /**
  * Input element that renders server-provided typeahead results.
  */
@@ -28,18 +29,14 @@ export default {
      * strings.
      */
     pressLabelPath: {
-      default() {
-        return 'label';
-      },
+      default: 'label',
       type: String
     },
     /**
      * Indicates the HTTP verb used to reach your autocomplete API
      */
     pressMethod: {
-      default() {
-        return 'GET';
-      },
+      default: 'GET',
       type: String
     },
     /**
@@ -47,15 +44,14 @@ export default {
      * string.
      */
     pressParam: {
-      default() {
-        return 'q';
-      },
+      default: 'q',
       type: String
     },
     /**
      * API route that receives the autocomplete request.
      */
     pressRoute: {
+      /** @returns {string} */
       default() {
         return window.location.pathname;
       },
@@ -65,12 +61,11 @@ export default {
      * @model
      */
     value: {
-      default() {
-        return '';
-      },
+      default: '',
       type: String
     }
   },
+  /** @returns {Object} */
   data() {
     return {
       /** @type {string[] | null} */
@@ -78,10 +73,16 @@ export default {
     };
   },
   methods: {
+    /**
+     * @param {string} value
+     */
     onChoose(value) {
       this.$emit('input', value);
       this.results = null;
     },
+    /**
+     * @param {string} value
+     */
     onType(value) {
       if (!value) {
         this.results = null;
@@ -98,4 +99,5 @@ export default {
     }
   }
 };
+/* eslint-enable sort-keys */
 </script>

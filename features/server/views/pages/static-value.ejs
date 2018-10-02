@@ -8,11 +8,11 @@
   <main class="ui two column grid">
     <div class="ui column">
       <h3>Code Under Test</h3>
-      <press-static-value id="notnested" name="email" value="unnested@example.com"></press-static-value>
-      <press-static-value id="nested" name="user[email]" value="nested@example.com"></press-static-value>
-      <press-static-value id="normalizednested" name="user.secondaryemail" value="normalizednested@example.com"></press-static-value>
-      <press-static-value id="novalue" name="empty"></press-static-value>
-      <press-static-value id="nestednovalue" name="nested.empty"></press-static-value>
+      <press-static-value id="notnested" press-key-path="email" press-value="unnested@example.com"></press-static-value>
+      <press-static-value id="nested" press-key-path="user[email]" press-value="nested@example.com"></press-static-value>
+      <press-static-value id="normalizednested" press-key-path="user.secondaryemail" press-value="normalizednested@example.com"></press-static-value>
+      <press-static-value id="novalue" press-key-path="empty"></press-static-value>
+      <press-static-value id="nestednovalue" press-key-path="nested.empty"></press-static-value>
     </div>
 
     <div class="ui column">

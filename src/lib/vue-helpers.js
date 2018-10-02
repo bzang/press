@@ -114,3 +114,34 @@ export function wrapWith(el, componentName, attrs, logger) {
   el.after(component);
   component.appendChild(el);
 }
+
+/**
+ * Replaces `last` with `next`
+ * @param {HTMLElement} last
+ * @param {HTMLElement} next
+ */
+export function replace(last, next) {
+  last.after(next);
+  last.remove();
+}
+
+/**
+ * Copies an html attribute from src to dest
+ * @param {string} name
+ * @param {HTMLElement} src
+ * @param {HTMLElement} dest
+ */
+export function copyAttribute(name, src, dest) {
+  const value = src.getAttribute(name) || '';
+  dest.setAttribute(name, value);
+}
+
+/**
+ * Copies an html attribute from src to dest
+ * @param {string[]} names
+ * @param {HTMLElement} src
+ * @param {HTMLElement} dest
+ */
+export function copyAttributes(names, src, dest) {
+  names.forEach((name) => copyAttribute(name, src, dest));
+}

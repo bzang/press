@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {touch} from './touch';
-import {vModelFromNode} from './vue-helpers';
+import {vModelFromNode, normalizeKeyPath} from './vue-helpers';
 import {TypeNarrowingError} from './errors';
 
 /**
@@ -11,12 +11,27 @@ import {TypeNarrowingError} from './errors';
 export function vueify(root) {
   const data = {isMounted: false};
 
+  performance.mark('press:vueify:createmodels:start');
+  // Ensure all named elements have v-models so their contents are available to
+  // the page model
+  Array.from(root.querySelectorAll('[name]:not([v-model])')).forEach((el) => {
+    if (!(el instanceof HTMLElement)) {
+      throw new TypeNarrowingError();
+    }
+
+    const vModelName = normalizeKeyPath(vModelFromNode(el));
+    el.setAttribute('v-model', vModelName);
+  });
+  performance.mark('press:vueify:createmodels:end');
+
+  performance.mark('press:vueify:generatemodel:start');
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
       throw new TypeNarrowingError();
     }
     generateModel(el, data);
   });
+  performance.mark('press:vueify:generatemodel:start');
   root.setAttribute(':class', '{"press-mounted": isMounted}');
 
   /* eslint-disable sort-keys */

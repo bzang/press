@@ -1,0 +1,59 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Static Value</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <div class="ui column">
+      <h3>Code Under Test</h3>
+      <press-static-value id="notnested" name="email" value="unnested@example.com"></press-static-value>
+      <press-static-value id="nested" name="user[email]" value="nested@example.com"></press-static-value>
+      <press-static-value id="normalizednested" name="user.secondaryemail" value="normalizednested@example.com"></press-static-value>
+      <press-static-value id="novalue" name="empty"></press-static-value>
+      <press-static-value id="nestednovalue" name="nested.empty"></press-static-value>
+    </div>
+
+    <div class="ui column">
+      <table>
+        <caption>Values in this table were provided via JS</caption>
+        <thead>
+          <tr>
+            <th></th>
+            <th>name</th>
+            <th>value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Unnested Value</th>
+            <td>email</td>
+            <td id="render-notnested">{{email}}</td>
+          </tr>
+          <tr>
+            <th>Nested Value with simple_form style keypath</th>
+            <td>user[email]</td>
+            <td id="render-nested">{{user.email}}</td>
+          </tr>
+          <tr>
+            <th>Nested value with normalized keypath</th>
+            <td>user.secondaryemail</td>
+            <td id="render-normalizednested">{{user.secondaryemail}}</td>
+          </tr>
+          <tr>
+            <th>Empty value</th>
+            <td>empty</td>
+            <td id="render-novalue">{{empty}}</td>
+          </tr>
+          <tr>
+            <th>Empty value with normalized keypath</th>
+            <td>nested.empty</td>
+            <td id="render-nestednovalue">{{nested.empty}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

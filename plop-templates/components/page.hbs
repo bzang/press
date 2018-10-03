@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>{{sentenceCase name}}</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <div class="ui column">
+      <h3>Code Under Test</h3>
+      <press-{{kebabCase name}}>
+        <!-- put children here (or remove). -->
+        <press-noscript>
+          <!-- Put no-js fallback code here (or remove) -->
+        </press-noscript>
+        <template>
+          <!-- put js-only code here (or remove) -->
+        </template>
+      </press-{{kebabCase name}}>
+    </div>
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

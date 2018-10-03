@@ -14,6 +14,16 @@ module.exports = function(plop) {
         type: 'add'
       },
       {
+        path: 'features/server/views/pages/{{snakeCase name}}.ejs',
+        templateFile: 'plop-templates/components/page.hbs',
+        type: 'add'
+      },
+      {
+        path: 'features/{{snakeCase name}}.feature',
+        templateFile: 'plop-templates/components/feature.hbs',
+        type: 'add'
+      },
+      {
         path: 'src/index.js',
         pattern: /(\/\/ PLOP: END COMPONENT REGISTRATION)/gi,
         template:

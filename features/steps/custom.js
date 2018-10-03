@@ -40,6 +40,26 @@ Then(
   }
 );
 
+Then('I expect elements that match the following conditions', (table) => {
+  table.rows().forEach(([id, condition]) => {
+    const sel = `#${id}${condition}`;
+    const el = browser.element(sel);
+    assert.notEqual(
+      // @ts-ignore el.type does exist on el
+      el.type,
+      'NoSuchElement',
+      `Could not locate element with selector ${sel}`
+    );
+  });
+});
+
+Then('I expect elements that contain the following text', (table) => {
+  table.rows().forEach(([id, text]) => {
+    const el = browser.element(`#${id}`);
+    assert.equal(el.getText(), text);
+  });
+});
+
 Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {

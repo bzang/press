@@ -14,9 +14,4 @@ export default class Noscript extends PressComponentBase {
   get name() {
     return 'noscript';
   }
-
-  /** noop */
-  enhance() {
-    // noop
-  }
 }

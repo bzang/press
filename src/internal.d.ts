@@ -14,7 +14,7 @@ declare interface Logger
 interface IPressComponent {
   name: string;
   infer?: PressComponentInferrer;
-  enhance: PressComponentEnhancer;
+  enhance?: PressComponentEnhancer;
 }
 
 /**

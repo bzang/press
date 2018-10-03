@@ -246,14 +246,18 @@ We use a few tricks to avoid rendering the templates until Vue takes over:
 <template><p>This text will be visible after Vue takes over</p></template>
 ```
 
-1.  Use the `.press-hide-until-mounted` class Let's say you have a complicated
-    `v-if`. You don't want its contents to render until after Vue is running and
-    the conditional can be evaluated.
+1.  Use [`v-cloak`](https://vuejs.org/v2/api/#v-cloak). Let's say you have a
+    complicated `v-if`. You don't want its contents to render until after Vue is
+    running and the conditional can be evaluated.
 
     ```html
-    <div v-if="magic()" class="press-hide-until-mount">
+    <div v-if="magic()" v-cloak>
     </div>
     ```
+
+> Previously, we recommended the class `.press-hide-until-mount` rather than
+> `[v-cloak]`. This is still supported but is deprecated behavior that may be
+> removed in a future version.
 
 ### Components
 

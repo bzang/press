@@ -19,6 +19,11 @@ Feature: Bind
       | novalue          | [value=""]                             |
       | nestednovalue    | :not([name])                           |
       | nestednovalue    | [value=""]                             |
+      | deepnestedempty  | :not([name])                           |
+      | deepnestedempty  | [value=""]                             |
+      | deepnestedvalue  | :not([name])                           |
+      | deepnestedvalue  | [value="1"]                            |
+
 
   Scenario: Bind data
     Given This scenario requires JavaScript
@@ -29,3 +34,5 @@ Feature: Bind
       | render-normalizednested | normalizednested@example.com |
       | render-novalue          |                              |
       | render-nestednovalue    |                              |
+      | render-deepnestedempty  |                              |
+      | render-deepnestedvalue  | 1                            |

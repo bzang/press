@@ -13,6 +13,8 @@
       <press-static-value id="normalizednested" press-key-path="user.secondaryemail" press-value="normalizednested@example.com"></press-static-value>
       <press-static-value id="novalue" press-key-path="empty"></press-static-value>
       <press-static-value id="nestednovalue" press-key-path="nested.empty"></press-static-value>
+      <press-static-value id="deepnestedempty" press-key-path="a[b][c]"></press-static-value>
+      <press-static-value id="deepnestedvalue" press-key-path="d[e][f]" press-value="1"></press-static-value>
     </div>
 
     <div class="ui column">
@@ -50,6 +52,16 @@
             <th>Empty value with normalized keypath</th>
             <td>nested.empty</td>
             <td id="render-nestednovalue">{{nested.empty}}</td>
+          </tr>
+          <tr>
+            <th>Deep Nested Empty Value</th>
+            <td>nested.empty</td>
+            <td id="render-deepnestedempty">{{a.b.c}}</td>
+          </tr>
+          <tr>
+            <th>Deep Nested Value</th>
+            <td>nested.empty</td>
+            <td id="render-deepnestedvalue">{{d.e.f}}</td>
           </tr>
         </tbody>
       </table>

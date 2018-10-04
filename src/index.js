@@ -1,3 +1,5 @@
+import './style.css';
+
 import {Press} from './press';
 // PLOP: START COMPONENT IMPORT
 import Autocomplete from './components/press-autocomplete';

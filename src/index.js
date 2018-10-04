@@ -5,6 +5,7 @@ import {Press} from './press';
 import Autocomplete from './components/press-autocomplete';
 import Datepicker from './components/press-datepicker';
 import Daterangepicker from './components/press-daterangepicker';
+import Map from './components/press-map';
 import Noscript from './components/press-noscript';
 import StaticValue from './components/press-static-value';
 // PLOP: END COMPONENT IMPORT
@@ -17,6 +18,7 @@ performance.mark('press:register:components:start');
 press.registerComponent(new Autocomplete({logger}));
 press.registerComponent(new Datepicker({logger}));
 press.registerComponent(new Daterangepicker({logger}));
+press.registerComponent(new Map({logger}));
 press.registerComponent(new Noscript({logger}));
 press.registerComponent(new StaticValue({logger}));
 // PLOP: END COMPONENT REGISTRATION

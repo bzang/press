@@ -147,3 +147,16 @@ export function copyAttribute(name, src, dest) {
 export function copyAttributes(names, src, dest) {
   names.forEach((name) => copyAttribute(name, src, dest));
 }
+
+/**
+ * Adds a remote script to the page using document.write. Use this to, for
+ * example, load a google dependency
+ * @param {string} src
+ */
+export function addRemoteScriptToPage(src) {
+  /* eslint-disable prefer-template */
+  // prettier-ignore
+  document.write('<' + 'script src="' + src + '"' +
+    ' type="text/javascript"><' + '/script>');
+  /* eslint-enable prefer-template */
+}

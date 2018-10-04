@@ -1,0 +1,23 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Map</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <div class="ui column">
+      <h3>Code Under Test</h3>
+      <div style="width:400px;height:400px">
+        <press-map press-center-lat="37.79521039999999" press-center-lng="-122.40115370000001" press-zoom="15" press-key="<%= process.env.GOOGLE_MAPS_API_KEY %>">
+          <!--
+            Note the lack of press-noscript here. The intent is to render the
+            static image until press bootstraps and the dynamic map replaces it
+          -->
+          <img src="https://maps.googleapis.com/maps/api/staticmap?center=500+Sansome+Street%2C+San+Francisco%2C+CA&amp;key=<%= process.env.GOOGLE_MAPS_API_KEY %>&amp;scale=1&amp;size=400x400&amp;zoom=15">
+        </press-map>
+      </div>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

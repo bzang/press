@@ -86,17 +86,25 @@ export class Press {
 
     Array.from(this.components.entries()).forEach(([name, component]) => {
       performance.mark(`press:enhance:components:${name}:start`);
-      this.logger.info(`Enhancing ${name}`);
-      const elements = Array.from(document.querySelectorAll(name));
-      elements.forEach((el) => {
-        if (!(el instanceof HTMLElement)) {
-          throw new TypeNarrowingError();
-        }
-        this.logger.info(`Enhancing a ${name} instance`);
-        component.enhance(el);
-        this.logger.info(`Enhanced a ${name} instance`);
-      });
-      this.logger.info(`Enhanceed ${name}`);
+
+      // This is the right place to check for enhance...
+      if (component.enhance) {
+        this.logger.info(`Enhancing ${name}`);
+        const elements = Array.from(document.querySelectorAll(name));
+        elements.forEach((el) => {
+          // ...and this is where typescript thinks we need to check for enhance
+          if (component.enhance) {
+            if (!(el instanceof HTMLElement)) {
+              throw new TypeNarrowingError();
+            }
+            this.logger.info(`Enhancing a ${name} instance`);
+            component.enhance(el);
+            this.logger.info(`Enhanced a ${name} instance`);
+          }
+        });
+        this.logger.info(`Enhanceed ${name}`);
+      }
+
       performance.mark(`press:enhance:components:${name}:end`);
     });
 

@@ -12,7 +12,6 @@
 import {fetchResults} from './press-autocomplete-api.js';
 import AutocompleteUI from './press-autocomplete-ui.vue';
 
-/* eslint-disable sort-keys */
 /**
  * Input element that renders server-provided typeahead results.
  */
@@ -99,5 +98,4 @@ export default {
     }
   }
 };
-/* eslint-enable sort-keys */
 </script>

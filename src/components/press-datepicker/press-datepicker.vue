@@ -11,7 +11,6 @@ import {get} from 'lodash';
 
 import {locale, toDateRangePickerValue, toLocaleString} from '../../lib/date';
 
-/* eslint-disable sort-keys */
 /**
  * Single value date picker
  */
@@ -89,7 +88,6 @@ export default {
     }
   }
 };
-/* eslint-enable sort-keys */
 </script>
 
 <style>

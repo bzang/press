@@ -70,10 +70,10 @@ exports.config = {
   //
   capabilities: [
     // See https://circleci.com/gh/UrbanDoor/press/104 for test failures
-    // CI && {
-    //   browserName: 'MicrosoftEdge',
-    //   version: 'latest'
-    // },
+    CI && {
+      browserName: 'MicrosoftEdge',
+      version: 'latest'
+    },
     CI && {
       browserName: 'internet explorer',
       version: '11'

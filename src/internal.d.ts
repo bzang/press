@@ -1,7 +1,3 @@
-declare interface HTMLElement {
-  after<T extends Node>(...nodes: T[]): void;
-}
-
 declare interface Logger
   extends Pick<Console, 'error' | 'warn' | 'info' | 'debug'> {
   table?: Console['table'];

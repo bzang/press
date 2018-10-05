@@ -1,4 +1,4 @@
-import {getAttributeNames} from './polyfills';
+import {after, getAttributeNames} from './polyfills';
 
 /**
  * Creates a hidden input binding a v-model to a name
@@ -40,7 +40,7 @@ export function bindToHiddenInput(el, options = {name: '', vModel: ''}) {
   // name
   el.removeAttribute('name');
 
-  el.after(hidden);
+  after(el, hidden);
 }
 
 /** Used to match property names within property paths. */
@@ -113,7 +113,7 @@ export function wrapWith(el, componentName, attrs, logger) {
     component.setAttribute(key, attrs[key]);
   });
 
-  el.after(component);
+  after(el, component);
   component.appendChild(el);
 }
 
@@ -123,7 +123,7 @@ export function wrapWith(el, componentName, attrs, logger) {
  * @param {HTMLElement} next
  */
 export function replace(last, next) {
-  last.after(next);
+  after(last, next);
   last.remove();
 }
 

@@ -1,4 +1,4 @@
-import {after, getAttributeNames} from './polyfills';
+import {after, getAttributeNames, remove} from './polyfills';
 
 /**
  * Creates a hidden input binding a v-model to a name
@@ -124,7 +124,7 @@ export function wrapWith(el, componentName, attrs, logger) {
  */
 export function replace(last, next) {
   after(last, next);
-  last.remove();
+  remove(last);
 }
 
 /**

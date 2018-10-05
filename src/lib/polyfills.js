@@ -81,6 +81,23 @@ export function getAttributeNames(el) {
 }
 
 /**
+ * @param {Node} el
+ */
+export function remove(el) {
+  // @ts-ignore
+  if (typeof el.remove === 'function') {
+    // @ts-ignore
+    el.remove();
+    return;
+  }
+
+  const parent = el.parentElement || el.parentNode;
+  if (parent) {
+    parent.removeChild(el);
+  }
+}
+
+/**
  * @param {string} haystack
  * @param {string} needle
  * @returns {boolean}

@@ -74,10 +74,10 @@ exports.config = {
     //   browserName: 'MicrosoftEdge',
     //   version: 'latest'
     // },
-    // CI && {
-    //   browserName: 'internet explorer',
-    //   version: '11'
-    // },
+    CI && {
+      browserName: 'internet explorer',
+      version: '11'
+    },
     // CI && {
     //   browserName: 'safari',
     //   version: '11'
@@ -203,7 +203,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: http://webdriver.io/guide/reporters/dot.html
-  reporters: [CI && 'dot', 'spec', 'junit'].filter(Boolean),
+  reporters: [CI && 'dot', 'spec'].filter(Boolean),
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {

@@ -146,7 +146,7 @@
     "verifyConditions": "condition-circle"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.1.2",
     "uuid": "^3.3.2"
   },
   "husky": {

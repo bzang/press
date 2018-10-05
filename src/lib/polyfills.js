@@ -29,6 +29,38 @@ export function after(childNode, ...args) {
 }
 
 /**
+ * @param {Element} el
+ * @param {string} selectors
+ * @returns {Element|Node|null}
+ */
+export function closest(el, selectors) {
+  if (typeof el.closest === 'function') {
+    return el.closest(selectors);
+  }
+
+  const matches =
+    Element.prototype.matches ||
+    // @ts-ignore - removed from typescript's checker
+    Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector;
+
+  /** @type {HTMLElement|Node|null} */
+  let elUnderTest = el;
+  if (document.documentElement && !document.documentElement.contains(el)) {
+    return null;
+  }
+
+  do {
+    if (matches.call(elUnderTest, selectors)) {
+      return elUnderTest;
+    }
+    elUnderTest = elUnderTest.parentElement || elUnderTest.parentNode;
+  } while (elUnderTest !== null && elUnderTest.nodeType === 1);
+
+  return null;
+}
+
+/**
  * @param {HTMLElement} el
  * @returns {string[]}
  */

@@ -8,6 +8,7 @@ import {
 } from '../../lib/vue-helpers';
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';
+import {closest} from '../../lib/polyfills';
 
 import datepicker from './press-datepicker.vue';
 
@@ -43,10 +44,10 @@ export default class DatePicker extends PressComponentBase {
       if (!(el instanceof HTMLElement)) {
         throw new TypeNarrowingError();
       }
-      if (el.closest('press-noscript')) {
+      if (closest(el, 'press-noscript')) {
         return;
       }
-      const ancestor = el.closest('press-datepicker');
+      const ancestor = closest(el, 'press-datepicker');
       if (!ancestor) {
         this.logger.warn(
           'Inferring <press-datepicker> from input[type="date"]. Inferrence may be removed in the future; you should explicitly use <press-datepicker> here.'

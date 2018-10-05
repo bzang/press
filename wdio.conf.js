@@ -78,14 +78,10 @@ exports.config = {
       browserName: 'internet explorer',
       version: '11'
     },
-    // CI && {
-    //   browserName: 'safari',
-    //   version: '11'
-    // },
-    // CI && {
-    //   browserName: 'safari',
-    //   version: '10'
-    // },
+    CI && {
+      browserName: 'safari',
+      version: '11'
+    },
     CI && {
       browserName: 'chrome',
       version: 'latest'

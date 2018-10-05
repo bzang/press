@@ -1,3 +1,5 @@
+import {getAttributeNames} from './polyfills';
+
 /**
  * Creates a hidden input binding a v-model to a name
  * @param {HTMLElement} el
@@ -77,7 +79,7 @@ export function normalizeKeyPath(string) {
  */
 export function vModelFromNode(el) {
   const vModelName = el.getAttribute(
-    el.getAttributeNames().includes('v-model') ? 'v-model' : 'name'
+    getAttributeNames(el).includes('v-model') ? 'v-model' : 'name'
   );
 
   if (!vModelName) {

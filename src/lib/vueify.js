@@ -3,6 +3,7 @@ import Vue from 'vue';
 import {touch} from './touch';
 import {vModelFromNode, normalizeKeyPath} from './vue-helpers';
 import {TypeNarrowingError} from './errors';
+import {getAttributeNames} from './polyfills';
 
 /**
  * Generates a data model and instantiates a Vue app at el
@@ -56,7 +57,7 @@ export function vueify(root) {
  * @param {Object} data
  */
 function generateModel(el, data) {
-  const attributeNames = el.getAttributeNames();
+  const attributeNames = getAttributeNames(el);
 
   const vModelName = vModelFromNode(el);
 

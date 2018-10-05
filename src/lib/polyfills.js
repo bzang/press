@@ -79,3 +79,16 @@ export function getAttributeNames(el) {
   }
   return result;
 }
+
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @returns {boolean}
+ */
+export function startsWith(haystack, needle) {
+  if (typeof haystack.startsWith === 'function') {
+    return haystack.startsWith(needle);
+  }
+
+  return haystack.indexOf(needle) === 0;
+}

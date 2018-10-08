@@ -84,5 +84,13 @@ module.exports = (key, selector) => {
     selector = ':focus';
   }
 
-  browser.addValue(selector, keyCode);
+  try {
+    // eslint-disable-next-line no-console
+    console.log(`Attempting to send ${key} (${keyCode}) with browser.keys()`);
+    browser.keys(keyCode);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log('browser.keys() failed.Attempting to use browser.addValue');
+    browser.addValue(selector, keyCode);
+  }
 };

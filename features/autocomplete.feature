@@ -1,4 +1,4 @@
-Feature: Date Picker
+Feature: Autocomplete
   I want to upgrade text inputs with autocomplete capabilities
 
   Background:
@@ -76,7 +76,7 @@ Feature: Date Picker
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 
-  Scenario: Select with mouse and submit with enter key
+  Scenario: Select with enter and submit with enter key
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "input[name='autocomplete[input]']"
     When I click on the element "input[name='autocomplete[input]']"
@@ -84,8 +84,11 @@ Feature: Date Picker
     When I press "Down"
     And I press "Down"
     And I press "Down"
-    And I press "Enter"
+    # Safari does something subtly different depending on whether this is
+    # "Enter" or "Return". Namely, "Enter" doesn't work
+    And I press "Return"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
+    Then I expect that element "#external-input" contains the text "aaa"
     When I press "Enter"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 

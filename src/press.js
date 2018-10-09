@@ -1,5 +1,6 @@
-import {vueify} from './lib/vueify';
 import {TypeNarrowingError} from './lib/errors';
+import {startsWith} from './lib/polyfills';
+import {vueify} from './lib/vueify';
 
 /** @type {WeakMap<Press, Map<string, IPressComponent>>} */
 const components = new WeakMap();
@@ -45,7 +46,7 @@ export class Press {
    */
   registerComponent(component, name) {
     let componentName = (name || component.name).toLowerCase();
-    if (!componentName.startsWith('press-')) {
+    if (!startsWith(componentName, 'press-')) {
       componentName = `press-${componentName}`;
     }
     this.logger.info(`Registering component ${componentName}`);
@@ -138,7 +139,7 @@ export class Press {
   report() {
     const results = performance
       .getEntriesByType('mark')
-      .filter(({name}) => name.startsWith('press'));
+      .filter(({name}) => startsWith(name, 'press'));
 
     if (this.logger.table) {
       this.logger.table(results.map(({name, startTime}) => [name, startTime]));

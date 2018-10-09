@@ -56,7 +56,7 @@ dependencies) onto your page.
 > `window.fetch()`. The easiest way to do so is with polyfill.io
 >
 > ```html
-> <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+> <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch|gate"></script>
 > ```
 >
 > But following the instructions for

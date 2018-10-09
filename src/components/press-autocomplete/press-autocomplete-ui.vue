@@ -186,6 +186,7 @@ export default {
         case 'ArrowDown':
           this.selectNextItem();
           break;
+        case 'Return':
         case 'Enter':
           this.chooseValueFromInput();
           break;

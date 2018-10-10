@@ -22,7 +22,9 @@ Feature: Date Picker
     Given I open the site "/datepicker_<mode>"
     When I set "January", "1" of next year to the text input "input[placeholder='Enter a date']"
     And I click on the element "body"
-    And I click on the button "[type=submit]"
+    Then I expect that element "#external-input" contains the iso date matching next year's "January", "1"
+    Then I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "1"
+    When I click on the button "[type=submit]"
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "1" of next year
 
     Examples:
@@ -47,9 +49,11 @@ Feature: Date Picker
     When I set "January", "1" of next year to the text input "input[placeholder='Enter a date']"
     Then I expect that element "#selected-value" contains the iso date matching next year's "January", "1"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "1"
+    And I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "1"
     When I set "January", "2" of next year to the date input "#external-input"
     Then I expect that element "#selected-value" contains the iso date matching next year's "January", "2"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "2"
+    And I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "2"
     And I click on the button "[type=submit]"
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "2" of next year
 
@@ -76,6 +80,7 @@ Feature: Date Picker
     And I expect that element "input[placeholder='Enter a date']" contains the formatted date matching next year's "January", "1"
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "1"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "1"
+    And I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "1"
     And I click on the button "[type=submit]"
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "1" of next year
 
@@ -93,6 +98,7 @@ Feature: Date Picker
     Then I expect that element "input[placeholder='Enter a date']" contains the formatted date matching next year's "January", "15"
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "15"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "15"
+    And I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "15"
     When I click on the button "[type=submit]"
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "15" of next year
 
@@ -110,6 +116,7 @@ Feature: Date Picker
     Then I expect that element "input[placeholder='Enter a date']" contains the formatted date matching next year's "January", "31"
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "31"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "31"
+    And I expect that element "[name='date_picker_form[input]']" contains the iso date matching next year's "January", "31"
     And I click on the button "[type=submit]"
     Then I expect the server received an iso date named "date_picker_form.input" of "January", "31" of next year
 

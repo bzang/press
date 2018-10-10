@@ -8,13 +8,15 @@ Feature: Autocomplete
     When I set "example" to the inputfield "input[name='autocomplete[input]']"
     And I click on the element "input[name='autocomplete[input]']"
     And I press "Tab"
-    And I click on the button "[type=submit]"
+    Then I expect that element "[name='autocomplete[input]']" contains the text "example"
+    When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "example"
 
   Scenario: Submit a prefilled search string
     Given I open the site "/autocomplete?autocomplete[input]=prefilled"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "prefilled"
-    And I click on the button "[type=submit]"
+    Then I expect that element "[name='autocomplete[input]']" contains the text "prefilled"
+    When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "prefilled"
 
   Scenario: Change and submit a prefilled search string
@@ -22,7 +24,8 @@ Feature: Autocomplete
     Then I expect that element "input[name='autocomplete[input]']" contains the text "prefilled"
     When I set "example" to the inputfield "input[name='autocomplete[input]']"
     And I press "Tab" in "input[name='autocomplete[input]']"
-    And I click on the button "[type=submit]"
+    Then I expect that element "[name='autocomplete[input]']" contains the text "example"
+    When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "example"
 
   Scenario: Type letters
@@ -50,7 +53,8 @@ Feature: Autocomplete
     Then I expect an autocomplete popup with "5" entries
     When I select the autocomplete option with the text "aaa"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
-    And I click on the button "[type=submit]"
+    Then I expect that element "[name='autocomplete[input]']" contains the text "aaa"
+    When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 
   Scenario: Select with mouse and submit with enter key
@@ -73,6 +77,7 @@ Feature: Autocomplete
     And I press "Down"
     And I press "Enter"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
+    Then I expect that element "[name='autocomplete[input]']" contains the text "aaa"
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
 
@@ -101,5 +106,6 @@ Feature: Autocomplete
     When I set "aaaaa" to the inputfield "#external-input"
     When I click on the element "input[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "1" entry
+    Then I expect that element "[name='autocomplete[input]']" contains the text "aaaaa"
     When I click on the button "[type=submit]"
     Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaaaa"

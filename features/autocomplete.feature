@@ -46,7 +46,7 @@ Feature: Autocomplete
     When I click on the element "input[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "1" entries
 
-  Scenario: Select autocomplete with mouse
+  Scenario: Select with mouse and submit with mouse
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "input[name='autocomplete[input]']"
     When I click on the element "input[name='autocomplete[input]']"
@@ -57,7 +57,7 @@ Feature: Autocomplete
       | aaa   | [name='autocomplete[input]'] | autocomplete.input |
       | aaa   | #external-input              | autocomplete.input |
 
-  Scenario: Select with mouse and submit with enter key
+  Scenario: Select with mouse and submit with keyboard
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "input[name='autocomplete[input]']"
     When I click on the element "input[name='autocomplete[input]']"
@@ -68,21 +68,8 @@ Feature: Autocomplete
       | aaa   | [name='autocomplete[input]'] | autocomplete.input |
       | aaa   | #external-input              | autocomplete.input |
 
-  Scenario: Select autocomplete with keyboard
-    Given This scenario requires JavaScript
-    When I add "a" to the inputfield "input[name='autocomplete[input]']"
-    When I click on the element "input[name='autocomplete[input]']"
-    Then I expect an autocomplete popup with "5" entries
-    When I press "Down"
-    And I press "Down"
-    And I press "Down"
-    And I press "Enter"
-    And I submit a form using element "[type=submit]", I expect values in the following places
-      | Value | Element Before Submit        | Form After Submit  |
-      | aaa   | [name='autocomplete[input]'] | autocomplete.input |
-      | aaa   | #external-input              | autocomplete.input |
 
-  Scenario: Select with enter and submit with enter key
+  Scenario: Select with keyboard and submit with keyboard
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "input[name='autocomplete[input]']"
     When I click on the element "input[name='autocomplete[input]']"

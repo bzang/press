@@ -47,40 +47,8 @@ jobs:
           at: "."
       - run: npm run lint
 
-  test-MicrosoftEdge-latest:
+  test:
     docker: *docker
-    environment:
-      BROWSER: "MicrosoftEdge-latest"
-    steps: *browser_testing_steps
-
-  test-internet_explorer-11:
-    docker: *docker
-    environment:
-      BROWSER: "internet_explorer-11"
-    steps: *browser_testing_steps
-
-  test-safari-11:
-    docker: *docker
-    environment:
-      BROWSER: "safari-11"
-    steps: *browser_testing_steps
-
-  test-chrome-latest:
-    docker: *docker
-    environment:
-      BROWSER: "chrome-latest"
-    steps: *browser_testing_steps
-
-  test-firefox-latest:
-    docker: *docker
-    environment:
-      BROWSER: "firefox-latest"
-    steps: *browser_testing_steps
-
-  test-firefox-latest-nojs:
-    docker: *docker
-    environment:
-      BROWSER: "firefox-latest-nojs"
     steps: *browser_testing_steps
 
   ensure-valid-credentials:
@@ -118,27 +86,7 @@ workflows:
       - lint:
           requires:
             - install
-      - test-MicrosoftEdge-latest:
-          context: "browser-testing"
-          requires:
-            - install
-      - test-internet_explorer-11:
-          context: "browser-testing"
-          requires:
-            - install
-      - test-safari-11:
-          context: "browser-testing"
-          requires:
-            - install
-      - test-chrome-latest:
-          context: "browser-testing"
-          requires:
-            - install
-      - test-firefox-latest:
-          context: "browser-testing"
-          requires:
-            - install
-      - test-firefox-latest-nojs:
+      - test:
           context: "browser-testing"
           requires:
             - install
@@ -147,12 +95,7 @@ workflows:
           requires:
             - install
             - lint
-            - test-MicrosoftEdge-latest
-            - test-internet_explorer-11
-            - test-safari-11
-            - test-chrome-latest
-            - test-firefox-latest
-            - test-firefox-latest-nojs
+            - test
       - release:
           context: "semantic-release"
           filters:
@@ -161,9 +104,4 @@ workflows:
           requires:
             - install
             - lint
-            - test-MicrosoftEdge-latest
-            - test-internet_explorer-11
-            - test-safari-11
-            - test-chrome-latest
-            - test-firefox-latest
-            - test-firefox-latest-nojs
+            - test

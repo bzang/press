@@ -101,6 +101,31 @@ exports.config = {
   capabilities:
     browserFromEnv() ||
     [
+      CI && {
+        browserName: 'MicrosoftEdge',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'internet explorer',
+        version: '11'
+      },
+      CI && {
+        browserName: 'safari',
+        version: '11'
+      },
+      CI && {
+        browserName: 'chrome',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'firefox',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'firefox',
+        profile: firefoxProfileWithJavaScriptDisabled,
+        version: 'latest'
+      },
       // See https://circleci.com/gh/UrbanDoor/press/104 for test failures
       !CI &&
         js && {

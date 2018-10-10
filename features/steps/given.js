@@ -20,7 +20,12 @@ const isVisible = require('../support/check/isVisible');
 const openWebsite = require('../support/action/openWebsite');
 const resizeScreenSize = require('../support/action/resizeScreenSize');
 
-Given(/^I open the (url|site) "([^"]*)?"$/, openWebsite);
+Given(
+  /^I open the (url|site) "([^"]*)?"$/,
+  // @ts-ignore - wrapperOptions is in the docs, if not in the type definition
+  {wrapperOptions: {retry: 2}},
+  openWebsite
+);
 
 Given(/^the element "([^"]*)?" is( not)* visible$/, isVisible);
 

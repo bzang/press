@@ -101,6 +101,31 @@ exports.config = {
   capabilities:
     browserFromEnv() ||
     [
+      CI && {
+        browserName: 'MicrosoftEdge',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'internet explorer',
+        version: '11'
+      },
+      CI && {
+        browserName: 'safari',
+        version: '11'
+      },
+      CI && {
+        browserName: 'chrome',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'firefox',
+        version: 'latest'
+      },
+      CI && {
+        browserName: 'firefox',
+        profile: firefoxProfileWithJavaScriptDisabled,
+        version: 'latest'
+      },
       // See https://circleci.com/gh/UrbanDoor/press/104 for test failures
       !CI &&
         js && {
@@ -222,7 +247,7 @@ exports.config = {
     profile: [], // <string[]> (name) specify the profile to use
     strict: false, // <boolean> fail if there are any undefined or pending steps
     tags: [], // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-    timeout: 20000, // <number> timeout for step definitions
+    timeout: 30000, // <number> timeout for step definitions
     ignoreUndefinedDefinitions: false // <boolean> Enable this config to treat undefined definitions as warnings.
   },
 

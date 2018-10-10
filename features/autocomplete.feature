@@ -8,25 +8,25 @@ Feature: Autocomplete
     When I set "example" to the inputfield "input[name='autocomplete[input]']"
     And I click on the element "input[name='autocomplete[input]']"
     And I press "Tab"
-    Then I expect that element "[name='autocomplete[input]']" contains the text "example"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "example"
+    When I submit a form using element "[type=submit]", I expect values in the following places
+      | Value   | Element Before Submit        | Form After Submit  |
+      | example | [name='autocomplete[input]'] | autocomplete.input |
 
   Scenario: Submit a prefilled search string
     Given I open the site "/autocomplete?autocomplete[input]=prefilled"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "prefilled"
-    Then I expect that element "[name='autocomplete[input]']" contains the text "prefilled"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "prefilled"
+    When I submit a form using element "[type=submit]", I expect values in the following places
+      | Value     | Element Before Submit        | Form After Submit  |
+      | prefilled | [name='autocomplete[input]'] | autocomplete.input |
 
   Scenario: Change and submit a prefilled search string
     Given I open the site "/autocomplete?autocomplete[input]=prefilled"
     Then I expect that element "input[name='autocomplete[input]']" contains the text "prefilled"
     When I set "example" to the inputfield "input[name='autocomplete[input]']"
     And I press "Tab" in "input[name='autocomplete[input]']"
-    Then I expect that element "[name='autocomplete[input]']" contains the text "example"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "example"
+    And I submit a form using element "[type=submit]", I expect values in the following places
+      | Value   | Element Before Submit        | Form After Submit  |
+      | example | [name='autocomplete[input]'] | autocomplete.input |
 
   Scenario: Type letters
     Given This scenario requires JavaScript
@@ -52,20 +52,21 @@ Feature: Autocomplete
     When I click on the element "input[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "5" entries
     When I select the autocomplete option with the text "aaa"
-    Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
-    Then I expect that element "[name='autocomplete[input]']" contains the text "aaa"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
+    And I submit a form using element "[type=submit]", I expect values in the following places
+      | Value | Element Before Submit        | Form After Submit  |
+      | aaa   | [name='autocomplete[input]'] | autocomplete.input |
+      | aaa   | #external-input              | autocomplete.input |
 
   Scenario: Select with mouse and submit with enter key
     Given This scenario requires JavaScript
     When I add "a" to the inputfield "input[name='autocomplete[input]']"
     When I click on the element "input[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "5" entries
-    When I select the autocomplete option with the text "aaa"
-    Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
-    When I press "Enter"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
+    And I select the autocomplete option with the text "aaa"
+    When I submit a form using the "Enter" key, I expect values in the following places
+      | Value | Element Before Submit        | Form After Submit  |
+      | aaa   | [name='autocomplete[input]'] | autocomplete.input |
+      | aaa   | #external-input              | autocomplete.input |
 
   Scenario: Select autocomplete with keyboard
     Given This scenario requires JavaScript
@@ -76,10 +77,10 @@ Feature: Autocomplete
     And I press "Down"
     And I press "Down"
     And I press "Enter"
-    Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
-    Then I expect that element "[name='autocomplete[input]']" contains the text "aaa"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
+    And I submit a form using element "[type=submit]", I expect values in the following places
+      | Value | Element Before Submit        | Form After Submit  |
+      | aaa   | [name='autocomplete[input]'] | autocomplete.input |
+      | aaa   | #external-input              | autocomplete.input |
 
   Scenario: Select with enter and submit with enter key
     Given This scenario requires JavaScript
@@ -92,10 +93,10 @@ Feature: Autocomplete
     # Safari does something subtly different depending on whether this is
     # "Enter" or "Return". Namely, "Enter" doesn't work
     And I press "Return"
-    Then I expect that element "input[name='autocomplete[input]']" contains the text "aaa"
-    Then I expect that element "#external-input" contains the text "aaa"
-    When I press "Enter"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaa"
+    And I submit a form using the "Return" key, I expect values in the following places
+      | Value | Element Before Submit        | Form After Submit  |
+      | aaa   | [name='autocomplete[input]'] | autocomplete.input |
+      | aaa   | #external-input              | autocomplete.input |
 
   Scenario: Change the model backing the text
     Given This scenario is pending
@@ -106,6 +107,7 @@ Feature: Autocomplete
     When I set "aaaaa" to the inputfield "#external-input"
     When I click on the element "input[name='autocomplete[input]']"
     Then I expect an autocomplete popup with "1" entry
-    Then I expect that element "[name='autocomplete[input]']" contains the text "aaaaa"
-    When I click on the button "[type=submit]"
-    Then I expect the server received a form parameter named "autocomplete.input" with a value of "aaaaa"
+    When I submit a form using element "[type=submit]", I expect values in the following places
+      | Value | Element Before Submit        | Form After Submit  |
+      | aaaaa | [name='autocomplete[input]'] | autocomplete.input |
+      | aaaaa | #external-input              | autocomplete.input |

@@ -1,11 +1,16 @@
-const _ = require('lodash');
+'use strict';
+
 const {Given, Then, When} = require('cucumber');
 const {assert} = require('chai');
 const moment = require('moment');
 
+const {expectServer} = require('../support/lib/assertion-helpers');
+const {momentFromMonthDateNextYear} = require('../support/lib/moment-helpers');
 const checkTitle = require('../support/check/checkTitle');
 const openWebsite = require('../support/action/openWebsite');
 const setInputField = require('../support/action/setInputField');
+
+const {whenSubmitThen} = require('./custom/when-submit-then');
 
 const ISO_FORMAT = 'YYYY-MM-DD';
 const DISPLAY_FORMAT = 'MMM D, YYYY';
@@ -63,37 +68,18 @@ Then('I expect elements that contain the following text', (table) => {
 Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {
-    const req = JSON.parse(
-      browser
-        .elements('#last-req')
-        .getText()
-        .trim()
-    );
-    assert.nestedProperty(req.body, name);
-    if (value) {
-      assert.nestedPropertyVal(req.body, name, value);
-    } else {
-      assert.match(_.get(req.body, name), new RegExp(pattern));
-    }
+    expectServer(name, pattern ? new RegExp(pattern) : value);
   }
 );
 
 Then(
   /^I expect the server received an iso date named "(.+)"(?: of "(.+)", "(.+)" of next year)?$/,
   (name, month, date) => {
-    const req = JSON.parse(
-      browser
-        .elements('#last-req')
-        .getText()
-        .trim()
-    );
-    assert.nestedProperty(req.body, name);
-
     if (month && date) {
       const targetDate = momentFromMonthDateNextYear(month, date);
-      assert.nestedPropertyVal(req.body, name, targetDate.format(ISO_FORMAT));
+      expectServer(name, targetDate);
     } else {
-      assert.match(_.get(req.body, name), /\d{4}-\d{2}-\d{2}/);
+      expectServer(name, /\d{4}-\d{2}-\d{2}/);
     }
   }
 );
@@ -160,6 +146,11 @@ When(/^I select the autocomplete option with the text "(.+)"$/, (text) => {
 });
 
 When(
+  /^I submit a form using (?:the "(.+)" key|element "(.+)"), I expect (ISO Dates|next year's dates to be represented|values) in the following places$/,
+  whenSubmitThen
+);
+
+When(
   /^I set "(.+)", "(.+)" of next year to the (date|text) input "(.+)"$/,
   (month, date, type, selector) => {
     const targetDate = momentFromMonthDateNextYear(month, date);
@@ -173,18 +164,6 @@ When(
     }
   }
 );
-
-/**
- * @param {number} month
- * @param {number} date
- * @returns {moment.Moment}
- */
-function momentFromMonthDateNextYear(month, date) {
-  return moment()
-    .month(month)
-    .date(date)
-    .year(moment().year() + 1);
-}
 
 /**
  * @param {moment.Moment} current

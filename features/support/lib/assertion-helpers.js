@@ -62,6 +62,10 @@ exports.assertTextOrPatternOrDate = assertTextOrPatternOrDate;
  */
 function expectValue(sel, expected) {
   const actual = browser.getValue(sel);
+  assert.isNotArray(
+    actual,
+    `Expected ${sel} to describe exactly one element on the page`
+  );
   assertTextOrPatternOrDate(actual, expected);
 }
 exports.expectValue = expectValue;

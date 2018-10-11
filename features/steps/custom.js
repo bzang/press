@@ -68,7 +68,7 @@ Then('I expect elements that contain the following text', (table) => {
 Then(
   /^I expect the server received a form parameter named "(.+)" with a value (?:of "(.+)"|matching \/(.+)\/)$/,
   (name, value, pattern) => {
-    expectServer(name, pattern ? new RegExp(pattern) : value);
+    expectServer(name, pattern ? new RegExp(pattern) : JSON.parse(value));
   }
 );
 

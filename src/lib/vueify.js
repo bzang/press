@@ -25,6 +25,10 @@ export function vueify(root) {
   });
   performance.mark('press:vueify:createmodels:end');
 
+  performance.mark('press:vueify:fixcheckboxes:start');
+  fixCheckboxes(root);
+  performance.mark('press:vueify:fixcheckboxes:end');
+
   performance.mark('press:vueify:generatemodel:start');
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
@@ -72,6 +76,16 @@ function generateModel(el, data) {
         }
       }
       break;
+    case 'input':
+      if (el.getAttribute('type') === 'checkbox') {
+        if (!(el instanceof HTMLInputElement)) {
+          throw new TypeNarrowingError();
+        }
+        defaultValue = el.checked;
+      } else if (attributeNames.includes('value')) {
+        defaultValue = el.getAttribute('value');
+      }
+      break;
     default:
       if (attributeNames.includes('value')) {
         defaultValue = el.getAttribute('value');
@@ -79,4 +93,27 @@ function generateModel(el, data) {
   }
 
   touch(data, vModelName, defaultValue);
+}
+
+/**
+ * Rails, for example, does some novel things to make checkboxes work. We need
+ * to make sure PRESS doesn't break them.
+ * @param {HTMLElement} root
+ */
+function fixCheckboxes(root) {
+  Array.from(root.querySelectorAll('input[type="hidden"]')).forEach((el) => {
+    if (!(el instanceof HTMLInputElement)) {
+      throw new TypeNarrowingError();
+    }
+
+    const name = el.getAttribute('name');
+    if (name) {
+      const checkboxes = root.querySelectorAll(
+        `input[type="checkbox"][name="${name}"]`
+      );
+      if (checkboxes.length) {
+        el.removeAttribute('v-model');
+      }
+    }
+  });
 }

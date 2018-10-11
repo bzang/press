@@ -14,6 +14,7 @@ import {logger} from './lib/logger';
 export const press = new Press({logger});
 
 performance.mark('press:register:components:start');
+
 // PLOP: START COMPONENT REGISTRATION
 press.registerComponent(new Autocomplete({logger}));
 press.registerComponent(new Datepicker({logger}));

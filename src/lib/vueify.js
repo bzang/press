@@ -62,14 +62,21 @@ function generateModel(el, data) {
   const vModelName = vModelFromNode(el);
 
   let defaultValue = null;
-  if (el.nodeName.toLowerCase() === 'select') {
-    /** @type {HTMLOptionElement|null} */
-    const option = el.querySelector('option[selected]');
-    if (option) {
-      defaultValue = option.value;
-    }
-  } else if (attributeNames.includes('value')) {
-    defaultValue = el.getAttribute('value');
+  switch (el.nodeName.toLowerCase()) {
+    case 'select':
+      {
+        /** @type {HTMLOptionElement|null} */
+        const option = el.querySelector('option[selected]');
+        if (option) {
+          defaultValue = option.value;
+        }
+      }
+      break;
+    default:
+      if (attributeNames.includes('value')) {
+        defaultValue = el.getAttribute('value');
+      }
   }
+
   touch(data, vModelName, defaultValue);
 }

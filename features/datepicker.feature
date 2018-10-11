@@ -9,8 +9,8 @@ Feature: Date Picker
     # need to click somewhere to unfocus the fancy datepicker
     And I click on the element "body"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 1    | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 1    | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -25,8 +25,8 @@ Feature: Date Picker
     And I click on the element "body"
     Then I expect that element "#external-input" contains the iso date matching next year's "January", "1"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 1    | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 1    | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -55,8 +55,8 @@ Feature: Date Picker
     Then I expect that element "#selected-value" contains the iso date matching next year's "January", "2"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "2"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 2    | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 2    | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -82,8 +82,8 @@ Feature: Date Picker
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "1"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "1"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 1    | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 1    | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -100,8 +100,8 @@ Feature: Date Picker
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "15"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "15"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 15   | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 15   | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -118,8 +118,8 @@ Feature: Date Picker
     And I expect that element "#selected-value" contains the iso date matching next year's "January", "31"
     And I expect that element "#external-input" contains the iso date matching next year's "January", "31"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month   | Date | Element Before Submit            | Form After Submit      |
-      | January | 31   | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month   | Date | Element Before Submit                 | Form After Submit      |
+      | January | 31   | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |
@@ -135,8 +135,8 @@ Feature: Date Picker
     And I click on the element "input[placeholder='Enter a date']"
     And I select day "1" of the next month
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month    | Date | Element Before Submit            | Form After Submit      |
-      | February | 1    | [name='date_picker_form[input]'] | date_picker_form.input |
+      | Month    | Date | Element Before Submit                 | Form After Submit      |
+      | February | 1    | input[name='date_picker_form[input]'] | date_picker_form.input |
 
     Examples:
       | mode           |

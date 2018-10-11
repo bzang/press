@@ -47,7 +47,6 @@
 import {v4 as uuid} from 'uuid';
 
 import {keyName} from '../../lib/keys';
-/* eslint-disable sort-keys */
 /**
  * Inner component used by autocomplete for renderign UI.
  */
@@ -230,5 +229,4 @@ export default {
     }
   }
 };
-/* eslint-enable sort-keys */
 </script>

@@ -262,7 +262,7 @@ We use a few tricks to avoid rendering the templates until Vue takes over:
 ### Components
 
 In addition to providing a framework for progressively enhancing server-rendered
-HTML, press includes its own componets.
+HTML, PRESS includes its own components.
 
 > Eventually, there will be a sem-ver major release that makes the components
 > optional, but for now, they're required as are their dependencies

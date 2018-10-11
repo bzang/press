@@ -20,7 +20,6 @@ import {
   toDateRangePickerValue,
   toLocaleString
 } from '../../lib/date';
-/* eslint-disable sort-keys */
 /**
  * Multi-value date range picker
  */
@@ -203,7 +202,6 @@ export default {
     }
   }
 };
-/* eslint-enable sort-keys */
 </script>
 
 <style>

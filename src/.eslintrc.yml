@@ -2,6 +2,7 @@ extends:
   - 'plugin:@urbandoor/urbandoor/modern'
 
 globals:
+  google: false
   # set process as a global rather than using env: node so that we can use
   # process.env without other assumptions
   process: false

@@ -5,7 +5,7 @@ import {
   normalizeKeyPath,
   vModelFromNode,
   wrapWith
-} from '../../lib/vue-helpers';
+} from '../../lib/vuetilities';
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';
 import {closest} from '../../lib/polyfills';

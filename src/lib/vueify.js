@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {touch} from './touch';
-import {vModelFromNode, normalizeKeyPath} from './vue-helpers';
+import {vModelFromNode, normalizeKeyPath} from './vuetilities';
 import {TypeNarrowingError} from './errors';
 import {getAttributeNames} from './polyfills';
 

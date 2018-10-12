@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import {normalizeKeyPath, vModelFromNode} from '../../lib/vue-helpers';
+import {normalizeKeyPath, vModelFromNode} from '../../lib/vuetilities';
 import PressComponentBase from '../../press-component';
 
 import autocomplete from './press-autocomplete.vue';

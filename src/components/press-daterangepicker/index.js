@@ -2,7 +2,7 @@ import {get} from 'lodash';
 import {v4 as uuid} from 'uuid';
 import Vue from 'vue';
 
-import {bindToHiddenInput, vModelFromNode} from '../../lib/vue-helpers';
+import {bindToHiddenInput, vModelFromNode} from '../../lib/vuetilities';
 import PressComponentBase from '../../press-component';
 
 import daterangepicker from './press-daterangepicker.vue';

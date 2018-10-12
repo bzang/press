@@ -19,6 +19,10 @@
 
       <textarea name="prefilled_text">prefilled</textarea>
 
+      <input type="text" readonly name="count" value="0">
+      <button id="button-without-name" type="button" @click="count++">Increase Counter</button>
+      <button id="button-with-name" type="button" @click="count++" name="button_with_name">Increase Counter</button>
+
       <button type="submit">Submit</button>
     </form>
 

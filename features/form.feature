@@ -22,3 +22,11 @@ Feature: HTML Forms
     When I submit a form using element "[type=submit]", I expect values in the following places
       | Value   | Element Before Submit           | Form After Submit |
       | altered | textarea[name='prefilled_text'] | prefilled_text    |
+
+  Scenario: Button with name attribute
+    Given This scenario requires JavaScript
+    Then I expect that element "input[name=count]" contains the text "0"
+    When I click on the button "#button-without-name"
+    Then I expect that element "input[name=count]" contains the text "1"
+    When I click on the button "#button-with-name"
+    Then I expect that element "input[name=count]" contains the text "2"

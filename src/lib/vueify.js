@@ -40,6 +40,8 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:generatemodel:start');
   root.setAttribute(':class', '{"press-mounted": isMounted}');
 
+  logger.info('data model', data);
+
   /* eslint-disable sort-keys */
   new Vue({
     el: root,

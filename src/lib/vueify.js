@@ -16,7 +16,11 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:createmodels:start');
   // Ensure all named elements have v-models so their contents are available to
   // the page model
-  Array.from(root.querySelectorAll('[name]:not([v-model])')).forEach((el) => {
+  Array.from(
+    root.querySelectorAll(
+      '[name]:not([v-model]):not(button):not([type="submit"]):not([type="button"])'
+    )
+  ).forEach((el) => {
     if (!(el instanceof HTMLElement)) {
       throw new TypeNarrowingError();
     }

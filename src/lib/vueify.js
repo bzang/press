@@ -77,6 +77,9 @@ function generateModel(el, data) {
         }
       }
       break;
+    case 'textarea':
+      defaultValue = el.innerText || el.innerHTML;
+      break;
     case 'input':
       if (el.getAttribute('type') === 'checkbox') {
         if (!(el instanceof HTMLInputElement)) {

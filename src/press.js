@@ -125,7 +125,7 @@ export class Press {
         if (!(root instanceof HTMLElement)) {
           throw new TypeNarrowingError();
         }
-        vueify(root);
+        vueify(this.logger, root);
       }
     );
     this.logger.info('Vueified non-apped PRESS component');

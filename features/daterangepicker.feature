@@ -12,9 +12,9 @@ Feature: Date Range Picker
     # need to click somewhere to unfocus the fancy datepicker
     And I click on the element "body"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit                      | Form After Submit                |
-      | March | 1    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | April | 2    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month | Date | Element Before Submit                           | Form After Submit                |
+      | March | 1    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | April | 2    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Submit a date range (js enabled)
     Given This scenario requires JavaScript
@@ -24,9 +24,9 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit                      | Form After Submit                |
-      | March | 1    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | April | 2    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month | Date | Element Before Submit                           | Form After Submit                |
+      | March | 1    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | April | 2    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Submit the default date range
     Given This scenario requires JavaScript
@@ -49,9 +49,9 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit                      | Form After Submit                |
-      | March | 1    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | April | 2    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month | Date | Element Before Submit                           | Form After Submit                |
+      | March | 1    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | April | 2    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Submit a prefilled date range
     Given This scenario requires JavaScript
@@ -60,9 +60,9 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-01-01"
     And I expect that element "#external-input-end" contains the text "2019-02-01"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month    | Date | Element Before Submit                      | Form After Submit                |
-      | January  | 1    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | February | 1    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month    | Date | Element Before Submit                           | Form After Submit                |
+      | January  | 1    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | February | 1    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Change and submit a prefilled date range
     Given This scenario requires JavaScript
@@ -73,9 +73,9 @@ Feature: Date Range Picker
     And I expect that element "#external-input-start" contains the text "2019-03-01"
     And I expect that element "#external-input-end" contains the text "2019-04-02"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit                      | Form After Submit                |
-      | March | 1    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | April | 2    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month | Date | Element Before Submit                           | Form After Submit                |
+      | March | 1    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | April | 2    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Change the model backing a date range
     Given This scenario requires JavaScript
@@ -87,9 +87,9 @@ Feature: Date Range Picker
     When I set "2019-01-02" to the inputfield "#external-input-start"
     When I set "2019-01-03" to the inputfield "#external-input-end"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month    | Date | Element Before Submit                      | Form After Submit                |
-      | Januaury | 2    | [name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
-      | January  | 3    | [name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
+      | Month    | Date | Element Before Submit                           | Form After Submit                |
+      | Januaury | 2    | input[name='date_rangepicker_form[start_date]'] | date_rangepicker_form.start_date |
+      | January  | 3    | input[name='date_rangepicker_form[end_date]']   | date_rangepicker_form.end_date   |
 
   Scenario: Submit a date range (js enabled) (unnested input names)
     Given This scenario requires JavaScript
@@ -98,18 +98,18 @@ Feature: Date Range Picker
     And I select day "1" of the month "March" of next year and day "2" of the month "April" of next year
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019   →   Apr 2, 2019"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit | Form After Submit |
-      | March | 1    | [name='start_date']   | start_date        |
-      | April | 2    | [name='end_date']     | end_date          |
+      | Month | Date | Element Before Submit    | Form After Submit |
+      | March | 1    | input[name='start_date'] | start_date        |
+      | April | 2    | input[name='end_date']   | end_date          |
 
   Scenario: Submit the default date range (unnested input names)
     Given This scenario requires JavaScript
     And I open the site "/daterangepicker-unnested"
 
     When I submit a form using element "[type=submit]", I expect ISO Dates in the following places
-      | Element Before Submit | Form After Submit |
-      | [name='start_date']   | start_date        |
-      | [name='end_date']     | end_date          |
+      | Element Before Submit    | Form After Submit |
+      | input[name='start_date'] | start_date        |
+      | input[name='end_date']   | end_date          |
 
   Scenario: Select and change a date range (unnested input names)
     Given This scenario requires JavaScript
@@ -120,9 +120,9 @@ Feature: Date Range Picker
     And I select day "1" of the month "March" of next year and day "2" of the month "April" of next year
     Then I expect that element "[data-press-daterangepicker-input]" contains the text "Mar 1, 2019   →   Apr 2, 201"
     When I submit a form using element "[type=submit]", I expect next year's dates to be represented in the following places
-      | Month | Date | Element Before Submit | Form After Submit |
-      | March | 1    | [name='start_date']   | start_date        |
-      | April | 2    | [name='end_date']     | end_date          |
+      | Month | Date | Element Before Submit    | Form After Submit |
+      | March | 1    | input[name='start_date'] | start_date        |
+      | April | 2    | input[name='end_date']   | end_date          |
 
   Scenario: See default Arrive / Depart text on initialization (unnested input names)
     Given This scenario requires JavaScript

@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+<section class="ui basic segment">
+  <header>
+    <h1>PRESS Test Site</h1>
+    <h2>Autocomplete</h2>
+  </header>
+
+  <main class="ui two column grid">
+    <form class="ui form column" method="POST">
+      <h3>Code Under Test</h3>
+
+      <input name="example_form[unchecked_checkbox]" type="hidden" value="0">
+      <input class="boolean optional" type="checkbox" value="1" name="example_form[unchecked_checkbox]" id="example_form_unchecked_checkbox">
+      <label class="boolean optional" for="example_form_unchecked_checkbox">Unchecked on page load</label>
+
+      <input name="example_form[checked_checkbox]" type="hidden" value="0">
+      <input class="boolean optional" type="checkbox" value="1" name="example_form[checked_checkbox]" id="example_form_checked_checkbox" checked>
+      <label class="boolean optional" for="example_form_checked_checkbox">Checked on page load</label>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="ui column">
+      <%- include ../partials/request.ejs %>
+    </div>
+  </main>
+</section>
+<% include ../partials/footer %>

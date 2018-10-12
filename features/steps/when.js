@@ -29,7 +29,7 @@ When(/^I drag element "([^"]*)?" to element "([^"]*)?"$/, dragElement);
 
 When(/^I submit the form "([^"]*)?"$/, submitForm);
 
-When(/^I pause for (\d+)ms$/, pause);
+When(/^I (?:pause|sleep|wait) (?:for )?(\d+)ms$/, pause);
 
 When(/^I set a cookie "([^"]*)?" with the content "([^"]*)?"$/, setCookie);
 

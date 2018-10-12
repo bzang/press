@@ -7,9 +7,10 @@ import {getAttributeNames} from './polyfills';
 
 /**
  * Generates a data model and instantiates a Vue app at el
+ * @param {Logger} logger
  * @param {HTMLElement} root
  */
-export function vueify(root) {
+export function vueify(logger, root) {
   const data = {isMounted: false};
 
   performance.mark('press:vueify:createmodels:start');
@@ -24,6 +25,10 @@ export function vueify(root) {
     el.setAttribute('v-model', vModelName);
   });
   performance.mark('press:vueify:createmodels:end');
+
+  performance.mark('press:vueify:fixcheckboxes:start');
+  fixCheckboxes(logger, root);
+  performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
   Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
@@ -62,14 +67,57 @@ function generateModel(el, data) {
   const vModelName = vModelFromNode(el);
 
   let defaultValue = null;
-  if (el.nodeName.toLowerCase() === 'select') {
-    /** @type {HTMLOptionElement|null} */
-    const option = el.querySelector('option[selected]');
-    if (option) {
-      defaultValue = option.value;
-    }
-  } else if (attributeNames.includes('value')) {
-    defaultValue = el.getAttribute('value');
+  switch (el.nodeName.toLowerCase()) {
+    case 'select':
+      {
+        /** @type {HTMLOptionElement|null} */
+        const option = el.querySelector('option[selected]');
+        if (option) {
+          defaultValue = option.value;
+        }
+      }
+      break;
+    case 'input':
+      if (el.getAttribute('type') === 'checkbox') {
+        if (!(el instanceof HTMLInputElement)) {
+          throw new TypeNarrowingError();
+        }
+        defaultValue = el.checked;
+      } else if (attributeNames.includes('value')) {
+        defaultValue = el.getAttribute('value');
+      }
+      break;
+    default:
+      if (attributeNames.includes('value')) {
+        defaultValue = el.getAttribute('value');
+      }
   }
+
   touch(data, vModelName, defaultValue);
+}
+
+/**
+ * Rails, for example, does some novel things to make checkboxes work. We need
+ * to make sure PRESS doesn't break them.
+ * @param {Logger} logger
+ * @param {HTMLElement} root
+ */
+function fixCheckboxes(logger, root) {
+  Array.from(root.querySelectorAll('input[type="hidden"]')).forEach((el) => {
+    if (!(el instanceof HTMLInputElement)) {
+      throw new TypeNarrowingError();
+    }
+
+    const name = el.getAttribute('name');
+    if (name) {
+      const checkboxes = root.querySelectorAll(
+        `input[type="checkbox"][name="${name}"]`
+      );
+      if (checkboxes.length === 1) {
+        el.removeAttribute('v-model');
+      } else if (checkboxes.length > 1) {
+        logger.warn(`multiple checkboxes appear to have the name ${name}`);
+      }
+    }
+  });
 }

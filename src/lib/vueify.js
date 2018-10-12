@@ -7,9 +7,10 @@ import {getAttributeNames} from './polyfills';
 
 /**
  * Generates a data model and instantiates a Vue app at el
+ * @param {Logger} logger
  * @param {HTMLElement} root
  */
-export function vueify(root) {
+export function vueify(logger, root) {
   const data = {isMounted: false};
 
   performance.mark('press:vueify:createmodels:start');
@@ -26,7 +27,7 @@ export function vueify(root) {
   performance.mark('press:vueify:createmodels:end');
 
   performance.mark('press:vueify:fixcheckboxes:start');
-  fixCheckboxes(root);
+  fixCheckboxes(logger, root);
   performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
@@ -98,9 +99,10 @@ function generateModel(el, data) {
 /**
  * Rails, for example, does some novel things to make checkboxes work. We need
  * to make sure PRESS doesn't break them.
+ * @param {Logger} logger
  * @param {HTMLElement} root
  */
-function fixCheckboxes(root) {
+function fixCheckboxes(logger, root) {
   Array.from(root.querySelectorAll('input[type="hidden"]')).forEach((el) => {
     if (!(el instanceof HTMLInputElement)) {
       throw new TypeNarrowingError();
@@ -111,8 +113,10 @@ function fixCheckboxes(root) {
       const checkboxes = root.querySelectorAll(
         `input[type="checkbox"][name="${name}"]`
       );
-      if (checkboxes.length) {
+      if (checkboxes.length === 1) {
         el.removeAttribute('v-model');
+      } else if (checkboxes.length > 1) {
+        logger.warn(`multiple checkboxes appear to have the name ${name}`);
       }
     }
   });

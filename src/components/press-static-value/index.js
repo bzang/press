@@ -1,5 +1,6 @@
 import PressComponentBase from '../../press-component';
-import {replace, normalizeKeyPath, copyAttributes} from '../../lib/vuetilities';
+import {normalizeKeyPath} from '../../lib/vuetilities';
+import {copyAttributes, replace} from '../../lib/html';
 
 /**
  * press component for press-static-value tag

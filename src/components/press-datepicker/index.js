@@ -1,10 +1,10 @@
 import Vue from 'vue';
 
+import {wrapWith} from '../../lib/html';
 import {
   bindToHiddenInput,
   normalizeKeyPath,
-  vModelFromNode,
-  wrapWith
+  vModelFromNode
 } from '../../lib/vuetilities';
 import PressComponentBase from '../../press-component';
 import {TypeNarrowingError} from '../../lib/errors';

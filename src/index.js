@@ -11,6 +11,8 @@ import StaticValue from './components/press-static-value';
 // PLOP: END COMPONENT IMPORT
 import {logger} from './lib/logger';
 
+export {default as PressComponentBase} from './press-component';
+
 export const press = new Press({logger});
 
 performance.mark('press:register:components:start');

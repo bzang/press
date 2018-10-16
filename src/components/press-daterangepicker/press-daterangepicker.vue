@@ -1,10 +1,19 @@
 <template>
-  <input
-    v-once
-    :name="name"
-    :value="localeStringeFromValue"
-    data-press-daterangepicker-input
-  >
+  <div>
+    <input
+      v-once
+      ref="input"
+      :name="name"
+      :value="localeStringeFromValue"
+      data-press-daterangepicker-input
+    >
+    <div
+      v-if="pressValidationError"
+      class="ui error input"
+    >
+      {{ pressValidationError }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -52,6 +61,14 @@ export default {
     pressStartKey: {
       default: 'start',
       type: String
+    },
+    pressValidationError: {
+      default: '',
+      type: String
+    },
+    required: {
+      default: false,
+      type: Boolean
     },
     /**
      * @model
@@ -124,7 +141,7 @@ export default {
   },
   /** lifecycle method */
   mounted() {
-    this.$$el = $(this.$el);
+    this.$$el = $(this.$refs.input);
     this.$$el.daterangepicker(
       {
         autoApply: true,

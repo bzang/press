@@ -1,6 +1,7 @@
 import {TypeNarrowingError} from './lib/errors';
 import {startsWith} from './lib/polyfills';
 import {vueify} from './lib/vueify';
+import {querySelectorAll} from './lib/html';
 
 /** @type {WeakMap<Press, Map<string, IPressComponent>>} */
 const components = new WeakMap();
@@ -91,13 +92,10 @@ export class Press {
       // This is the right place to check for enhance...
       if (component.enhance) {
         this.logger.info(`Enhancing ${name}`);
-        const elements = Array.from(document.querySelectorAll(name));
+        const elements = querySelectorAll(document, name);
         elements.forEach((el) => {
           // ...and this is where typescript thinks we need to check for enhance
           if (component.enhance) {
-            if (!(el instanceof HTMLElement)) {
-              throw new TypeNarrowingError();
-            }
             this.logger.info(`Enhancing a ${name} instance`);
             component.enhance(el);
             this.logger.info(`Enhanced a ${name} instance`);
@@ -120,14 +118,9 @@ export class Press {
   activate() {
     performance.mark('press:activate:start');
     this.logger.info('Vueifying non-apped PRESS component');
-    Array.from(document.querySelectorAll('[data-press-app]')).forEach(
-      (root) => {
-        if (!(root instanceof HTMLElement)) {
-          throw new TypeNarrowingError();
-        }
-        vueify(this.logger, root);
-      }
-    );
+    querySelectorAll(document, '[data-press-app]').forEach((root) => {
+      vueify(this.logger, root);
+    });
     this.logger.info('Vueified non-apped PRESS component');
     performance.mark('press:activate:end');
   }

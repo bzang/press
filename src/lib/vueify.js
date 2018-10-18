@@ -4,7 +4,7 @@ import {touch} from './touch';
 import {vModelFromNode, normalizeKeyPath} from './vuetilities';
 import {TypeNarrowingError} from './errors';
 import {getAttributeNames} from './polyfills';
-
+import {querySelectorAll} from './html';
 /**
  * Generates a data model and instantiates a Vue app at el
  * @param {Logger} logger
@@ -16,15 +16,10 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:createmodels:start');
   // Ensure all named elements have v-models so their contents are available to
   // the page model
-  Array.from(
-    root.querySelectorAll(
-      '[name]:not([v-model]):not(button):not([type="submit"]):not([type="button"])'
-    )
+  querySelectorAll(
+    root,
+    '[name]:not([v-model]):not(button):not([type="submit"]):not([type="button"])'
   ).forEach((el) => {
-    if (!(el instanceof HTMLElement)) {
-      throw new TypeNarrowingError();
-    }
-
     const vModelName = normalizeKeyPath(vModelFromNode(el));
     el.setAttribute('v-model', vModelName);
   });
@@ -35,10 +30,7 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
-  Array.from(root.querySelectorAll('[v-model]')).forEach((el) => {
-    if (!(el instanceof HTMLElement)) {
-      throw new TypeNarrowingError();
-    }
+  querySelectorAll(root, '[v-model]').forEach((el) => {
     generateModel(el, data);
   });
   performance.mark('press:vueify:generatemodel:start');
@@ -112,11 +104,7 @@ function generateModel(el, data) {
  * @param {HTMLElement} root
  */
 function fixCheckboxes(logger, root) {
-  Array.from(root.querySelectorAll('input[type="hidden"]')).forEach((el) => {
-    if (!(el instanceof HTMLInputElement)) {
-      throw new TypeNarrowingError();
-    }
-
+  querySelectorAll(root, 'input[type="hidden"]').forEach((el) => {
     const name = el.getAttribute('name');
     if (name) {
       const checkboxes = root.querySelectorAll(

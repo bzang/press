@@ -1,13 +1,12 @@
 import Vue from 'vue';
 
-import {wrapWith} from '../../lib/html';
+import {wrapWith, querySelectorAll} from '../../lib/html';
 import {
   bindToHiddenInput,
   normalizeKeyPath,
   vModelFromNode
 } from '../../lib/vuetilities';
 import PressComponentBase from '../../press-component';
-import {TypeNarrowingError} from '../../lib/errors';
 import {closest} from '../../lib/polyfills';
 
 import datepicker from './press-datepicker.vue';
@@ -40,10 +39,7 @@ export default class DatePicker extends PressComponentBase {
    * @param {Document|HTMLElement} root
    */
   infer(root) {
-    Array.from(root.querySelectorAll('input[type="date"]')).forEach((el) => {
-      if (!(el instanceof HTMLElement)) {
-        throw new TypeNarrowingError();
-      }
+    querySelectorAll(root, 'input[type="date"]').forEach((el) => {
       if (closest(el, 'press-noscript')) {
         return;
       }

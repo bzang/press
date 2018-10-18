@@ -7,6 +7,10 @@
  * @param  {string}   expectedText  The text to validate against
  */
 module.exports = (elementType, element, negate, expectedText) => {
+  if (typeof expectedText === 'undefined') {
+    expectedText = '';
+  }
+
   /**
    * The command to execute on the browser object
    * @type {String}

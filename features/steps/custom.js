@@ -89,6 +89,14 @@ Then(
 );
 
 Then(
+  /^I expect that element "(.+)" contains the value "(.*)"$/,
+  (selector, value) => {
+    const el = browser.element(selector);
+    assert.equal(el.getValue(), value);
+  }
+);
+
+Then(
   /^I expect that element "(.+)" contains the (iso date|formatted date|native formatted date) matching next year's "(.+)", "(.+)"$/,
   (selector, type, month, date) => {
     const el = browser.elements(selector);

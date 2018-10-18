@@ -8,6 +8,10 @@ const {expect} = require('chai');
  * @param  {string}   expectedText  The text to check against
  */
 module.exports = (elementType, element, negate, expectedText) => {
+  if (typeof expectedText === 'undefined') {
+    expectedText = '';
+  }
+
   /**
    * The command to perform on the browser object
    * @type {String}

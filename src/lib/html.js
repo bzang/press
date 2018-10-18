@@ -63,3 +63,14 @@ export function addRemoteScriptToPage(src) {
     ' type="text/javascript"><' + '/script>');
   /* eslint-enable prefer-template */
 }
+
+/**
+ * Wraps querySelectorAll() to ensure it always returns an Array of HTMLELements
+ * instead of a NodeList of Element|HTMLElement
+ * @param {Document|HTMLElement} root
+ * @param {string} selector
+ * @returns {HTMLElement[]}
+ */
+export function querySelectorAll(root, selector) {
+  return Array.from(root.querySelectorAll(selector));
+}

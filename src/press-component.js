@@ -20,7 +20,11 @@ export default class PressComponentBase {
     return logger;
   }
 
-  /** constructor */
+  /**
+   * constructor
+   * @param {Object} options
+   * @param {Logger} options.logger
+   */
   constructor({logger}) {
     loggers.set(this, logger);
   }

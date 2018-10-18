@@ -30,3 +30,42 @@ Feature: HTML Forms
     Then I expect that element "input[name=count]" contains the text "1"
     When I click on the button "#button-with-name"
     Then I expect that element "input[name=count]" contains the text "2"
+
+  Scenario Outline: <Test Name>: Select Box behavior and Form Submission
+    Given I open the site "<Path>"
+    Then I expect that element "[name=<Input Name>]" contains the value "<Initial>"
+    When I click on the element "[type=submit]"
+    Then I expect the server received a form parameter named "<Input Name>" with a value of "\"<Initial>\""
+    When I select the option with the text "One" for element "[name=<Input Name>]"
+    Then I expect that element "[name=<Input Name>]" contains the value "1"
+    When I select the option with the value "3" for element "[name=<Input Name>]"
+    Then I expect that element "[name=<Input Name>]" contains the value "3"
+    When I click on the button "[type=submit]"
+    Then I expect the server received a form parameter named "<Input Name>" with a value of "\"3\""
+    Examples:
+      | Test Name                         | Input Name                 | Path                               | Initial |
+      | No Placeholder/No Default Value   | select_without_placeholder | /form                              | 1       |
+      | No Placeholder/Default Value is 2 | select_without_placeholder | /form?select_without_placeholder=2 | 2       |
+      | Placeholder/No Default Value      | select_with_placeholder    | /form                              |         |
+      | Placeholder/Default Value is 2    | select_with_placeholder    | /form?select_with_placeholder=2    | 2       |
+
+  Scenario: required select with placeholder
+    Given I open the site "/form?require-select_with_placeholder"
+    And I expect that element "[name=select_with_placeholder][required]" does exist
+    Then I expect that element "[name=select_with_placeholder]" contains the value ""
+    And I expect that element ":invalid" does exist
+    When I click on the element "[type=submit]"
+    Then I expect that element ":invalid" does exist
+    When I select the option with the value "3" for element "[name=select_with_placeholder]"
+    Then I expect that element ":invalid" does not exist
+    And I click on the element "[type=submit]"
+    Then I expect the server received a form parameter named "select_with_placeholder" with a value of "\"3\""
+
+  Scenario: required select without placeholder
+    Given I open the site "/form?require-select_without_placeholder"
+    And I expect that element "[name=select_without_placeholder][required]" does exist
+    Then I expect that element "[name=select_without_placeholder]" contains the value "1"
+    And I expect that element "form:invalid" does not exist
+    When I click on the element "[type=submit]"
+    Then I expect that element "form:invalid" does not exist
+    And I expect the server received a form parameter named "select_without_placeholder" with a value of "\"1\""

@@ -23,6 +23,19 @@
       <button id="button-without-name" type="button" @click="count++">Increase Counter</button>
       <button id="button-with-name" type="button" @click="count++" name="button_with_name">Increase Counter</button>
 
+      <select name="select_with_placeholder" <%- required('select_with_placeholder') %>>
+        <option value="">Placeholder</option>
+        <option value="1" <%- selected('select_with_placeholder', '1') %>>One</option>
+        <option value="2" <%- selected('select_with_placeholder', '2') %>>Two</option>
+        <option value="3" <%- selected('select_with_placeholder', '3') %>>Three</option>
+      </select>
+
+      <select name="select_without_placeholder" <%- required('select_without_placeholder') %>>
+        <option value="1" <%- selected('select_without_placeholder', '1') %>>One</option>
+        <option value="2" <%- selected('select_without_placeholder', '2') %>>Two</option>
+        <option value="3" <%- selected('select_without_placeholder', '3') %>>Three</option>
+      </select>
+
       <button type="submit">Submit</button>
     </form>
 

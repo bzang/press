@@ -27,6 +27,7 @@ export function vueify(logger, root) {
 
   performance.mark('press:vueify:fixcheckboxes:start');
   fixCheckboxes(logger, root);
+  fixSelects(logger, root);
   performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
@@ -114,6 +115,23 @@ function fixCheckboxes(logger, root) {
         el.removeAttribute('v-model');
       } else if (checkboxes.length > 1) {
         logger.warn(`multiple checkboxes appear to have the name ${name}`);
+      }
+    }
+  });
+}
+
+/**
+ *
+ * @param {Logger} logger
+ * @param {HTMLElement} root
+ */
+function fixSelects(logger, root) {
+  querySelectorAll(root, 'select').forEach((el) => {
+    const options = el.querySelectorAll('option[selected]');
+    if (options.length === 0) {
+      const first = el.querySelector('option');
+      if (first) {
+        first.setAttribute('selected', '');
       }
     }
   });

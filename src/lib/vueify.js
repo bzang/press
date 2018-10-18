@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {touch} from './touch';
-import {vModelFromNode, normalizeKeyPath} from './vue-helpers';
+import {vModelFromNode, normalizeKeyPath} from './vuetilities';
 import {TypeNarrowingError} from './errors';
 import {getAttributeNames} from './polyfills';
 
@@ -39,6 +39,8 @@ export function vueify(logger, root) {
   });
   performance.mark('press:vueify:generatemodel:start');
   root.setAttribute(':class', '{"press-mounted": isMounted}');
+
+  logger.info('data model', data);
 
   /* eslint-disable sort-keys */
   new Vue({

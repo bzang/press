@@ -12,7 +12,7 @@
 <script>
 import {v4} from 'uuid';
 
-import {addRemoteScriptToPage} from '../../lib/vue-helpers';
+import {addRemoteScriptToPage} from '../../lib/html';
 
 import MapImpl from './press-map-impl.vue';
 

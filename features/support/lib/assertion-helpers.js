@@ -12,12 +12,25 @@ const moment = require('moment');
  * @param {Expectable} expected
  */
 function expectServer(keypath, expected) {
-  const req = JSON.parse(
-    browser
-      .elements('#last-req')
-      .getText()
-      .trim()
+  browser.waitUntil(
+    () => {
+      try {
+        const text = browser.getText('#last-req');
+        const obj = JSON.parse(text);
+        assert.notDeepEqual(obj, {});
+        if (!obj.body) {
+          return false;
+        }
+        assert.notDeepEqual(obj.body, {});
+        return true;
+      } catch (err) {
+        return false;
+      }
+    },
+    5000,
+    'Timed-out waiting for the server to process the request'
   );
+  const req = JSON.parse(browser.getText('#last-req').trim());
   assert.nestedProperty(req.body, keypath);
   const actual = _.get(req.body, keypath);
   smartAssert(

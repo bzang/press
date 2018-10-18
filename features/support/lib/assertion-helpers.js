@@ -18,6 +18,10 @@ function expectServer(keypath, expected) {
         const text = browser.getText('#last-req');
         const obj = JSON.parse(text);
         assert.notDeepEqual(obj, {});
+        if (!obj.body) {
+          return false;
+        }
+        assert.notDeepEqual(obj.body, {});
         return true;
       } catch (err) {
         return false;

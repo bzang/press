@@ -1,7 +1,18 @@
 <template>
-  <input
-    :value="localeStringFromValue"
-    :placeholder="placeholder">
+  <div>
+    <input
+      ref="input"
+      :value="localeStringFromValue"
+      :placeholder="placeholder"
+      :required="required"
+    >
+    <div
+      v-if="pressValidationError"
+      class="ui error input"
+    >
+      {{ pressValidationError }}
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,6 +30,14 @@ export default {
     placeholder: {
       default: '',
       type: String
+    },
+    pressValidationError: {
+      default: '',
+      type: String
+    },
+    required: {
+      default: false,
+      type: Boolean
     },
     /**
      * @model
@@ -51,7 +70,7 @@ export default {
   },
   /** lifecycle method */
   mounted() {
-    const $$el = $(this.$el);
+    const $$el = $(this.$refs.input);
     this.$$el = $$el;
 
     $$el.daterangepicker(

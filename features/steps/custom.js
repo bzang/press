@@ -26,15 +26,18 @@ Given(
 
 Given('This scenario is pending', () => 'pending');
 
-Given(/^This scenario (prohibits|requires) JavaScript$/, (mode) => {
-  if (mode === 'requires' && global.capabilities.nojs) {
-    return 'skipped';
-  }
+Given(
+  /^(?:The rest of )?[Tt]his scenario (prohibits|requires) JavaScript$/,
+  (mode) => {
+    if (mode === 'requires' && global.capabilities.nojs) {
+      return 'skipped';
+    }
 
-  if (mode === 'prohibits' && !global.capabilities.nojs) {
-    return 'skipped';
+    if (mode === 'prohibits' && !global.capabilities.nojs) {
+      return 'skipped';
+    }
   }
-});
+);
 
 Then(
   /^I expect an autocomplete popup with "(.+)" (?:entry|entries)$/,

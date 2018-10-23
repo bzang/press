@@ -28,6 +28,7 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:fixcheckboxes:start');
   fixCheckboxes(logger, root);
   fixSelects(logger, root);
+  fixRadios(logger, root);
   performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
@@ -68,26 +69,13 @@ function generateModel(el, data) {
   let defaultValue = null;
   switch (el.nodeName.toLowerCase()) {
     case 'select':
-      {
-        /** @type {HTMLOptionElement|null} */
-        const option = el.querySelector('option[selected]');
-        if (option) {
-          defaultValue = option.value;
-        }
-      }
+      defaultValue = generateModelForSelect(el);
       break;
     case 'textarea':
-      defaultValue = el.innerText || el.innerHTML;
+      defaultValue = generateModelForTextarea(el);
       break;
     case 'input':
-      if (el.getAttribute('type') === 'checkbox') {
-        if (!(el instanceof HTMLInputElement)) {
-          throw new TypeNarrowingError();
-        }
-        defaultValue = el.checked;
-      } else if (attributeNames.includes('value')) {
-        defaultValue = el.getAttribute('value');
-      }
+      defaultValue = generateModelForInput(el);
       break;
     default:
       if (attributeNames.includes('value')) {
@@ -96,6 +84,43 @@ function generateModel(el, data) {
   }
 
   touch(data, vModelName, defaultValue);
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {boolean|string|null}
+ */
+function generateModelForInput(el) {
+  if (el.getAttribute('type') === 'checkbox') {
+    if (!(el instanceof HTMLInputElement)) {
+      throw new TypeNarrowingError();
+    }
+    return el.checked;
+  } else if (getAttributeNames(el).includes('value')) {
+    return el.getAttribute('value');
+  }
+  return null;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {string|null}
+ */
+function generateModelForSelect(el) {
+  /** @type {HTMLOptionElement|null} */
+  const option = el.querySelector('option[selected]');
+  if (option) {
+    return option.value;
+  }
+  return null;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {string|null}
+ */
+function generateModelForTextarea(el) {
+  return el.innerText || el.innerHTML || null;
 }
 
 /**
@@ -133,6 +158,29 @@ function fixSelects(logger, root) {
       if (first) {
         first.setAttribute('selected', '');
       }
+    }
+  });
+}
+
+/**
+ * @param {Logger} logger
+ * @param {HTMLElement} root
+ */
+function fixRadios(logger, root) {
+  querySelectorAll(root, '[type=radio]').forEach((el) => {
+    const name = el.getAttribute('name');
+    if (name) {
+      const hidden = querySelectorAll(root, `[type="hidden"][name="${name}"]`);
+      if (hidden.length !== 1) {
+        return;
+      }
+
+      // Rails's (actually, simple_form's) radio groups come with an extra
+      // hidden input that breaks the visible radio buttons. We never want its
+      // value to change so the easiest way to do that is to ensure it has a
+      // different v-model while keeping its name to maintain the Rails form
+      // behavior.
+      hidden[0].setAttribute('v-model', `rails.${name}`);
     }
   });
 }

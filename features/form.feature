@@ -14,6 +14,19 @@ Feature: HTML Forms
     When I click on the element "[type=submit]"
     Then I expect the server received a form parameter named "example_form.checked_checkbox" with a value of "[\"0\", \"1\"]"
 
+  Scenario: simple_form Radio Button Group
+    Then I expect that element "#option_false" is selected
+    And I expect that element "#option_true" is not selected
+    When I click on the element "[type=submit]"
+    # The array is little, but its what simple_form does to produce radio
+    # buttons for some reason.
+    Then I expect the server received a form parameter named "options" with a value of "[\"\", \"false\"]"
+    And I expect that element "#option_false" is selected
+    When I click on the element "[for=option_true]"
+    Then I expect that element "#option_true" is selected
+    When I click on the element "[type=submit]"
+    Then I expect the server received a form parameter named "options" with a value of "[\"\", \"true\"]"
+
   Scenario: A prefilled text area
     When I submit a form using element "[type=submit]", I expect values in the following places
       | Value     | Element Before Submit           | Form After Submit |
@@ -69,3 +82,4 @@ Feature: HTML Forms
     When I click on the element "[type=submit]"
     Then I expect that element "form:invalid" does not exist
     And I expect the server received a form parameter named "select_without_placeholder" with a value of "\"1\""
+

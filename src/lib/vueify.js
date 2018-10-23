@@ -28,6 +28,7 @@ export function vueify(logger, root) {
   performance.mark('press:vueify:fixcheckboxes:start');
   fixCheckboxes(logger, root);
   fixSelects(logger, root);
+  fixRadios(logger, root);
   performance.mark('press:vueify:fixcheckboxes:end');
 
   performance.mark('press:vueify:generatemodel:start');
@@ -157,6 +158,29 @@ function fixSelects(logger, root) {
       if (first) {
         first.setAttribute('selected', '');
       }
+    }
+  });
+}
+
+/**
+ * @param {Logger} logger
+ * @param {HTMLElement} root
+ */
+function fixRadios(logger, root) {
+  querySelectorAll(root, '[type=radio]').forEach((el) => {
+    const name = el.getAttribute('name');
+    if (name) {
+      const hidden = querySelectorAll(root, `[type="hidden"][name="${name}"]`);
+      if (hidden.length !== 1) {
+        return;
+      }
+
+      // Rails's (actually, simple_form's) radio groups come with an extra
+      // hidden input that breaks the visible radio buttons. We never want its
+      // value to change so the easiest way to do that is to ensure it has a
+      // different v-model while keeping its name to maintain the Rails form
+      // behavior.
+      hidden[0].setAttribute('v-model', `rails.${name}`);
     }
   });
 }

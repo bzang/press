@@ -68,26 +68,13 @@ function generateModel(el, data) {
   let defaultValue = null;
   switch (el.nodeName.toLowerCase()) {
     case 'select':
-      {
-        /** @type {HTMLOptionElement|null} */
-        const option = el.querySelector('option[selected]');
-        if (option) {
-          defaultValue = option.value;
-        }
-      }
+      defaultValue = generateModelForSelect(el);
       break;
     case 'textarea':
-      defaultValue = el.innerText || el.innerHTML;
+      defaultValue = generateModelForTextarea(el);
       break;
     case 'input':
-      if (el.getAttribute('type') === 'checkbox') {
-        if (!(el instanceof HTMLInputElement)) {
-          throw new TypeNarrowingError();
-        }
-        defaultValue = el.checked;
-      } else if (attributeNames.includes('value')) {
-        defaultValue = el.getAttribute('value');
-      }
+      defaultValue = generateModelForInput(el);
       break;
     default:
       if (attributeNames.includes('value')) {
@@ -96,6 +83,43 @@ function generateModel(el, data) {
   }
 
   touch(data, vModelName, defaultValue);
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {boolean|string|null}
+ */
+function generateModelForInput(el) {
+  if (el.getAttribute('type') === 'checkbox') {
+    if (!(el instanceof HTMLInputElement)) {
+      throw new TypeNarrowingError();
+    }
+    return el.checked;
+  } else if (getAttributeNames(el).includes('value')) {
+    return el.getAttribute('value');
+  }
+  return null;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {string|null}
+ */
+function generateModelForSelect(el) {
+  /** @type {HTMLOptionElement|null} */
+  const option = el.querySelector('option[selected]');
+  if (option) {
+    return option.value;
+  }
+  return null;
+}
+
+/**
+ * @param {HTMLElement} el
+ * @returns {string|null}
+ */
+function generateModelForTextarea(el) {
+  return el.innerText || el.innerHTML || null;
 }
 
 /**
